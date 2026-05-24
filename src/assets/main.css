@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* Sahara Design System - 薯鲜生 */
+@theme {
+  /* Primary Colors */
+  --color-primary: #c2652a;
+  --color-primary-container: #e08850;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #fbe8d8;
+
+  /* Surface Colors */
+  --color-background: #faf5ee;
+  --color-surface: #faf5ee;
+  --color-surface-dim: #dcd6cc;
+  --color-surface-bright: #faf5ee;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f0e8;
+  --color-surface-container: #f2ece4;
+  --color-surface-container-high: #ece6dc;
+  --color-surface-container-highest: #e6e0d6;
+
+  /* Text Colors */
+  --color-on-surface: #3a302a;
+  --color-on-surface-variant: #605850;
+  --color-on-background: #3a302a;
+
+  /* Secondary Colors */
+  --color-secondary: #78706a;
+  --color-secondary-container: #eae2da;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #605850;
+
+  /* Tertiary Colors */
+  --color-tertiary: #8c3c3c;
+  --color-tertiary-container: #d47070;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #3a2020;
+
+  /* Error Colors */
+  --color-error: #c0392b;
+  --color-error-container: #fce4e0;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #7a1a10;
+
+  /* Outline Colors */
+  --color-outline: #9a9088;
+  --color-outline-variant: #d8d0c8;
+
+  /* Inverse Colors */
+  --color-inverse-surface: #3a302a;
+  --color-inverse-on-surface: #faf5ee;
+  --color-inverse-primary: #f0a878;
+
+  /* Fixed Colors */
+  --color-primary-fixed: #fbe8d8;
+  --color-primary-fixed-dim: #f0a878;
+  --color-on-primary-fixed: #401a08;
+  --color-on-primary-fixed-variant: #8a4518;
+  --color-secondary-fixed: #eae2da;
+  --color-secondary-fixed-dim: #cec6be;
+  --color-on-secondary-fixed: #2a2420;
+  --color-on-secondary-fixed-variant: #504840;
+  --color-tertiary-fixed: #fce0e0;
+  --color-tertiary-fixed-dim: #e8a0a0;
+  --color-on-tertiary-fixed: #2e1515;
+  --color-on-tertiary-fixed-variant: #6e3030;
+
+  /* Typography */
+  --font-display: 'EB Garamond', serif;
+  --font-headline: 'EB Garamond', serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-label: 'Manrope', sans-serif;
+
+  /* Font Sizes */
+  --text-display-lg: 32px;
+  --text-headline-md: 24px;
+  --text-title-sm: 18px;
+  --text-body-lg: 16px;
+  --text-body-md: 14px;
+  --text-label-sm: 12px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-gutter: 16px;
+  --spacing-stack-lg: 32px;
+  --spacing-section: 48px;
+  --spacing-margin-mobile: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(58, 48, 42, 0.04);
+  --shadow-md: 0 2px 16px rgba(58, 48, 42, 0.04);
+  --shadow-lg: 0 8px 32px rgba(58, 48, 42, 0.06);
+}
+
+/* Base Styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe Area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
