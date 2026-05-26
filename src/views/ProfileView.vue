@@ -2,11 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
-import { useCart, setCartUser, loadCartFromServer, clearCartMemory } from '../composables/useCart'
+import { useCart, setCartUser, loadCartFromServer } from '../composables/useCart'
 import { supabase } from '../utils/supabase'
 
 const router = useRouter()
-const { user, isLoggedIn, signOut } = useAuth()
+const { user, isLoggedIn } = useAuth()
 
 const orderCounts = ref({ pending_payment: 0, pending_shipment: 0, shipped: 0, pending_review: 0 })
 
@@ -47,13 +47,6 @@ onMounted(async () => {
     }
   }
 })
-
-const handleLogout = async () => {
-  await signOut()
-  setCartUser(null)
-  clearCartMemory()
-  router.push('/')
-}
 
 const handleToolClick = (tool) => {
   if (tool.route) router.push(tool.route)
@@ -126,11 +119,6 @@ const handleToolClick = (tool) => {
           </button>
         </div>
       </section>
-
-      <!-- Logout -->
-      <button v-if="isLoggedIn" class="w-full py-3 rounded-xl border border-outline-variant text-on-surface-variant font-label text-sm active:scale-[0.98] transition-transform bg-transparent mt-4" @click="handleLogout">
-        退出登录
-      </button>
     </main>
   </div>
 </template>
