@@ -18,13 +18,12 @@ const orderTabs = [
 ]
 
 const tools = [
-  { key: 'coupon', icon: 'confirmation_number', label: '优惠券', color: 'text-tertiary', route: '/coupons' },
-  { key: 'favorite', icon: 'favorite', label: '我的收藏', color: 'text-primary-container', route: '/favorites' },
-  { key: 'address', icon: 'location_on', label: '地址管理', color: 'text-secondary', route: '/address' },
-  { key: 'help', icon: 'help', label: '帮助中心', color: 'text-on-surface-variant', route: '/help' }
+  { key: 'coupon', icon: 'confirmation_number', label: '优惠券', bg: 'bg-primary/10', text: 'text-primary', route: '/coupons' },
+  { key: 'favorite', icon: 'favorite', label: '我的收藏', bg: 'bg-primary/10', text: 'text-primary', route: '/favorites' },
+  { key: 'address', icon: 'location_on', label: '地址管理', bg: 'bg-primary/10', text: 'text-primary', route: '/address' },
+  { key: 'help', icon: 'help', label: '帮助中心', bg: 'bg-primary/10', text: 'text-primary', route: '/help' }
 ]
 
-// Sync auth state with cart
 if (isLoggedIn.value && user.value) {
   setCartUser(user.value.id)
   loadCartFromServer()
@@ -34,7 +33,6 @@ onMounted(async () => {
   if (user.value) {
     setCartUser(user.value.id)
     loadCartFromServer()
-    // Fetch order counts
     const { data } = await supabase
       .from('orders')
       .select('status')
@@ -63,79 +61,74 @@ const handleToolClick = (tool) => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body min-h-screen flex flex-col pb-20 md:pb-0">
+  <div class="min-h-screen font-body" style="background: #FDF5ED;">
     <!-- Header -->
-    <div class="px-4 py-3 flex items-center justify-between">
-      <div class="w-6"></div>
-      <span class="font-headline text-sm font-bold text-on-surface">个人中心</span>
-      <span class="material-symbols-outlined text-on-surface-variant">settings</span>
+    <div class="text-center py-3 border-b border-primary/30">
+      <span class="font-headline text-sm font-bold text-primary">个人中心</span>
     </div>
 
-    <main class="flex-1 max-w-lg mx-auto w-full px-4">
+    <main class="max-w-lg mx-auto px-5 pb-8">
       <!-- User Info - Logged In -->
-      <div v-if="isLoggedIn" class="flex items-center gap-4 mb-6 cursor-pointer" @click="router.push('/profile/edit')">
-        <div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
-          <span class="material-symbols-outlined" style="font-size: 32px;">person</span>
+      <div v-if="isLoggedIn" class="flex items-center py-6 cursor-pointer" @click="router.push('/profile/edit')">
+        <div class="w-16 h-16 rounded-full border-2 border-primary/40 flex items-center justify-center bg-white shrink-0">
+          <span class="material-symbols-outlined text-primary/60" style="font-size: 32px;">person</span>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 ml-4">
           <h2 class="font-headline text-xl font-bold text-on-surface">{{ user?.user_metadata?.nickname || user?.email?.split('@')[0] || '番番小芋' }}</h2>
-          <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-label font-medium text-on-surface-variant">
-            <span class="material-symbols-outlined text-primary" style="font-size: 14px; font-variation-settings: 'FILL' 1;">star</span>
-            金牌会员
-          </span>
+          <div class="flex items-center gap-1 mt-1">
+            <span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="font-label text-[11px] font-medium text-on-surface-variant">金牌会员</span>
+          </div>
         </div>
-        <span class="material-symbols-outlined text-outline text-[20px]">chevron_right</span>
+        <span class="material-symbols-outlined text-outline text-[22px]">settings</span>
       </div>
 
       <!-- User Info - Logged Out -->
-      <div v-else class="flex items-center gap-4 mb-6 cursor-pointer" @click="router.push('/login')">
-        <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center">
-          <span class="material-symbols-outlined text-outline" style="font-size: 32px;">person</span>
+      <div v-else class="flex items-center py-6 cursor-pointer" @click="router.push('/login')">
+        <div class="w-16 h-16 rounded-full border-2 border-outline-variant/40 flex items-center justify-center bg-white shrink-0">
+          <span class="material-symbols-outlined text-outline/60" style="font-size: 32px;">person</span>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 ml-4">
           <h2 class="font-headline text-lg font-bold text-on-surface">点击登录/注册</h2>
-          <p class="font-body text-xs text-on-surface-variant">登录后享受更多权益</p>
+          <p class="font-body text-xs text-on-surface-variant mt-0.5">登录后享受更多权益</p>
         </div>
-        <span class="material-symbols-outlined text-outline">chevron_right</span>
+        <span class="material-symbols-outlined text-outline text-[22px]">settings</span>
       </div>
 
       <!-- My Orders -->
-      <section class="mb-6">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="font-headline text-lg font-bold text-on-surface">我的订单</h3>
-          <button class="font-label text-xs text-primary-container flex items-center" @click="router.push('/orders')">
-            查看全部 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-          </button>
-        </div>
-        <div class="bg-surface-container-low rounded-2xl p-5 grid grid-cols-4 gap-2">
-          <button v-for="tab in orderTabs" :key="tab.key" class="flex flex-col items-center gap-2 relative active:scale-95 transition-transform py-1" @click="router.push('/orders')">
+      <section class="mb-5">
+        <h3 class="font-headline text-base font-bold text-on-surface mb-3">我的订单</h3>
+        <div class="bg-white rounded-2xl p-4 grid grid-cols-4 gap-2 shadow-sm">
+          <button v-for="tab in orderTabs" :key="tab.key" class="flex flex-col items-center gap-2 py-1 bg-transparent border-none cursor-pointer relative active:scale-95 transition-transform" @click="router.push('/orders')">
             <div class="relative">
-              <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 26px;">{{ tab.icon }}</span>
-              <div v-if="orderCounts[tab.key] > 0" class="absolute -top-1.5 -right-2.5 bg-error text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 24px;">{{ tab.icon }}</span>
+              <div v-if="orderCounts[tab.key] > 0" class="absolute -top-1.5 -right-2.5 bg-primary text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {{ orderCounts[tab.key] }}
               </div>
             </div>
-            <span class="font-body text-xs text-on-surface-variant whitespace-nowrap">{{ tab.label }}</span>
+            <span class="font-body text-[11px] text-on-surface-variant whitespace-nowrap">{{ tab.label }}</span>
           </button>
         </div>
       </section>
 
       <!-- Common Tools -->
-      <section class="mb-6">
-        <h3 class="font-headline text-lg font-bold text-on-surface mb-3">常用工具</h3>
-        <div class="bg-surface-container-low rounded-2xl overflow-hidden">
-          <button v-for="tool in tools" :key="tool.key" class="flex items-center justify-between w-full px-5 py-4 border-b border-surface-variant/30 bg-transparent" @click="handleToolClick(tool)">
+      <section class="mb-5">
+        <h3 class="font-headline text-base font-bold text-on-surface mb-3">常用工具</h3>
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm">
+          <button v-for="tool in tools" :key="tool.key" class="flex items-center justify-between w-full px-4 py-3.5 border-b border-surface-variant/20 last:border-b-0 bg-transparent cursor-pointer" @click="handleToolClick(tool)">
             <div class="flex items-center gap-3">
-              <span class="material-symbols-outlined" :class="tool.color" style="font-size: 22px; font-variation-settings: 'FILL' 1;">{{ tool.icon }}</span>
+              <div class="w-9 h-9 rounded-full flex items-center justify-center" :class="tool.bg">
+                <span class="material-symbols-outlined" :class="tool.text" style="font-size: 20px; font-variation-settings: 'FILL' 1;">{{ tool.icon }}</span>
+              </div>
               <span class="font-body text-sm text-on-surface">{{ tool.label }}</span>
             </div>
-            <span class="material-symbols-outlined text-outline" style="font-size: 20px;">chevron_right</span>
+            <span class="material-symbols-outlined text-outline text-[18px]">chevron_right</span>
           </button>
         </div>
       </section>
 
       <!-- Logout -->
-      <button v-if="isLoggedIn" class="w-full py-3 rounded-xl border border-outline-variant text-on-surface-variant font-label text-sm active:scale-[0.98] transition-transform bg-transparent mb-8" @click="handleLogout">
+      <button v-if="isLoggedIn" class="w-full py-3 rounded-xl border border-outline-variant text-on-surface-variant font-label text-sm active:scale-[0.98] transition-transform bg-transparent mt-4" @click="handleLogout">
         退出登录
       </button>
     </main>
