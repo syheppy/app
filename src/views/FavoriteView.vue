@@ -102,25 +102,25 @@ onMounted(loadFavorites)
       <!-- Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <article v-for="product in products" :key="product.id" class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm border border-outline-variant/40 flex flex-col">
-          <div class="relative aspect-square overflow-hidden bg-surface-container">
+          <div class="relative aspect-square overflow-hidden bg-surface-container cursor-pointer" @click="router.push(`/product/${product.id}`)">
             <img :src="product.image_url" :alt="product.name" class="w-full h-full object-cover" />
-            <button @click="toggleFavorite(product)" class="absolute top-3 right-3 p-2 bg-surface/80 backdrop-blur-md rounded-full shadow-sm cursor-pointer border-none" :class="product.isFavorite ? 'text-tertiary' : 'text-on-surface-variant'">
+            <button @click.stop="toggleFavorite(product)" class="absolute top-3 right-3 p-2 bg-surface/80 backdrop-blur-md rounded-full shadow-sm cursor-pointer border-none" :class="product.isFavorite ? 'text-tertiary' : 'text-on-surface-variant'">
               <span class="material-symbols-outlined text-xl" :class="{ 'fill': product.isFavorite }">favorite</span>
             </button>
             <div class="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
           </div>
           <div class="p-4 flex flex-col flex-1">
-            <div class="flex justify-between items-start mb-2">
+            <div class="flex justify-between items-start mb-2 cursor-pointer" @click="router.push(`/product/${product.id}`)">
               <h3 class="font-headline text-lg text-on-surface font-bold">{{ product.name }}</h3>
               <span class="font-body text-base font-bold text-primary shrink-0 ml-2">¥{{ product.price }}</span>
             </div>
             <p class="text-on-surface-variant text-xs line-clamp-2 mb-4">{{ product.description }}</p>
             <div class="mt-auto">
-              <button v-if="product.isPrimaryAction" class="w-full bg-primary text-on-primary font-medium py-2.5 rounded-xl cursor-pointer border-none active:scale-[0.98] transition-transform flex items-center justify-center text-sm">
+              <button v-if="product.isPrimaryAction" class="w-full bg-primary text-on-primary font-medium py-2.5 rounded-xl cursor-pointer border-none active:scale-[0.98] transition-transform flex items-center justify-center text-sm" @click="handleAddToCart(product)">
                 <span class="material-symbols-outlined mr-1 text-lg">add_shopping_cart</span>
                 加入购物车
               </button>
-              <button v-else class="w-full border-2 border-primary text-primary font-medium py-2.5 rounded-xl cursor-pointer bg-transparent active:scale-[0.98] transition-transform flex items-center justify-center text-sm">
+              <button v-else class="w-full border-2 border-primary text-primary font-medium py-2.5 rounded-xl cursor-pointer bg-transparent active:scale-[0.98] transition-transform flex items-center justify-center text-sm" @click="handleAddToCart(product)">
                 <span class="material-symbols-outlined mr-1 text-lg">add_shopping_cart</span>
                 加入购物车
               </button>

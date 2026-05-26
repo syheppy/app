@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '../composables/useToast'
 
 const router = useRouter()
+const { show: showToast } = useToast()
 const activeTab = ref('unused')
 
 const tabs = [
@@ -89,7 +91,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
           <p class="text-xs text-on-surface-variant">您有 <span class="text-primary font-bold">{{ availableCount }}</span> 张可用优惠券</p>
         </div>
       </div>
-      <button class="text-xs font-bold text-primary flex items-center gap-1 bg-primary/10 px-3 py-1.5 rounded-full cursor-pointer border-none">
+      <button class="text-xs font-bold text-primary flex items-center gap-1 bg-primary/10 px-3 py-1.5 rounded-full cursor-pointer border-none" @click="showToast('兑换功能即将上线')">
         兑换中心
         <span class="material-symbols-outlined text-[16px]">chevron_right</span>
       </button>
@@ -123,7 +125,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
           </div>
           <div class="flex items-center justify-between mt-4">
             <p class="text-[9px] text-outline">有效期至：{{ coupon.expiry }}</p>
-            <button class="bg-primary text-on-primary text-xs font-bold px-4 py-1.5 rounded-full cursor-pointer border-none active:scale-95 transition-transform">去使用</button>
+            <button class="bg-primary text-on-primary text-xs font-bold px-4 py-1.5 rounded-full cursor-pointer border-none active:scale-95 transition-transform" @click="router.push('/category')">去使用</button>
           </div>
         </div>
       </div>
@@ -132,7 +134,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
       <div class="py-10 flex flex-col items-center justify-center text-on-surface-variant">
         <span class="material-symbols-outlined text-outline text-[40px] mb-2 opacity-50">confirmation_number</span>
         <p class="text-xs">没有更多可用优惠券了</p>
-        <button class="mt-4 text-xs text-primary font-bold underline underline-offset-4 bg-transparent border-none cursor-pointer">查看历史记录</button>
+        <button class="mt-4 text-xs text-primary font-bold underline underline-offset-4 bg-transparent border-none cursor-pointer" @click="showToast('暂无历史优惠券')">查看历史记录</button>
       </div>
     </div>
   </div>
