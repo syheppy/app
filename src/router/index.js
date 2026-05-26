@@ -66,6 +66,12 @@ const routes = [
     meta: { hideNav: true }
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('../views/SettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/profile/edit',
     name: 'ProfileEdit',
     component: () => import('../views/ProfileEditView.vue'),

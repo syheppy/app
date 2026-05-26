@@ -80,7 +80,7 @@ const handleToolClick = (tool) => {
             <span class="font-label text-[11px] font-medium text-on-surface-variant">金牌会员</span>
           </div>
         </div>
-        <span class="material-symbols-outlined text-outline text-[22px]">settings</span>
+        <span class="material-symbols-outlined text-outline text-[22px] cursor-pointer" @click.stop="router.push('/settings')">settings</span>
       </div>
 
       <!-- User Info - Logged Out -->
