@@ -47,7 +47,6 @@ const formatRemaining = (seconds) => {
 
 const fetchOrders = async () => {
   if (!user.value) { loading.value = false; return }
-  console.log('fetchOrders called, user:', user.value.id)
   try {
     const { data, error } = await supabase
       .from('orders')
@@ -55,7 +54,6 @@ const fetchOrders = async () => {
       .eq('user_id', user.value.id)
       .order('created_at', { ascending: false })
     if (error) throw error
-    console.log('orders fetched:', data?.map(o => ({ no: o.order_number, status: o.status })))
     orders.value = data || []
   } catch (err) {
     console.error('Failed to fetch orders:', err)
@@ -191,7 +189,7 @@ const handleCancelOrder = async (orderId) => {
               确认收货
             </button>
             <!-- 通用：查看详情 -->
-            <button v-if="order.status !== 'pending_payment'" class="px-4 py-1.5 rounded-lg bg-primary text-on-primary font-label text-xs active:scale-95 transition-transform border-none">
+            <button v-if="order.status !== 'pending_payment'" class="px-4 py-1.5 rounded-lg bg-primary text-on-primary font-label text-xs active:scale-95 transition-transform border-none" @click="router.push(`/order/${order.id}`)">
               {{ order.status === 'shipped' ? '查看物流' : '查看详情' }}
             </button>
           </div>

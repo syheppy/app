@@ -52,6 +52,12 @@ const routes = [
     meta: { hideNav: true }
   },
   {
+    path: '/order/:id',
+    name: 'OrderDetail',
+    component: () => import('../views/OrderDetailView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/orders',
     name: 'Orders',
     component: () => import('../views/OrderListView.vue'),
