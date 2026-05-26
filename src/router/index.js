@@ -26,7 +26,8 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('../views/ProfileView.vue')
+    component: () => import('../views/ProfileView.vue'),
+    meta: { hideHeader: true }
   },
   {
     path: '/login',

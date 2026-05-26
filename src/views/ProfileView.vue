@@ -66,9 +66,9 @@ const handleToolClick = (tool) => {
   <div class="bg-background text-on-background font-body min-h-screen flex flex-col pb-20 md:pb-0">
     <!-- Header -->
     <div class="px-4 py-3 flex items-center justify-between">
-      <span class="material-symbols-outlined text-on-surface-variant">settings</span>
-      <span class="font-headline text-sm font-bold text-on-surface">薯鲜生</span>
       <div class="w-6"></div>
+      <span class="font-headline text-sm font-bold text-on-surface">个人中心</span>
+      <span class="material-symbols-outlined text-on-surface-variant">settings</span>
     </div>
 
     <main class="flex-1 max-w-lg mx-auto w-full px-4">
