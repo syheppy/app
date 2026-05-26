@@ -165,15 +165,9 @@ const handleBuyNow = () => {
             </div>
             <span class="text-sm text-on-surface-variant">{{ product.rating || '5.0' }} / 5.0 · {{ product.review_count || 0 }}+ 条评价</span>
           </div>
-          <div class="bg-surface-container-low rounded-xl p-4">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">薯</div>
-              <span class="text-sm font-medium text-on-surface">薯友</span>
-              <div class="flex gap-0.5 ml-auto">
-                <span v-for="i in 5" :key="i" class="material-symbols-outlined text-primary" style="font-size: 14px; font-variation-settings: 'FILL' 1;">star</span>
-              </div>
-            </div>
-            <p class="text-sm text-on-surface-variant">非常好吃，品质很好，新鲜直达！包装也非常用心，值得回购。</p>
+          <div class="bg-surface-container-low rounded-xl p-6 text-center">
+            <span class="material-symbols-outlined text-outline text-[32px] mb-2">rate_review</span>
+            <p class="text-sm text-on-surface-variant">暂无评价</p>
           </div>
         </section>
       </div>
