@@ -13,6 +13,15 @@ const allProducts = ref([])
 const categories = ref([])
 const activeCategory = ref('')
 const loading = ref(true)
+const sortMode = ref('default')
+const showSortMenu = ref(false)
+
+const sortOptions = [
+  { value: 'default', label: '综合排序' },
+  { value: 'price_asc', label: '价格从低到高' },
+  { value: 'price_desc', label: '价格从高到低' },
+  { value: 'sales', label: '销量优先' }
+]
 
 const handleAddToCart = (product) => {
   addItem(product)
@@ -62,9 +71,19 @@ const currentCategory = computed(() =>
   categories.value.find(c => c.name === activeCategory.value)
 )
 
-const currentProducts = computed(() =>
-  allProducts.value.filter(p => p.category === activeCategory.value)
-)
+const currentProducts = computed(() => {
+  let list = allProducts.value.filter(p => p.category === activeCategory.value)
+  switch (sortMode.value) {
+    case 'price_asc':
+      return [...list].sort((a, b) => a.price - b.price)
+    case 'price_desc':
+      return [...list].sort((a, b) => b.price - a.price)
+    case 'sales':
+      return [...list].sort((a, b) => (b.sales_count || 0) - (a.sales_count || 0))
+    default:
+      return list
+  }
+})
 </script>
 
 <template>
@@ -115,9 +134,22 @@ const currentProducts = computed(() =>
         <!-- Sort Bar -->
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-headline text-lg font-bold text-on-background">全部{{ activeCategory }}</h3>
-          <button class="flex bg-transparent border-none items-center gap-1 text-outline font-label text-xs cursor-pointer">
-            综合排序 <span class="material-symbols-outlined text-[16px]">expand_more</span>
-          </button>
+          <div class="relative">
+            <button @click="showSortMenu = !showSortMenu" class="flex bg-transparent border-none items-center gap-1 text-outline font-label text-xs cursor-pointer">
+              {{ sortOptions.find(o => o.value === sortMode)?.label || '综合排序' }} <span class="material-symbols-outlined text-[16px]">expand_more</span>
+            </button>
+            <div v-if="showSortMenu" class="absolute right-0 top-full mt-1 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden z-30 min-w-[140px]">
+              <button
+                v-for="opt in sortOptions"
+                :key="opt.value"
+                @click="sortMode = opt.value; showSortMenu = false"
+                class="w-full text-left px-4 py-2.5 font-body text-sm border-none cursor-pointer transition-colors"
+                :class="sortMode === opt.value ? 'bg-primary/10 text-primary font-medium' : 'bg-transparent text-on-surface hover:bg-surface-container'"
+              >
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Product Grid -->
