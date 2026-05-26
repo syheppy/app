@@ -73,17 +73,18 @@ const handleToolClick = (tool) => {
 
     <main class="flex-1 max-w-lg mx-auto w-full px-4">
       <!-- User Info - Logged In -->
-      <div v-if="isLoggedIn" class="flex items-center gap-4 mb-6">
+      <div v-if="isLoggedIn" class="flex items-center gap-4 mb-6 cursor-pointer" @click="router.push('/profile/edit')">
         <div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
           <span class="material-symbols-outlined" style="font-size: 32px;">person</span>
         </div>
         <div class="flex-1">
-          <h2 class="font-headline text-xl font-bold text-on-surface">{{ user?.email?.split('@')[0] || '番番小芋' }}</h2>
+          <h2 class="font-headline text-xl font-bold text-on-surface">{{ user?.user_metadata?.nickname || user?.email?.split('@')[0] || '番番小芋' }}</h2>
           <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-surface-container-high text-[10px] font-label font-medium text-on-surface-variant">
             <span class="material-symbols-outlined text-primary" style="font-size: 14px; font-variation-settings: 'FILL' 1;">star</span>
             金牌会员
           </span>
         </div>
+        <span class="material-symbols-outlined text-outline text-[20px]">chevron_right</span>
       </div>
 
       <!-- User Info - Logged Out -->

@@ -64,6 +64,12 @@ const routes = [
     meta: { hideNav: true }
   },
   {
+    path: '/profile/edit',
+    name: 'ProfileEdit',
+    component: () => import('../views/ProfileEditView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/favorites',
     name: 'Favorites',
     component: () => import('../views/FavoriteView.vue'),
