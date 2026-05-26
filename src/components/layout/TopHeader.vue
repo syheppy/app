@@ -17,20 +17,12 @@ defineProps({
   </header>
 
   <!-- Mobile Header -->
-  <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md px-5 py-3 md:hidden flex items-center gap-4">
+  <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md px-5 py-3 md:hidden flex items-center justify-between">
     <a class="flex items-center gap-1 text-primary-container text-xs font-medium whitespace-nowrap active:opacity-70 transition-opacity">
       <span class="material-symbols-outlined" style="font-size: 18px;">location_on</span>
       <span>{{ city }}</span>
     </a>
-    <div class="flex-1 relative">
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <span class="material-symbols-outlined text-outline" style="font-size: 20px;">search</span>
-      </div>
-      <input
-        class="w-full bg-surface-container rounded-lg py-2 pl-10 pr-4 text-sm text-on-surface placeholder:text-outline border-none focus:ring-2 focus:ring-primary-container transition-all"
-        placeholder="搜索新鲜红薯、紫薯..."
-        type="text"
-      />
-    </div>
+    <h2 class="font-headline text-sm font-bold text-on-surface">薯鲜生</h2>
+    <div class="w-12"></div>
   </div>
 </template>

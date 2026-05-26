@@ -15,6 +15,12 @@ const activeCategory = ref('')
 const loading = ref(true)
 const sortMode = ref('default')
 const showSortMenu = ref(false)
+const searchKeyword = ref('')
+
+const doSearch = () => {
+  const q = searchKeyword.value.trim()
+  if (q) router.push(`/search?q=${encodeURIComponent(q)}`)
+}
 
 const sortOptions = [
   { value: 'default', label: '综合排序' },
@@ -90,9 +96,12 @@ const currentProducts = computed(() => {
   <div class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
     <!-- Search Bar -->
     <div class="fixed top-0 left-0 w-full z-40 bg-surface px-4 py-3 border-b border-surface-variant shadow-sm shadow-[#c2652a]/5">
-      <div class="relative w-full max-w-2xl mx-auto">
-        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
-        <input @keyup.enter="$event.target.value.trim() && router.push(`/search?q=${$event.target.value.trim()}`)" class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
+      <div class="flex items-center gap-2 w-full max-w-2xl mx-auto">
+        <div class="flex-1 relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+          <input v-model="searchKeyword" @keyup.enter="doSearch" class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
+        </div>
+        <button @click="doSearch" class="text-primary font-label text-sm font-medium bg-transparent border-none cursor-pointer whitespace-nowrap">搜索</button>
       </div>
     </div>
 
