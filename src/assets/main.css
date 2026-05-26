@@ -144,6 +144,23 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 20px);
 }
 
+/* Theme Variables */
+:root {
+  --theme-bg: #faf5ee;
+  --theme-surface: #faf5ee;
+  --theme-text: #3a302a;
+  --theme-text-secondary: #605850;
+  --theme-card: #ffffff;
+  --theme-card-border: #d8d0c8;
+}
+
+.theme-bg { background-color: var(--theme-bg) !important; }
+.theme-surface { background-color: var(--theme-surface) !important; }
+.theme-card { background-color: var(--theme-card) !important; }
+.theme-text { color: var(--theme-text) !important; }
+.theme-text-secondary { color: var(--theme-text-secondary) !important; }
+.theme-border { border-color: var(--theme-card-border) !important; }
+
 /* Splash Animations */
 @keyframes logoEntrance {
   from { opacity: 0; transform: scale(0.85); }
