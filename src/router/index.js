@@ -21,8 +21,7 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import('../views/CartView.vue'),
-    meta: { hideHeader: true }
+    component: () => import('../views/CartView.vue')
   },
   {
     path: '/profile',
