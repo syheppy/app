@@ -1,138 +1,99 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth'
 
-defineProps({
-  onBack: { type: Function, default: () => {} },
-  onLogin: { type: Function, default: () => {} }
-})
+const router = useRouter()
+const { signUp } = useAuth()
 
-const phone = ref('')
-const smsCode = ref('')
+const email = ref('')
 const password = ref('')
-const agreed = ref(false)
 const showPassword = ref(false)
-const countdown = ref(0)
-let timer = null
+const loading = ref(false)
+const errorMsg = ref('')
+const agreed = ref(false)
 
-const sendCode = () => {
-  if (countdown.value > 0) return
-  countdown.value = 60
-  timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) clearInterval(timer)
-  }, 1000)
-}
-
-const handleRegister = () => {
-  // TODO: register logic
+const handleRegister = async () => {
+  if (!email.value || !password.value || !agreed.value) return
+  loading.value = true
+  errorMsg.value = ''
+  const { data, error } = await signUp(email.value, password.value)
+  loading.value = false
+  if (error) {
+    console.error('Register error:', error)
+    errorMsg.value = error.message === 'User already registered' ? '该邮箱已注册，请直接登录' : error.message
+  } else if (data.session) {
+    // 注册成功且自动登录
+    router.push('/')
+  } else {
+    // 注册成功但需要邮箱确认
+    errorMsg.value = '注册成功！请检查邮箱确认后再登录'
+  }
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-background flex flex-col">
-    <!-- Back Button -->
-    <div class="px-5 pt-4">
-      <button
-        class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95"
-        @click="onBack"
-      >
-        <span class="material-symbols-outlined text-on-surface">arrow_back</span>
-      </button>
-    </div>
-
-    <!-- Content -->
-    <div class="flex-1 flex flex-col items-center px-8">
-      <!-- Title -->
-      <h1 class="font-display text-3xl font-bold text-on-background mt-12 mb-2">
-        开启寻薯之旅
-      </h1>
-      <p class="text-on-surface-variant text-sm mb-10">
-        注册即享新季丰收特权
-      </p>
-
-      <!-- Form -->
-      <div class="w-full flex flex-col gap-4">
-        <!-- Phone Input -->
-        <div class="flex items-center bg-surface-container-low rounded-2xl px-4 py-3.5 border border-outline-variant focus-within:border-primary-container transition-colors">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 22px;">smartphone</span>
-          <input
-            v-model="phone"
-            type="tel"
-            placeholder="请输入手机号"
-            class="flex-1 bg-transparent text-on-surface text-base placeholder:text-outline outline-none"
-          />
-        </div>
-
-        <!-- SMS Code Input -->
-        <div class="flex items-center bg-surface-container-low rounded-2xl px-4 py-3.5 border border-outline-variant focus-within:border-primary-container transition-colors">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 22px;">lock</span>
-          <input
-            v-model="smsCode"
-            type="text"
-            placeholder="请输入验证码"
-            class="flex-1 bg-transparent text-on-surface text-base placeholder:text-outline outline-none"
-          />
-          <button
-            class="text-primary-container text-sm font-medium whitespace-nowrap ml-2 active:opacity-70 transition-opacity"
-            @click="sendCode"
-          >
-            {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
-          </button>
-        </div>
-
-        <!-- Password Input -->
-        <div class="flex items-center bg-surface-container-low rounded-2xl px-4 py-3.5 border border-outline-variant focus-within:border-primary-container transition-colors">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 22px;">lock</span>
-          <input
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="请设置登录密码"
-            class="flex-1 bg-transparent text-on-surface text-base placeholder:text-outline outline-none"
-          />
-          <button
-            class="ml-2 active:opacity-70 transition-opacity"
-            @click="showPassword = !showPassword"
-          >
-            <span class="material-symbols-outlined text-outline" style="font-size: 22px;">
-              {{ showPassword ? 'visibility' : 'visibility_off' }}
-            </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Agreement -->
-      <div class="w-full flex items-start gap-2 mt-5">
-        <button
-          class="w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-colors"
-          :class="agreed ? 'bg-primary-container border-primary-container' : 'border-outline-variant'"
-          @click="agreed = !agreed"
-        >
-          <span v-if="agreed" class="material-symbols-outlined text-white" style="font-size: 14px;">check</span>
+  <div class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <main class="w-full max-w-md mx-auto px-6 py-12 md:py-24 flex flex-col relative h-full min-h-screen">
+      <header class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
+        <button @click="router.back()" class="p-2 -ml-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-full group bg-transparent border-none cursor-pointer">
+          <span class="material-symbols-outlined text-2xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
         </button>
-        <p class="text-xs text-on-surface-variant leading-relaxed">
-          我已阅读并同意
-          <span class="text-primary-container">《用户协议》</span>
-          及
-          <span class="text-primary-container">《隐私政策》</span>
-        </p>
+      </header>
+
+      <div class="flex-grow flex flex-col justify-center mt-12 mb-8">
+        <div class="mb-12 text-center md:text-left">
+          <h1 class="font-headline text-4xl md:text-5xl font-semibold text-on-surface mb-3 tracking-tight leading-tight">开启寻薯之旅</h1>
+          <p class="text-on-surface-variant text-base md:text-lg font-medium opacity-90">注册即享新季丰收特权</p>
+        </div>
+
+        <form class="space-y-6" @submit.prevent="handleRegister">
+          <div class="relative">
+            <label class="sr-only" for="reg-email">邮箱</label>
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-on-surface-variant text-lg">mail</span>
+            </div>
+            <input v-model="email" id="reg-email" type="email" placeholder="请输入邮箱" class="block w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" required />
+          </div>
+
+          <div class="relative">
+            <label class="sr-only" for="reg-password">设置密码</label>
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-on-surface-variant text-lg">lock</span>
+            </div>
+            <input v-model="password" id="reg-password" :type="showPassword ? 'text' : 'password'" placeholder="请设置登录密码（至少6位）" class="block w-full pl-12 pr-12 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" required minlength="6" autoComplete="new-password" />
+            <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant hover:text-on-surface outline-none cursor-pointer bg-transparent border-none">
+              <span class="material-symbols-outlined text-lg">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
+            </button>
+          </div>
+
+          <div class="flex items-start mt-6">
+            <div class="flex items-center h-5">
+              <input v-model="agreed" type="checkbox" id="terms" class="h-4 w-4 text-primary bg-surface-container-lowest border-outline-variant/60 rounded focus:ring-primary focus:ring-2 accent-[#c2652a] cursor-pointer mt-0.5" required />
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="terms" class="font-medium text-on-surface-variant cursor-pointer">
+                我已阅读并同意 <a href="#user-agreement" class="text-primary hover:underline hover:text-primary-container transition-colors">《用户协议》</a> 及 <a href="#privacy-policy" class="text-primary hover:underline hover:text-primary-container transition-colors">《隐私政策》</a>
+              </label>
+            </div>
+          </div>
+
+          <p v-if="errorMsg" class="text-error text-sm text-center">{{ errorMsg }}</p>
+
+          <div class="pt-4">
+            <button :disabled="loading" type="submit" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-lg shadow-sm text-base font-semibold text-on-primary bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-50">
+              {{ loading ? '注册中...' : '立即注册' }}
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 text-center">
+          <p class="text-sm text-on-surface-variant">
+            已有账号？
+            <router-link to="/login" class="font-medium text-primary hover:text-primary-container hover:underline transition-colors">直接登录</router-link>
+          </p>
+        </div>
       </div>
-
-      <!-- Register Button -->
-      <button
-        class="w-full mt-8 bg-primary-container text-white text-lg font-semibold py-4 rounded-2xl shadow-md active:scale-[0.98] transition-transform hover:bg-primary"
-        @click="handleRegister"
-      >
-        立即注册
-      </button>
-
-      <!-- Login Link -->
-      <button
-        class="mt-6 mb-8 text-sm text-on-surface-variant active:opacity-70 transition-opacity"
-        @click="onLogin"
-      >
-        已有账号？
-        <span class="text-primary-container font-medium">直接登录</span>
-      </button>
-    </div>
+    </main>
   </div>
 </template>

@@ -87,7 +87,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Pagination Dots -->
-    <div class="flex justify-center gap-2 mt-2">
+    <div class="flex justify-center gap-2 mt-3">
       <button
         v-for="(_, index) in slides"
         :key="index"

@@ -1,155 +1,104 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth'
 
-defineProps({
-  onBack: { type: Function, default: () => {} },
-  onRegister: { type: Function, default: () => {} },
-  onForgotPassword: { type: Function, default: () => {} }
-})
+const router = useRouter()
+const { signIn } = useAuth()
 
-const phone = ref('')
+const email = ref('')
 const password = ref('')
-const smsCode = ref('')
-const showPassword = ref(false)
-const countdown = ref(0)
-let timer = null
+const loading = ref(false)
+const errorMsg = ref('')
 
-const sendCode = () => {
-  if (countdown.value > 0) return
-  countdown.value = 60
-  timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) clearInterval(timer)
-  }, 1000)
-}
-
-const handleLogin = () => {
-  // TODO: login logic
+const handleLogin = async () => {
+  if (!email.value || !password.value) return
+  loading.value = true
+  errorMsg.value = ''
+  const { data, error } = await signIn(email.value, password.value)
+  loading.value = false
+  if (error) {
+    console.error('Login error:', error)
+    if (error.message === 'Invalid login credentials') {
+      errorMsg.value = '邮箱或密码错误，请先注册账号'
+    } else if (error.message.includes('Email not confirmed')) {
+      errorMsg.value = '请先确认邮箱后再登录'
+    } else {
+      errorMsg.value = error.message
+    }
+  } else {
+    router.push('/')
+  }
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-background flex flex-col">
-    <!-- Back Button -->
-    <div class="px-5 pt-4">
-      <button
-        class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95"
-        @click="onBack"
-      >
-        <span class="material-symbols-outlined text-on-surface">arrow_back</span>
-      </button>
+  <div class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center antialiased relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+      <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 -left-20 w-72 h-72 bg-tertiary/5 rounded-full blur-3xl"></div>
     </div>
 
-    <!-- Content -->
-    <div class="flex-1 flex flex-col items-center px-8">
-      <!-- Logo -->
-      <div class="mt-8 mb-6 w-20 h-20 rounded-3xl bg-surface-container-high flex items-center justify-center">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <path
-            d="M24 42S6 30 6 18C6 10 12 6 18 6C21.6 6 24 8.4 24 8.4S26.4 6 30 6C36 6 42 10 42 18C42 30 24 42 24 42Z"
-            stroke="#c2652a"
-            stroke-width="2.5"
-            fill="none"
-          />
-          <path
-            d="M24 42V18"
-            stroke="#7a9a6d"
-            stroke-width="2"
-          />
-          <path
-            d="M24 28C28 24 32 26 30 30"
-            stroke="#7a9a6d"
-            stroke-width="2"
-            fill="none"
-          />
-          <path
-            d="M24 22C20 18 16 20 18 24"
-            stroke="#7a9a6d"
-            stroke-width="2"
-            fill="none"
-          />
-        </svg>
-      </div>
-
-      <!-- Title -->
-      <h1 class="font-display text-3xl font-bold text-on-background mb-2">
-        欢迎回到薯鲜生
-      </h1>
-      <p class="text-on-surface-variant text-sm mb-10">
-        寻味大地，遇见纯粹
-      </p>
-
-      <!-- Form -->
-      <div class="w-full flex flex-col gap-4">
-        <!-- Phone Input -->
-        <div class="flex items-center bg-surface-container-low rounded-2xl px-4 py-3.5 border border-outline-variant focus-within:border-primary-container transition-colors">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 22px;">smartphone</span>
-          <input
-            v-model="phone"
-            type="tel"
-            placeholder="请输入手机号"
-            class="flex-1 bg-transparent text-on-surface text-base placeholder:text-outline outline-none"
-          />
-        </div>
-
-        <!-- Password / SMS Code Input -->
-        <div class="flex items-center bg-surface-container-low rounded-2xl px-4 py-3.5 border border-outline-variant focus-within:border-primary-container transition-colors">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 22px;">lock</span>
-          <input
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="请输入验证码/密码"
-            class="flex-1 bg-transparent text-on-surface text-base placeholder:text-outline outline-none"
-          />
-          <button
-            class="text-primary-container text-sm font-medium whitespace-nowrap ml-2 active:opacity-70 transition-opacity"
-            @click="sendCode"
-          >
-            {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
-          </button>
-        </div>
-      </div>
-
-      <!-- Login Button -->
-      <button
-        class="w-full mt-8 bg-primary-container text-white text-lg font-semibold py-4 rounded-2xl shadow-md active:scale-[0.98] transition-transform hover:bg-primary"
-        @click="handleLogin"
-      >
-        登录
+    <header class="w-full absolute top-0 left-0 flex items-center justify-between px-6 py-4 max-w-md mx-auto right-0">
+      <button @click="router.back()" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors">
+        <span class="material-symbols-outlined text-2xl">arrow_back</span>
       </button>
+    </header>
 
-      <!-- Bottom Links -->
-      <div class="w-full flex justify-between mt-5 px-1">
-        <button
-          class="text-on-surface-variant text-sm active:opacity-70 transition-opacity"
-          @click="onForgotPassword"
-        >
-          忘记密码
-        </button>
-        <button
-          class="text-on-surface-variant text-sm active:opacity-70 transition-opacity"
-          @click="onRegister"
-        >
-          新用户注册
-        </button>
+    <main class="w-full max-w-md px-8 py-12 flex flex-col relative z-10">
+      <div class="text-center mb-16 space-y-4">
+        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-surface-container-low shadow-[0_2px_16px_rgba(58,48,42,0.04)] border border-outline-variant/30 flex items-center justify-center text-primary relative overflow-hidden">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF4qHNfzJpcSdpOniUs0OQegl5xsf1GIBK3puvU9Wf4W565SSz7OwfoaS7Wi2tNMom1wQahOkDyeYVPZxnuoIVBb_ijhk0TE--MkraA_KxKz-Rfh4xw3ZmLVgwsCU1sCL-h0f7XjLfSpQFyviYw567XT13A5QQ2PTBSDPM84f1JwQuYNZtnF8mWu4sZh6pQ8U_bqq34P4PdC75U-gQWSdAhb6dY4kvzEsokx-aMG38x_YeYnvCIMVRIArRyl0EJOr3Vr-6XeTzq7GU" class="w-full h-full object-contain p-2" alt="薯鲜生 logo" />
+        </div>
+        <h1 class="font-headline text-4xl text-on-surface leading-tight tracking-tight font-bold">欢迎回到薯鲜生</h1>
+        <p class="font-body text-on-surface-variant text-base tracking-wide font-light">寻味大地，遇见纯粹</p>
       </div>
 
-      <!-- Divider -->
-      <div class="w-full flex items-center gap-4 mt-12">
-        <div class="flex-1 h-px bg-outline-variant"></div>
-        <span class="text-outline text-xs">其他登录方式</span>
-        <div class="flex-1 h-px bg-outline-variant"></div>
+      <form class="space-y-6 w-full flex flex-col" @submit.prevent="handleLogin">
+        <div class="space-y-4">
+          <div class="relative group">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+              <span class="material-symbols-outlined text-[20px]">mail</span>
+            </div>
+            <input v-model="email" class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface font-body placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 shadow-[0_2px_16px_rgba(58,48,42,0.02)]" placeholder="请输入邮箱" required type="email" />
+          </div>
+
+          <div class="relative group">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+              <span class="material-symbols-outlined text-[20px]">lock</span>
+            </div>
+            <input v-model="password" class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface font-body placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 shadow-[0_2px_16px_rgba(58,48,42,0.02)]" placeholder="请输入密码" required type="password" />
+          </div>
+        </div>
+
+        <p v-if="errorMsg" class="text-error text-sm text-center">{{ errorMsg }}</p>
+
+        <button :disabled="loading" class="w-full bg-primary text-on-primary font-label text-lg tracking-wide py-4 rounded-xl shadow-[0_4px_20px_rgba(194,101,42,0.2)] hover:bg-primary-container hover:shadow-[0_6px_24px_rgba(194,101,42,0.3)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 mt-4 cursor-pointer disabled:opacity-50" type="submit">
+          {{ loading ? '登录中...' : '登录' }}
+        </button>
+      </form>
+
+      <div class="flex items-center justify-between mt-8 text-sm font-label text-on-surface-variant px-2">
+        <button class="hover:text-primary hover:underline underline-offset-4 decoration-primary/30 transition-all bg-transparent border-none cursor-pointer p-0">忘记密码</button>
+        <router-link to="/register" class="hover:text-primary hover:underline underline-offset-4 decoration-primary/30 transition-all">新用户注册</router-link>
       </div>
 
-      <!-- Social Login -->
-      <div class="flex gap-6 mt-6 mb-8">
-        <button class="w-12 h-12 rounded-full bg-[#07C160] flex items-center justify-center shadow-sm active:scale-95 transition-transform">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.986a.96.96 0 0 1 0 1.92.96.96 0 0 1 0-1.92zm5.812 0a.96.96 0 0 1 0 1.92.96.96 0 0 1 0-1.92z"/>
-            <path d="M23.926 14.393c0-3.2-3.095-5.793-6.907-5.793-3.812 0-6.907 2.593-6.907 5.793 0 3.2 3.095 5.793 6.907 5.793.77 0 1.51-.112 2.194-.316a.72.72 0 0 1 .595.082l1.578.924a.272.272 0 0 0 .14.046c.133 0 .241-.109.241-.244 0-.06-.024-.118-.04-.177l-.324-1.228a.49.49 0 0 1 .177-.552c1.52-1.122 2.346-2.758 2.346-4.327zm-9.53-1.2a.8.8 0 0 1 0-1.6.8.8 0 0 1 0 1.6zm5.246 0a.8.8 0 0 1 0-1.6.8.8 0 0 1 0 1.6z"/>
+      <div class="mt-16 flex flex-col items-center">
+        <div class="relative w-full flex items-center justify-center mb-8">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-outline-variant/40"></div>
+          </div>
+          <div class="relative bg-background px-4 text-xs font-label text-outline tracking-wider uppercase">
+            其他登录方式
+          </div>
+        </div>
+        <button aria-label="Login with WeChat" class="w-14 h-14 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-[0_2px_16px_rgba(58,48,42,0.04)] flex items-center justify-center text-[#07C160] hover:bg-surface-variant/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
+          <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.5 6C4.4 6 1 8.8 1 12.3c0 2 1.1 3.8 2.9 4.9L3.1 19.8l2.9-1.4c.8.2 1.6.3 2.5.3 4.1 0 7.5-2.8 7.5-6.3S12.6 6 8.5 6zm-1.8 4.3c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm3.5 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"></path>
+            <path d="M17.5 11c-3.6 0-6.5 2.4-6.5 5.3 0 1.7 1 3.2 2.5 4.2l-.7 2.1 2.5-1.2c.7.2 1.4.3 2.2.3 3.6 0 6.5-2.4 6.5-5.3S21.1 11 17.5 11zm-2 3.8c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7zm4 0c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7z"></path>
           </svg>
         </button>
       </div>
-    </div>
+    </main>
   </div>
 </template>

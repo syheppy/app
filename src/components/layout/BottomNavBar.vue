@@ -1,32 +1,39 @@
 <script setup>
-defineProps({
-  active: { type: String, default: 'home' }
-})
+import { useRoute } from 'vue-router'
+import { useCart } from '../../composables/useCart'
 
-defineEmits(['navigate'])
+const route = useRoute()
+const { totalCount } = useCart()
+
+const navItems = [
+  { path: '/', icon: 'home', label: '首页' },
+  { path: '/category', icon: 'grid_view', label: '分类' },
+  { path: '/cart', icon: 'shopping_cart', label: '购物车' },
+  { path: '/profile', icon: 'person', label: '我的' }
+]
 </script>
 
 <template>
   <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 bg-white/95 backdrop-blur-md rounded-t-2xl border-t border-stone-100 shadow-[0_-4px_16px_rgba(242,140,40,0.06)] md:hidden">
-    <button
-      v-for="item in [
-        { key: 'home', icon: 'home', label: '首页' },
-        { key: 'category', icon: 'grid_view', label: '分类' },
-        { key: 'cart', icon: 'shopping_cart', label: '购物车', badge: 2 },
-        { key: 'user', icon: 'person', label: '我的' }
-      ]"
-      :key="item.key"
+    <router-link
+      v-for="item in navItems"
+      :key="item.path"
+      :to="item.path"
       class="flex flex-col items-center justify-center relative transition-colors active:scale-90 duration-200 flex-1 h-full"
-      :class="active === item.key ? 'text-primary' : 'text-stone-400 hover:bg-stone-50'"
-      @click="$emit('navigate', item.key)"
+      :class="route.path === item.path ? 'text-primary' : 'text-stone-400 hover:bg-stone-50'"
     >
       <span
         class="material-symbols-outlined"
-        :style="{ fontVariationSettings: active === item.key ? `'FILL' 1` : `'FILL' 0` }"
+        :style="{ fontVariationSettings: route.path === item.path ? `'FILL' 1` : `'FILL' 0` }"
       >{{ item.icon }}</span>
-      <span class="text-[11px] mt-1" :class="active === item.key ? 'font-bold' : 'font-medium'">{{ item.label }}</span>
-      <div v-if="active === item.key" class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
-      <div v-if="item.badge" class="absolute -top-1 -right-2 bg-error text-white text-[8px] font-bold px-1.5 rounded-full">{{ item.badge }}</div>
-    </button>
+      <span class="text-[11px] mt-1" :class="route.path === item.path ? 'font-bold' : 'font-medium'">{{ item.label }}</span>
+      <div v-if="route.path === item.path" class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
+      <div
+        v-if="item.path === '/cart' && totalCount > 0"
+        class="absolute -top-1 -right-2 bg-error text-white text-[8px] font-bold px-1.5 rounded-full min-w-[16px] text-center"
+      >
+        {{ totalCount > 99 ? '99+' : totalCount }}
+      </div>
+    </router-link>
   </nav>
 </template>

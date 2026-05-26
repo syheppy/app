@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">薯鲜生</string>
+    <string name="title_activity_main">薯鲜生</string>
+    <string name="package_name">com.shuxiansheng.app</string>
+    <string name="custom_url_scheme">com.shuxiansheng.app</string>
+</resources>

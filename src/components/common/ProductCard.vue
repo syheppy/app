@@ -14,7 +14,7 @@ defineEmits(['add'])
 <template>
   <div class="rounded-2xl overflow-hidden bg-surface shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
     <img :alt="title" class="w-full h-[120px] md:h-[160px] object-cover transition-transform duration-500 group-hover:scale-105" :src="image" />
-    <div class="p-3 flex flex-col flex-1 justify-between">
+    <div class="px-3 py-3.5 flex flex-col flex-1 justify-between">
       <div>
         <h4 class="text-sm font-medium text-on-surface line-clamp-1 mb-1">{{ title }}</h4>
         <div v-if="tag" class="flex gap-1 mb-2">
