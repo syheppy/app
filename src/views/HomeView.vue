@@ -47,7 +47,7 @@ onMounted(async () => {
 
 <template>
   <div class="bg-background text-on-background font-body min-h-screen flex flex-col pb-20 md:pb-0">
-    <main class="flex-1 max-w-lg mx-auto w-full pt-[56px] flex flex-col gap-6 overflow-x-hidden">
+    <main class="flex-1 max-w-lg mx-auto w-full pt-[44px] flex flex-col gap-6 overflow-x-hidden">
       <!-- Hero Banner -->
       <section class="px-4 relative group overflow-hidden">
         <div class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl" style="scrollbar-width: none;">

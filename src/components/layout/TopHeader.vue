@@ -28,15 +28,15 @@ const doSearch = () => {
   </header>
 
   <!-- Mobile Header: location + capsule search bar -->
-  <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-outline-variant/20 px-3 py-2 md:hidden">
+  <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-outline-variant/20 px-3 py-1.5 md:hidden">
     <div class="flex items-center gap-2">
       <!-- Location -->
-      <div class="flex items-center gap-0.5 text-primary-container text-xs font-medium whitespace-nowrap cursor-pointer shrink-0 active:opacity-70">
-        <span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+      <div class="flex items-center gap-0.5 text-primary-container text-[11px] font-medium whitespace-nowrap cursor-pointer shrink-0 active:opacity-70">
+        <span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
         <span>{{ city }}</span>
       </div>
       <!-- Capsule Search Bar -->
-      <div class="flex-1 flex items-center bg-surface-container rounded-full h-9 pl-3 pr-1 gap-1">
+      <div class="flex-1 flex items-center bg-surface-container rounded-full h-8 pl-3 pr-1 gap-1">
         <span class="material-symbols-outlined text-outline text-[16px] shrink-0">search</span>
         <input
           v-model="keyword"
@@ -45,7 +45,7 @@ const doSearch = () => {
           placeholder="搜索新鲜红薯、紫薯..."
           type="text"
         />
-        <button @click="doSearch" class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 border-none cursor-pointer">
+        <button @click="doSearch" class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 border-none cursor-pointer">
           <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
         </button>
       </div>

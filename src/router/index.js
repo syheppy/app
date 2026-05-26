@@ -15,7 +15,8 @@ const routes = [
   {
     path: '/category',
     name: 'Category',
-    component: () => import('../views/CategoryView.vue')
+    component: () => import('../views/CategoryView.vue'),
+    meta: { hideHeader: true }
   },
   {
     path: '/cart',
