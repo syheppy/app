@@ -95,11 +95,11 @@ const currentProducts = computed(() => {
 <template>
   <div class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
     <!-- Search Bar -->
-    <div class="fixed top-0 left-0 w-full z-40 bg-surface px-4 py-3 border-b border-surface-variant shadow-sm shadow-[#c2652a]/5">
-      <div class="flex items-center gap-2 w-full max-w-2xl mx-auto">
+    <div class="fixed top-0 left-0 w-full z-40 bg-surface px-3 py-2 border-b border-surface-variant shadow-sm shadow-[#c2652a]/5">
+      <div class="flex items-center gap-2 w-full max-w-lg mx-auto">
         <div class="flex-1 relative">
-          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
-          <input v-model="searchKeyword" @keyup.enter="doSearch" class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+          <input v-model="searchKeyword" @keyup.enter="doSearch" class="w-full pl-9 pr-3 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
         </div>
         <button @click="doSearch" class="text-primary font-label text-sm font-medium bg-transparent border-none cursor-pointer whitespace-nowrap">搜索</button>
       </div>
@@ -110,9 +110,9 @@ const currentProducts = computed(() => {
       <div class="text-on-surface-variant">加载中...</div>
     </div>
 
-    <main v-else class="pt-[64px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
+    <main v-else class="pt-[52px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
-      <aside class="w-[90px] flex-shrink-0 bg-surface-container-low border-r border-surface-variant sticky top-[64px] h-[calc(100vh-144px)] overflow-y-auto hide-scrollbar">
+      <aside class="w-[90px] flex-shrink-0 bg-surface-container-low border-r border-surface-variant sticky top-[52px] h-[calc(100vh-132px)] overflow-y-auto hide-scrollbar">
         <nav class="flex flex-col py-2">
           <button
             v-for="cat in categories"
