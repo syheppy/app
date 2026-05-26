@@ -18,10 +18,10 @@ const orderTabs = [
 ]
 
 const tools = [
-  { key: 'coupon', icon: 'confirmation_number', label: '优惠券', color: 'text-tertiary' },
-  { key: 'favorite', icon: 'favorite', label: '我的收藏', color: 'text-primary-container' },
+  { key: 'coupon', icon: 'confirmation_number', label: '优惠券', color: 'text-tertiary', route: '/coupons' },
+  { key: 'favorite', icon: 'favorite', label: '我的收藏', color: 'text-primary-container', route: '/favorites' },
   { key: 'address', icon: 'location_on', label: '地址管理', color: 'text-secondary', route: '/address' },
-  { key: 'help', icon: 'help', label: '帮助中心', color: 'text-on-surface-variant' }
+  { key: 'help', icon: 'help', label: '帮助中心', color: 'text-on-surface-variant', route: '/help' }
 ]
 
 // Sync auth state with cart

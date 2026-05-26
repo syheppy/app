@@ -64,6 +64,24 @@ const routes = [
     meta: { hideNav: true }
   },
   {
+    path: '/favorites',
+    name: 'Favorites',
+    component: () => import('../views/FavoriteView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/coupons',
+    name: 'Coupons',
+    component: () => import('../views/CouponView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    component: () => import('../views/HelpView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/address',
     name: 'Address',
     component: () => import('../views/AddressView.vue'),

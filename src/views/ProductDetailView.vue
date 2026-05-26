@@ -15,6 +15,22 @@ const loading = ref(true)
 const quantity = ref(1)
 const selectedSpec = ref(null)
 const drawerOpen = ref(false)
+const isFavorited = ref(false)
+
+const toggleFavorite = () => {
+  if (!product.value) return
+  const ids = JSON.parse(localStorage.getItem('favorites') || '[]')
+  if (isFavorited.value) {
+    localStorage.setItem('favorites', JSON.stringify(ids.filter(i => i !== product.value.id)))
+    isFavorited.value = false
+    showToast('已取消收藏')
+  } else {
+    ids.push(product.value.id)
+    localStorage.setItem('favorites', JSON.stringify(ids))
+    isFavorited.value = true
+    showToast('已收藏')
+  }
+}
 
 onMounted(async () => {
   const id = route.params.id
@@ -31,6 +47,9 @@ onMounted(async () => {
     if (data.specs && data.specs.length > 0) {
       selectedSpec.value = data.specs[0]
     }
+    // Check favorite status
+    const favIds = JSON.parse(localStorage.getItem('favorites') || '[]')
+    isFavorited.value = favIds.includes(data.id)
   } catch (err) {
     console.error('Failed to fetch product:', err)
   } finally {
@@ -76,10 +95,15 @@ const handleBuyNow = () => {
             <span class="material-symbols-outlined text-on-surface">arrow_back</span>
           </button>
           <span class="font-headline text-sm font-bold text-on-surface">商品介绍</span>
-          <button class="p-2 active:scale-95 transition-transform relative" @click="router.push('/cart')">
-            <span class="material-symbols-outlined text-on-surface">shopping_bag</span>
-            <div class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></div>
-          </button>
+          <div class="flex items-center gap-1">
+            <button class="p-2 active:scale-95 transition-transform" @click="toggleFavorite">
+              <span class="material-symbols-outlined" :class="isFavorited ? 'text-error' : 'text-on-surface'" :style="isFavorited ? 'font-variation-settings: FILL 1' : ''">favorite</span>
+            </button>
+            <button class="p-2 active:scale-95 transition-transform relative" @click="router.push('/cart')">
+              <span class="material-symbols-outlined text-on-surface">shopping_bag</span>
+              <div class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></div>
+            </button>
+          </div>
         </div>
       </div>
 
