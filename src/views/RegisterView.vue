@@ -5,6 +5,10 @@ import { useAuth } from '../composables/useAuth'
 
 const router = useRouter()
 const { signUp } = useAuth()
+const goBack = () => {
+  if (window.history.length > 1) router.back()
+  else router.push('/')
+}
 
 const email = ref('')
 const password = ref('')
@@ -36,7 +40,7 @@ const handleRegister = async () => {
   <div class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
     <main class="w-full max-w-md mx-auto px-6 py-12 md:py-24 flex flex-col relative h-full min-h-screen">
       <header class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
-        <button @click="router.back()" class="p-2 -ml-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-full group bg-transparent border-none cursor-pointer">
+        <button @click="goBack" class="p-2 -ml-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-full group bg-transparent border-none cursor-pointer">
           <span class="material-symbols-outlined text-2xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
         </button>
       </header>

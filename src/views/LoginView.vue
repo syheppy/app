@@ -4,6 +4,10 @@ import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 
 const router = useRouter()
+const goBack = () => {
+  if (window.history.length > 1) router.back()
+  else router.push('/')
+}
 const { signIn } = useAuth()
 
 const email = ref('')
@@ -40,7 +44,7 @@ const handleLogin = async () => {
     </div>
 
     <header class="w-full absolute top-0 left-0 flex items-center justify-between px-6 py-4 max-w-md mx-auto right-0">
-      <button @click="router.back()" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors">
+      <button @click="goBack" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors">
         <span class="material-symbols-outlined text-2xl">arrow_back</span>
       </button>
     </header>
