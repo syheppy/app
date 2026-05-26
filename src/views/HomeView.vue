@@ -57,7 +57,7 @@ onMounted(async () => {
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <span class="material-symbols-outlined text-outline text-[20px]">search</span>
         </div>
-        <input class="w-full bg-surface-container rounded-lg py-2 pl-10 pr-4 text-sm font-body text-on-surface placeholder:text-outline border-none focus:ring-2 focus:ring-primary-container transition-all outline-none" placeholder="搜索新鲜红薯、紫薯..." type="text" />
+        <input @keyup.enter="$event.target.value.trim() && router.push(`/search?q=${$event.target.value.trim()}`)" class="w-full bg-surface-container rounded-lg py-2 pl-10 pr-4 text-sm font-body text-on-surface placeholder:text-outline border-none focus:ring-2 focus:ring-primary-container transition-all outline-none" placeholder="搜索新鲜红薯、紫薯..." type="text" />
       </div>
     </div>
 

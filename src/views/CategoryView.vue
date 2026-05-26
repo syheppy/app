@@ -73,7 +73,7 @@ const currentProducts = computed(() =>
     <div class="fixed top-0 left-0 w-full z-40 bg-surface px-4 py-3 border-b border-surface-variant shadow-sm shadow-[#c2652a]/5">
       <div class="relative w-full max-w-2xl mx-auto">
         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
-        <input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
+        <input @keyup.enter="$event.target.value.trim() && router.push(`/search?q=${$event.target.value.trim()}`)" class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-full font-body text-sm text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-1 outline-none transition-colors" placeholder="搜索新鲜农品..." type="text" />
       </div>
     </div>
 

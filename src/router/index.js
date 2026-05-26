@@ -40,6 +40,12 @@ const routes = [
     meta: { hideNav: true, hideHeader: true }
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/SearchView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/product/:id?',
     name: 'ProductDetail',
     component: () => import('../views/ProductDetailView.vue'),
