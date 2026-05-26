@@ -47,21 +47,7 @@ onMounted(async () => {
 
 <template>
   <div class="bg-background text-on-background font-body min-h-screen flex flex-col pb-20 md:pb-0">
-    <!-- Top Bar -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md px-4 py-3 md:hidden flex items-center gap-4">
-      <div class="flex items-center gap-1 text-primary-container font-label text-sm whitespace-nowrap active:opacity-70 transition-opacity cursor-pointer">
-        <span class="material-symbols-outlined text-[18px]">location_on</span>
-        <span>北京市</span>
-      </div>
-      <div class="flex-1 relative border-none">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <span class="material-symbols-outlined text-outline text-[20px]">search</span>
-        </div>
-        <input @keyup.enter="$event.target.value.trim() && router.push(`/search?q=${$event.target.value.trim()}`)" class="w-full bg-surface-container rounded-lg py-2 pl-10 pr-4 text-sm font-body text-on-surface placeholder:text-outline border-none focus:ring-2 focus:ring-primary-container transition-all outline-none" placeholder="搜索新鲜红薯、紫薯..." type="text" />
-      </div>
-    </div>
-
-    <main class="flex-1 max-w-lg mx-auto w-full pt-16 flex flex-col gap-6 overflow-x-hidden">
+    <main class="flex-1 max-w-lg mx-auto w-full pt-[56px] flex flex-col gap-6 overflow-x-hidden">
       <!-- Hero Banner -->
       <section class="px-4 relative group overflow-hidden">
         <div class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl" style="scrollbar-width: none;">

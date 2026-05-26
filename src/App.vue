@@ -13,7 +13,7 @@ const showHeader = computed(() => !route.meta.hideHeader)
 <template>
   <div class="min-h-screen bg-background text-on-surface flex flex-col">
     <TopHeader v-if="showHeader" />
-    <div :class="showHeader ? 'pt-16 md:pt-16' : ''">
+    <div :class="showHeader ? 'pt-[48px] md:pt-16' : ''">
       <router-view />
     </div>
     <BottomNavBar v-if="showNav" />
