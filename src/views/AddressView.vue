@@ -104,9 +104,9 @@ const handleSelect = (addr) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2 active:scale-95 transition-transform" @click="router.back()">
           <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -121,7 +121,7 @@ const handleSelect = (addr) => {
       <div v-if="loading" class="text-center py-12 text-on-surface-variant">加载中...</div>
 
       <div v-else-if="addresses.length > 0" class="flex flex-col gap-3 mb-6">
-        <div v-for="addr in addresses" :key="addr.id" class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30 relative cursor-pointer" @click="handleSelect(addr)">
+        <div v-for="addr in addresses" :key="addr.id" class="theme-card rounded-xl p-4 relative cursor-pointer" style="border: 1px solid var(--theme-card-border);" @click="handleSelect(addr)">
           <!-- Default Badge -->
           <div v-if="addr.is_default" class="absolute top-3 right-3 w-6 h-6 rounded bg-primary flex items-center justify-center">
             <span class="material-symbols-outlined text-white" style="font-size: 16px;">check</span>
@@ -161,7 +161,7 @@ const handleSelect = (addr) => {
       <Transition name="drawer">
         <div v-if="showForm" class="fixed inset-0 z-50 flex items-end justify-center" @click.self="showForm = false">
           <div class="absolute inset-0 bg-black/40"></div>
-          <div class="relative bg-surface-container-lowest rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
+          <div class="relative theme-card rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
             <h3 class="font-headline text-lg font-bold text-on-surface mb-4">{{ editingId ? '编辑地址' : '新增地址' }}</h3>
             <div class="flex flex-col gap-3">
               <input v-model="form.name" type="text" placeholder="收货人姓名" class="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-outline-variant/30 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary" />

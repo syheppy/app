@@ -93,9 +93,9 @@ const currentProducts = computed(() => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+  <div class="theme-bg theme-text font-body antialiased min-h-screen flex flex-col">
     <!-- Search Bar -->
-    <div class="fixed top-0 left-0 w-full z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/20 px-3 py-1.5">
+    <div class="fixed top-0 left-0 w-full z-40 backdrop-blur-md border-b px-3 py-1.5" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center gap-2">
         <div class="flex-1 flex items-center bg-surface-container rounded-full h-8 pl-3 pr-1 gap-1">
           <span class="material-symbols-outlined text-outline text-[16px] shrink-0">search</span>
@@ -114,14 +114,14 @@ const currentProducts = computed(() => {
 
     <main v-else class="pt-[44px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
-      <aside class="w-[90px] flex-shrink-0 bg-surface-container-low border-r border-surface-variant sticky top-[44px] h-[calc(100vh-124px)] overflow-y-auto hide-scrollbar">
+      <aside class="w-[90px] flex-shrink-0 theme-card border-r sticky top-[44px] h-[calc(100vh-124px)] overflow-y-auto hide-scrollbar" style="border-color: var(--theme-card-border);">
         <nav class="flex flex-col py-2">
           <button
             v-for="cat in categories"
             :key="cat.id || cat.name"
             @click="activeCategory = cat.name"
             class="relative w-full flex flex-col items-center justify-center transition-colors py-5 border-none cursor-pointer"
-            :class="activeCategory === cat.name ? 'bg-surface text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container bg-transparent'"
+            :class="activeCategory === cat.name ? 'theme-card text-primary font-bold' : 'theme-text-secondary hover:bg-surface-container bg-transparent'"
           >
             <div v-if="activeCategory === cat.name" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full"></div>
             <img v-if="cat.icon_url" class="object-contain mb-2 w-10 h-10" :src="cat.icon_url" :alt="cat.name" />
@@ -132,10 +132,10 @@ const currentProducts = computed(() => {
       </aside>
 
       <!-- Right Content -->
-      <section class="flex-1 bg-background p-4 overflow-y-auto">
+      <section class="flex-1 theme-bg p-4 overflow-y-auto">
         <!-- Category Banner -->
         <div class="w-full h-24 rounded-xl mb-6 bg-surface-container-high overflow-hidden relative shadow-sm">
-          <img v-if="currentCategory?.icon_url" class="w-full h-full object-cover opacity-80" :src="currentCategory.icon_url" />
+          <img v-if="currentCategory?.banner_url || currentCategory?.icon_url" class="w-full h-full object-cover opacity-80" :src="currentCategory.banner_url || currentCategory.icon_url" />
           <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex flex-col justify-center px-6">
             <h2 class="text-white font-headline text-lg font-bold tracking-wide">精选原产地{{ activeCategory }}</h2>
             <p class="text-white/90 font-body text-xs mt-1">大地馈赠，新鲜出土</p>
@@ -149,7 +149,7 @@ const currentProducts = computed(() => {
             <button @click="showSortMenu = !showSortMenu" class="flex bg-transparent border-none items-center gap-1 text-outline font-label text-xs cursor-pointer">
               {{ sortOptions.find(o => o.value === sortMode)?.label || '综合排序' }} <span class="material-symbols-outlined text-[16px]">expand_more</span>
             </button>
-            <div v-if="showSortMenu" class="absolute right-0 top-full mt-1 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden z-30 min-w-[140px]">
+            <div v-if="showSortMenu" class="absolute right-0 top-full mt-1 theme-card rounded-xl shadow-lg overflow-hidden z-30 min-w-[140px]" style="border: 1px solid var(--theme-card-border);">
               <button
                 v-for="opt in sortOptions"
                 :key="opt.value"
@@ -169,7 +169,7 @@ const currentProducts = computed(() => {
             v-for="product in currentProducts"
             :key="product.id"
             :to="`/product/${product.id}`"
-            class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform text-on-background cursor-pointer"
+            class="theme-card rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform theme-text cursor-pointer"
           >
             <div class="relative aspect-square w-full bg-surface-container">
               <img class="w-full h-full object-cover" :src="product.image_url" :alt="product.name" />

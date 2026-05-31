@@ -108,9 +108,9 @@ const handleCancelOrder = async (orderId) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2 active:scale-95 transition-transform" @click="router.push('/profile')">
           <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -137,7 +137,7 @@ const handleCancelOrder = async (orderId) => {
 
     <!-- Empty State -->
     <div v-else-if="filteredOrders.length === 0" class="flex flex-col items-center justify-center pt-32 px-8">
-      <div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-4">
+      <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background: var(--theme-card-border);">
         <span class="material-symbols-outlined text-outline" style="font-size: 40px;">receipt_long</span>
       </div>
       <p class="text-on-surface-variant text-sm">暂无订单</p>
@@ -145,7 +145,7 @@ const handleCancelOrder = async (orderId) => {
 
     <!-- Order List -->
     <div v-else class="max-w-lg mx-auto px-4 py-4 flex flex-col gap-4 pb-8">
-      <div v-for="order in filteredOrders" :key="order.id" class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+      <div v-for="order in filteredOrders" :key="order.id" class="theme-card rounded-xl overflow-hidden" style="border: 1px solid var(--theme-card-border);">
         <!-- Order Header -->
         <div class="flex items-center justify-between px-4 py-3 border-b border-outline-variant/20">
           <span class="font-label text-xs text-on-surface-variant">{{ order.order_number }}</span>

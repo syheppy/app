@@ -121,9 +121,9 @@ const handleCancel = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2 active:scale-95 transition-transform" @click="router.replace('/orders')">
           <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -135,7 +135,7 @@ const handleCancel = async () => {
 
     <div class="max-w-lg mx-auto px-4 py-6">
       <!-- 倒计时 -->
-      <div class="bg-surface-container-lowest rounded-xl p-5 mb-6 border border-outline-variant/30 text-center">
+      <div class="theme-card rounded-xl p-5 mb-6 text-center" style="border: 1px solid var(--theme-card-border);">
         <span class="material-symbols-outlined text-primary mb-2" style="font-size: 40px;">schedule</span>
         <p class="font-body text-sm text-on-surface-variant mb-2">请在以下时间前完成支付</p>
         <p class="font-headline text-3xl font-bold" :class="remaining < 300 ? 'text-error' : 'text-primary'">
@@ -145,7 +145,7 @@ const handleCancel = async () => {
       </div>
 
       <!-- 订单金额 -->
-      <div class="bg-surface-container-lowest rounded-xl p-5 mb-6 border border-outline-variant/30">
+      <div class="theme-card rounded-xl p-5 mb-6" style="border: 1px solid var(--theme-card-border);">
         <div class="flex items-center justify-between py-2 border-b border-outline-variant/20">
           <span class="font-body text-sm text-on-surface-variant">订单编号</span>
           <span class="font-body text-sm text-on-surface">{{ orderNo }}</span>

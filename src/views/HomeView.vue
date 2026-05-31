@@ -11,7 +11,43 @@ const { show: showToast } = useToast()
 
 const hotProducts = ref([])
 const recommendProducts = ref([])
+const banners = ref([])
 const loading = ref(true)
+
+// Banner carousel
+const bannerTrack = ref(null)
+const activeSlide = ref(0)
+let autoplayTimer = null
+
+function startAutoplay() {
+  stopAutoplay()
+  autoplayTimer = setInterval(() => {
+    const total = banners.value.length || 1
+    activeSlide.value = (activeSlide.value + 1) % total
+    scrollToSlide(activeSlide.value)
+  }, 4000)
+}
+
+function stopAutoplay() {
+  if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null }
+}
+
+function scrollToSlide(index) {
+  if (!bannerTrack.value) return
+  const width = bannerTrack.value.offsetWidth
+  bannerTrack.value.scrollTo({ left: width * index, behavior: 'smooth' })
+}
+
+function onBannerScroll() {
+  if (!bannerTrack.value) return
+  const width = bannerTrack.value.offsetWidth
+  activeSlide.value = Math.round(bannerTrack.value.scrollLeft / width)
+}
+
+function onBannerTouch() {
+  stopAutoplay()
+  setTimeout(startAutoplay, 8000)
+}
 
 const handleAddToCart = (product) => {
   addItem(product)
@@ -20,23 +56,26 @@ const handleAddToCart = (product) => {
 
 onMounted(async () => {
   try {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('status', true)
+    const [productsRes, bannersRes] = await Promise.all([
+      supabase.from('products').select('*').eq('status', true),
+      supabase.from('banners').select('*').eq('is_active', true).order('sort_order'),
+    ])
 
-    if (error) throw error
+    if (productsRes.error) throw productsRes.error
 
-    const mapped = data.map(p => ({
+    const mapped = productsRes.data.map(p => ({
       ...p,
       image: p.image_url,
       image_url: p.image_url
     }))
 
-    hotProducts.value = mapped.filter(p => p.is_hot).slice(0, 4)
-    if (hotProducts.value.length === 0) hotProducts.value = mapped.slice(0, 4)
-    recommendProducts.value = mapped.filter(p => p.is_recommended).slice(0, 6)
-    if (recommendProducts.value.length === 0) recommendProducts.value = mapped.slice(4, 10)
+    hotProducts.value = mapped.filter(p => p.is_hot)
+    recommendProducts.value = mapped.filter(p => p.is_recommended)
+
+    if (!bannersRes.error && bannersRes.data?.length > 0) {
+      banners.value = bannersRes.data
+      startAutoplay()
+    }
   } catch (err) {
     console.error('Failed to fetch products:', err)
   } finally {
@@ -46,12 +85,34 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body min-h-screen flex flex-col pb-20 md:pb-0">
+  <div class="theme-bg theme-text font-body min-h-screen flex flex-col pb-20 md:pb-0">
     <main class="flex-1 max-w-lg mx-auto w-full pt-[44px] flex flex-col gap-6 overflow-x-hidden">
       <!-- Hero Banner -->
       <section class="px-4 relative group overflow-hidden">
-        <div class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl" style="scrollbar-width: none;">
-          <div class="flex-none w-full snap-center relative h-[200px] overflow-hidden">
+        <div
+          ref="bannerTrack"
+          class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl"
+          style="scrollbar-width: none;"
+          @scroll="onBannerScroll"
+          @touchstart="onBannerTouch"
+          @mouseenter="stopAutoplay"
+          @mouseleave="startAutoplay"
+        >
+          <!-- 数据库横幅 -->
+          <div
+            v-for="banner in banners"
+            :key="banner.id"
+            class="flex-none w-full snap-center relative h-[200px] overflow-hidden"
+          >
+            <img :alt="banner.title" class="absolute inset-0 w-full h-full object-cover" :src="banner.image_url" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6">
+              <span v-if="banner.tag" class="inline-block bg-primary-container text-on-primary font-label text-[10px] px-2 py-1 rounded w-max mb-2">{{ banner.tag }}</span>
+              <h2 class="font-display text-2xl text-white mb-1 font-bold">{{ banner.title }}</h2>
+              <p class="font-body text-sm text-surface-container-low opacity-90">{{ banner.subtitle }}</p>
+            </div>
+          </div>
+          <!-- 默认横幅（无数据库数据时显示） -->
+          <div v-if="banners.length === 0" class="flex-none w-full snap-center relative h-[200px] overflow-hidden">
             <img alt="Hero Banner" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugom4b42mVeWgxkrN4CP7T8-AQdnScXdtRZZ1bqzk5KuNFnyj_oz4l5kG20JMMZeAwO9DRhsBe3K3kEslrQPh27zUsnZ72K2ebSJcCtHNZr0rm1eoQYmXMmffoD7GnpqK5OkQIr77h_jAKcf_2SzblJYZe7l0LSELmkqzvZjXJgTGS8oKNp2-L1CIAxXZqdnQzwim4i2SGslgI7htmlzQTvOV-bWp4h3G1RaJn73hIH8qiZfhZwU_0eUTTPffkSJt2SmSUCIiTym3c" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6">
               <span class="inline-block bg-primary-container text-on-primary font-label text-[10px] px-2 py-1 rounded w-max mb-2">新季丰收</span>
@@ -59,6 +120,16 @@ onMounted(async () => {
               <p class="font-body text-sm text-surface-container-low opacity-90">从田间直达餐桌，锁住每一份自然的甜蜜</p>
             </div>
           </div>
+        </div>
+        <!-- 分页指示器 -->
+        <div v-if="banners.length > 1" class="flex justify-center gap-1.5 mt-3">
+          <button
+            v-for="(_, i) in banners"
+            :key="i"
+            @click="activeSlide = i; scrollToSlide(i); onBannerTouch()"
+            class="w-2 h-2 rounded-full transition-all duration-300 border-none cursor-pointer"
+            :class="i === activeSlide ? 'bg-primary-container w-5' : 'bg-outline/30'"
+          ></button>
         </div>
       </section>
 
@@ -97,12 +168,12 @@ onMounted(async () => {
 
           <div class="grid grid-cols-2 gap-4">
             <!-- TOP 1 Large Card -->
-            <router-link v-if="hotProducts[0]" :to="`/product/${hotProducts[0].id}`" class="col-span-2 relative rounded-2xl overflow-hidden bg-surface shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant group cursor-pointer">
+            <router-link v-if="hotProducts[0]" :to="`/product/${hotProducts[0].id}`" class="col-span-2 relative rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant group cursor-pointer">
               <div class="absolute top-3 left-3 z-10 bg-error text-on-error font-label text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider">TOP 1</div>
               <div class="block w-full h-[200px]">
                 <img :alt="hotProducts[0].name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" :src="hotProducts[0].image_url" />
               </div>
-              <div class="p-4 bg-surface relative z-20">
+              <div class="p-4 theme-card relative z-20">
                 <h4 class="font-headline text-lg font-bold text-on-surface mb-1">{{ hotProducts[0].name }}</h4>
                 <p class="font-body text-sm text-on-surface-variant line-clamp-1 mb-2">{{ hotProducts[0].description }}</p>
                 <div class="flex items-center justify-between mt-1">
@@ -119,7 +190,7 @@ onMounted(async () => {
             </router-link>
 
             <!-- Smaller Cards -->
-            <router-link v-for="product in hotProducts.slice(1, 3)" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden bg-surface shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
+            <router-link v-for="product in hotProducts.slice(1, 3)" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
               <img :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" :src="product.image_url" />
               <div class="p-3 flex flex-col flex-1 justify-between">
                 <div>
@@ -148,7 +219,7 @@ onMounted(async () => {
             </h3>
           </div>
           <div class="grid grid-cols-2 gap-4 pb-6">
-            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden bg-surface shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
+            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
               <img :src="product.image_url" :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
               <div class="p-3">
                 <h4 class="font-body text-sm font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>

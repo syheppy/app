@@ -11,7 +11,7 @@ const showHeader = computed(() => !route.meta.hideHeader)
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface flex flex-col">
+  <div class="min-h-screen theme-bg theme-text flex flex-col">
     <TopHeader v-if="showHeader" />
     <div :class="showHeader ? 'pt-[44px] md:pt-16' : ''">
       <router-view />

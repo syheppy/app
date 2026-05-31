@@ -74,7 +74,7 @@ const handleBuyNow = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
       <div class="text-on-surface-variant">加载中...</div>
@@ -89,7 +89,7 @@ const handleBuyNow = () => {
 
     <template v-else>
       <!-- Top Bar -->
-      <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md">
+      <div class="sticky top-0 z-40 backdrop-blur-md" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent);">
         <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
           <button class="p-2 active:scale-95 transition-transform" @click="router.back()">
             <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -173,7 +173,7 @@ const handleBuyNow = () => {
       </div>
 
       <!-- Bottom Action Bar -->
-      <div class="fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 px-4 py-3 pb-safe">
+      <div class="fixed bottom-0 left-0 w-full z-40 backdrop-blur-md border-t px-4 py-3 pb-safe" style="background: color-mix(in srgb, var(--theme-card) 95%, transparent); border-color: var(--theme-card-border);">
         <div class="max-w-lg mx-auto flex gap-3">
           <button class="flex-1 py-3 rounded-xl border-2 border-primary text-primary font-bold active:scale-95 transition-transform" @click="handleAddToCart">
             加入购物车
@@ -189,7 +189,7 @@ const handleBuyNow = () => {
         <Transition name="drawer">
           <div v-if="drawerOpen" class="fixed inset-0 z-50 flex items-end justify-center" @click.self="drawerOpen = false">
             <div class="absolute inset-0 bg-black/40"></div>
-            <div class="relative bg-surface-container-lowest rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
+            <div class="relative theme-card rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
               <!-- Close -->
               <button @click="drawerOpen = false" class="absolute top-4 right-4 text-on-surface-variant">
                 <span class="material-symbols-outlined">close</span>
@@ -226,11 +226,11 @@ const handleBuyNow = () => {
               <div class="mb-6">
                 <p class="font-label text-sm text-on-surface-variant mb-3">数量</p>
                 <div class="flex items-center gap-4">
-                  <button @click="quantity > 1 && quantity--" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border-none">
+                  <button @click="quantity > 1 && quantity--" class="w-10 h-10 rounded-full flex items-center justify-center border-none" style="background: var(--theme-card-border);">
                     <span class="material-symbols-outlined text-on-surface">remove</span>
                   </button>
                   <span class="font-headline text-lg font-bold text-on-surface w-8 text-center">{{ quantity }}</span>
-                  <button @click="quantity++" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border-none">
+                  <button @click="quantity++" class="w-10 h-10 rounded-full flex items-center justify-center border-none" style="background: var(--theme-card-border);">
                     <span class="material-symbols-outlined text-on-surface">add</span>
                   </button>
                 </div>

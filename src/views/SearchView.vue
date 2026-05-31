@@ -57,9 +57,9 @@ watch(() => route.query.q, (newQ) => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body min-h-screen flex flex-col">
+  <div class="theme-bg theme-text font-body min-h-screen flex flex-col">
     <!-- Search Header -->
-    <div class="fixed top-0 left-0 w-full z-40 bg-surface px-4 py-3 border-b border-surface-variant shadow-sm">
+    <div class="fixed top-0 left-0 w-full z-40 theme-card px-4 py-3 border-b shadow-sm" style="border-color: var(--theme-card-border);">
       <div class="flex items-center gap-3 max-w-lg mx-auto">
         <button @click="goBack" class="w-8 h-8 flex items-center justify-center text-on-surface bg-transparent border-none cursor-pointer">
           <span class="material-symbols-outlined">arrow_back</span>
@@ -96,7 +96,7 @@ watch(() => route.query.q, (newQ) => {
             v-for="product in results"
             :key="product.id"
             :to="`/product/${product.id}`"
-            class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform text-on-background cursor-pointer"
+            class="theme-card rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform theme-text cursor-pointer"
           >
             <div class="relative aspect-square w-full bg-surface-container">
               <img class="w-full h-full object-cover" :src="product.image_url" :alt="product.name" />

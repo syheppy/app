@@ -43,9 +43,9 @@ const handleSave = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2" @click="router.back()"><span class="material-symbols-outlined">arrow_back</span></button>
         <h1 class="font-headline text-base font-bold">个人资料</h1>
@@ -65,7 +65,7 @@ const handleSave = async () => {
       </div>
 
       <!-- Form -->
-      <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+      <div class="theme-card rounded-xl overflow-hidden" style="border: 1px solid var(--theme-card-border);">
         <div class="flex items-center px-4 py-4 border-b border-outline-variant/20">
           <span class="font-body text-sm text-on-surface-variant w-16">昵称</span>
           <input v-model="nickname" class="flex-1 bg-transparent border-none outline-none font-body text-sm text-on-surface placeholder:text-outline" placeholder="请输入昵称" maxlength="20" />

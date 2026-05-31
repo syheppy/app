@@ -17,8 +17,8 @@ const toggle = (faq) => { faq.open = !faq.open }
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+  <div class="min-h-screen theme-bg theme-text">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2" @click="router.back()"><span class="material-symbols-outlined">arrow_back</span></button>
         <h1 class="font-headline text-base font-bold">帮助中心</h1>
@@ -39,7 +39,7 @@ const toggle = (faq) => { faq.open = !faq.open }
       <!-- FAQ -->
       <h3 class="font-headline text-lg font-bold text-on-surface mb-3">常见问题</h3>
       <div class="flex flex-col gap-2">
-        <div v-for="faq in faqs" :key="faq.q" class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div v-for="faq in faqs" :key="faq.q" class="theme-card rounded-xl overflow-hidden" style="border: 1px solid var(--theme-card-border);">
           <button @click="toggle(faq)" class="w-full flex items-center justify-between px-4 py-3 bg-transparent border-none cursor-pointer text-left">
             <span class="font-body text-sm text-on-surface">{{ faq.q }}</span>
             <span class="material-symbols-outlined text-outline text-[20px] transition-transform" :class="faq.open ? 'rotate-180' : ''">expand_more</span>

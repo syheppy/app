@@ -37,7 +37,7 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+  <div class="theme-bg theme-text min-h-screen flex flex-col items-center justify-center font-body antialiased">
     <main class="w-full max-w-md mx-auto px-6 py-12 md:py-24 flex flex-col relative h-full min-h-screen">
       <header class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
         <button @click="goBack" class="p-2 -ml-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-full group bg-transparent border-none cursor-pointer">
@@ -57,7 +57,7 @@ const handleRegister = async () => {
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <span class="material-symbols-outlined text-on-surface-variant text-lg">mail</span>
             </div>
-            <input v-model="email" id="reg-email" type="email" placeholder="请输入邮箱" class="block w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" required />
+            <input v-model="email" id="reg-email" type="email" placeholder="请输入邮箱" class="block w-full pl-12 pr-4 py-4 theme-card border rounded-lg theme-text placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" style="border-color: var(--theme-card-border);" required />
           </div>
 
           <div class="relative">
@@ -65,7 +65,7 @@ const handleRegister = async () => {
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <span class="material-symbols-outlined text-on-surface-variant text-lg">lock</span>
             </div>
-            <input v-model="password" id="reg-password" :type="showPassword ? 'text' : 'password'" placeholder="请设置登录密码（至少6位）" class="block w-full pl-12 pr-12 py-4 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" required minlength="6" autoComplete="new-password" />
+            <input v-model="password" id="reg-password" :type="showPassword ? 'text' : 'password'" placeholder="请设置登录密码（至少6位）" class="block w-full pl-12 pr-12 py-4 theme-card border rounded-lg theme-text placeholder:text-on-surface-variant/70 focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-200 text-base outline-none" style="border-color: var(--theme-card-border);" required minlength="6" autoComplete="new-password" />
             <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant hover:text-on-surface outline-none cursor-pointer bg-transparent border-none">
               <span class="material-symbols-outlined text-lg">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
             </button>
@@ -73,7 +73,7 @@ const handleRegister = async () => {
 
           <div class="flex items-start mt-6">
             <div class="flex items-center h-5">
-              <input v-model="agreed" type="checkbox" id="terms" class="h-4 w-4 text-primary bg-surface-container-lowest border-outline-variant/60 rounded focus:ring-primary focus:ring-2 accent-[#c2652a] cursor-pointer mt-0.5" required />
+              <input v-model="agreed" type="checkbox" id="terms" class="h-4 w-4 text-primary theme-card border-outline-variant/60 rounded focus:ring-primary focus:ring-2 accent-[#c2652a] cursor-pointer mt-0.5" required />
             </div>
             <div class="ml-3 text-sm">
               <label for="terms" class="font-medium text-on-surface-variant cursor-pointer">

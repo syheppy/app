@@ -102,9 +102,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2 active:scale-95 transition-transform" @click="router.back()">
           <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -137,7 +137,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Consignee Info -->
-      <div class="bg-surface-container-lowest mx-4 mt-4 rounded-xl border border-outline-variant/30 p-4">
+      <div class="theme-card mx-4 mt-4 rounded-xl p-4" style="border: 1px solid var(--theme-card-border);">
         <div class="flex items-start gap-3">
           <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
           <div class="flex-1">
@@ -151,7 +151,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Order Items -->
-      <div class="bg-surface-container-lowest mx-4 mt-4 rounded-xl border border-outline-variant/30 overflow-hidden">
+      <div class="theme-card mx-4 mt-4 rounded-xl overflow-hidden" style="border: 1px solid var(--theme-card-border);">
         <div class="px-4 py-3 border-b border-outline-variant/20">
           <h3 class="font-label text-sm font-medium text-on-surface">商品信息</h3>
         </div>
@@ -168,7 +168,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Order Info -->
-      <div class="bg-surface-container-lowest mx-4 mt-4 rounded-xl border border-outline-variant/30 p-4">
+      <div class="theme-card mx-4 mt-4 rounded-xl p-4" style="border: 1px solid var(--theme-card-border);">
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <span class="font-body text-sm text-on-surface-variant">订单编号</span>

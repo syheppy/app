@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body min-h-screen antialiased flex flex-col items-center justify-between relative overflow-hidden py-12">
+  <div class="theme-bg theme-text font-body min-h-screen antialiased flex flex-col items-center justify-between relative overflow-hidden py-12">
     <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-fixed opacity-30 blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-secondary-fixed opacity-40 blur-3xl pointer-events-none"></div>
 
@@ -23,7 +23,7 @@ onMounted(() => {
       <div class="flex flex-col items-center">
         <div class="w-32 h-32 md:w-40 md:h-40 mb-12 relative drop-shadow-sm splash-logo">
           <div class="w-full h-full">
-            <img alt="薯鲜生 Official Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmxWD60jOLcjmvieHx36DkEistLZ0vwfJ6mmTVLzeHbv1HlbwuzaVfdlr8Z9WoO_fC4-t3iRb6-1nGevBt_bEja0bVWulpzP_zDUSpeeem4cpyg7ngXpwHe6_c_WVka7gmn0WQkeuVZJ60rC-hmxMImt4vDE2Yyt-g77Nsoo3XVCwerX6xRg1wqWpf6fEVIwrSkbrJrNxrAlebpIPR7A6YJIxqPfd_Isg5UmsMbreOU3VQy90VHTgfvMtFTBVtBt41tC_Loe5hq5qG" />
+            <img alt="薯鲜生 Official Logo" class="w-full h-full object-contain" src="/logo.png" />
           </div>
         </div>
         <h1 class="font-headline text-headline-md font-bold text-primary tracking-tight mb-4 sr-only">薯鲜生</h1>

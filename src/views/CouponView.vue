@@ -54,14 +54,14 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
 </script>
 
 <template>
-  <div class="min-h-screen font-body" style="background: #FDF5ED;">
+  <div class="min-h-screen font-body theme-bg">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 80%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2" @click="router.back()">
-          <span class="material-symbols-outlined text-on-surface">arrow_back</span>
+          <span class="material-symbols-outlined theme-text">arrow_back</span>
         </button>
-        <h1 class="font-headline text-lg font-bold text-on-surface">我的优惠券</h1>
+        <h1 class="font-headline text-lg font-bold theme-text">我的优惠券</h1>
         <div class="w-10"></div>
       </div>
     </div>
@@ -87,7 +87,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
           <span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
         </div>
         <div>
-          <h2 class="font-headline text-lg font-bold text-on-surface">专属礼遇</h2>
+          <h2 class="font-headline text-lg font-bold theme-text">专属礼遇</h2>
           <p class="text-xs text-on-surface-variant">您有 <span class="text-primary font-bold">{{ availableCount }}</span> 张可用优惠券</p>
         </div>
       </div>
@@ -99,7 +99,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
 
     <!-- Coupon List -->
     <div class="px-6 space-y-4 max-w-lg mx-auto pb-8">
-      <div v-for="coupon in filteredCoupons" :key="coupon.id" class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex">
+      <div v-for="coupon in filteredCoupons" :key="coupon.id" class="theme-card rounded-xl shadow-sm overflow-hidden flex">
         <!-- Left: Value -->
         <div class="w-1/3 p-5 flex flex-col items-center justify-center border-r border-dashed border-outline-variant/60">
           <div class="flex items-baseline text-primary">
@@ -118,7 +118,7 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
         <div class="flex-1 p-5 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start">
-              <h3 class="font-bold text-on-surface text-base">{{ coupon.title }}</h3>
+              <h3 class="font-bold text-base theme-text">{{ coupon.title }}</h3>
               <span v-if="coupon.tag" class="bg-tertiary/10 text-tertiary text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ml-2">{{ coupon.tag }}</span>
             </div>
             <p class="text-[10px] text-on-surface-variant mt-1">{{ coupon.description }}</p>

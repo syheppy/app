@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useLocation } from '../../composables/useLocation'
 
 const router = useRouter()
+const { city, locate } = useLocation()
 
-defineProps({
-  city: { type: String, default: '北京市' }
-})
+onMounted(locate)
 
 const keyword = ref('')
 const doSearch = () => {
@@ -28,7 +28,7 @@ const doSearch = () => {
   </header>
 
   <!-- Mobile Header: location + capsule search bar -->
-  <div class="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-outline-variant/20 px-3 py-1.5 md:hidden">
+  <div class="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b px-3 py-1.5 md:hidden" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
     <div class="flex items-center gap-2">
       <!-- Location -->
       <div class="flex items-center gap-0.5 text-primary-container text-[11px] font-medium whitespace-nowrap cursor-pointer shrink-0 active:opacity-70">

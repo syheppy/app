@@ -60,16 +60,16 @@ onMounted(loadFavorites)
 </script>
 
 <template>
-  <div class="min-h-screen font-body relative pb-24" style="background: #FDF5ED;">
+  <div class="min-h-screen font-body relative pb-24 theme-bg">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 80%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2" @click="router.back()">
-          <span class="material-symbols-outlined text-on-surface">arrow_back</span>
+          <span class="material-symbols-outlined theme-text">arrow_back</span>
         </button>
-        <h1 class="font-headline text-lg font-bold text-on-surface">我的收藏</h1>
+        <h1 class="font-headline text-lg font-bold theme-text">我的收藏</h1>
         <button class="p-2" @click="router.push('/cart')">
-          <span class="material-symbols-outlined text-on-surface">shopping_basket</span>
+          <span class="material-symbols-outlined theme-text">shopping_basket</span>
         </button>
       </div>
     </div>
@@ -84,7 +84,7 @@ onMounted(loadFavorites)
       <div class="mb-6 flex justify-between items-end">
         <div>
           <p class="text-on-surface-variant font-medium text-sm">{{ products.length }} 个商品</p>
-          <h2 class="font-headline text-2xl text-on-surface mt-1 font-bold">您喜爱的地道风味</h2>
+          <h2 class="font-headline text-2xl mt-1 font-bold theme-text">您喜爱的地道风味</h2>
         </div>
         <button class="flex items-center text-sm font-medium text-primary bg-transparent border-none cursor-pointer">
           <span class="material-symbols-outlined mr-1 text-lg">filter_list</span>
@@ -101,7 +101,7 @@ onMounted(loadFavorites)
 
       <!-- Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <article v-for="product in products" :key="product.id" class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm border border-outline-variant/40 flex flex-col">
+        <article v-for="product in products" :key="product.id" class="theme-card rounded-2xl overflow-hidden shadow-sm theme-border flex flex-col" style="border: 1px solid var(--theme-card-border);">
           <div class="relative aspect-square overflow-hidden bg-surface-container cursor-pointer" @click="router.push(`/product/${product.id}`)">
             <img :src="product.image_url" :alt="product.name" class="w-full h-full object-cover" />
             <button @click.stop="toggleFavorite(product)" class="absolute top-3 right-3 p-2 bg-surface/80 backdrop-blur-md rounded-full shadow-sm cursor-pointer border-none" :class="product.isFavorite ? 'text-tertiary' : 'text-on-surface-variant'">
@@ -111,7 +111,7 @@ onMounted(loadFavorites)
           </div>
           <div class="p-4 flex flex-col flex-1">
             <div class="flex justify-between items-start mb-2 cursor-pointer" @click="router.push(`/product/${product.id}`)">
-              <h3 class="font-headline text-lg text-on-surface font-bold">{{ product.name }}</h3>
+              <h3 class="font-headline text-lg font-bold theme-text">{{ product.name }}</h3>
               <span class="font-body text-base font-bold text-primary shrink-0 ml-2">¥{{ product.price }}</span>
             </div>
             <p class="text-on-surface-variant text-xs line-clamp-2 mb-4">{{ product.description }}</p>

@@ -31,7 +31,7 @@ const handleAddToCart = (product) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface">
+  <div class="min-h-screen theme-bg theme-text">
     <!-- Header -->
     <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
       <button class="p-2 active:scale-95 transition-transform" @click="router.push('/')">
@@ -54,7 +54,7 @@ const handleAddToCart = (product) => {
       </div>
 
       <!-- Order Details -->
-      <div class="bg-surface-container-lowest rounded-xl p-5 mb-6 border border-outline-variant/30">
+      <div class="theme-card rounded-xl p-5 mb-6" style="border: 1px solid var(--theme-card-border);">
         <div class="flex items-center justify-between py-2.5 border-b border-outline-variant/20">
           <span class="font-body text-sm text-on-surface-variant">实付金额</span>
           <span class="text-error font-bold text-lg">¥{{ orderInfo.amount }}</span>
@@ -87,7 +87,7 @@ const handleAddToCart = (product) => {
       <section v-if="recommendations.length > 0">
         <h3 class="font-headline text-lg font-bold text-on-surface mb-3">为您推荐</h3>
         <div class="grid grid-cols-2 gap-3">
-          <router-link v-for="product in recommendations" :key="product.id" :to="`/product/${product.id}`" class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm">
+          <router-link v-for="product in recommendations" :key="product.id" :to="`/product/${product.id}`" class="theme-card rounded-xl overflow-hidden shadow-sm" style="border: 1px solid var(--theme-card-border);">
             <img :src="product.image_url" :alt="product.name" class="w-full h-[100px] object-cover" />
             <div class="p-3">
               <h4 class="font-body text-sm font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>

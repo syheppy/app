@@ -14,13 +14,13 @@ const navItems = [
 </script>
 
 <template>
-  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 bg-white/95 backdrop-blur-md rounded-t-2xl border-t border-stone-100 shadow-[0_-4px_16px_rgba(242,140,40,0.06)] md:hidden">
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 backdrop-blur-md rounded-t-2xl border-t theme-card shadow-[0_-4px_16px_rgba(242,140,40,0.06)] md:hidden" style="border-color: var(--theme-card-border);">
     <router-link
       v-for="item in navItems"
       :key="item.path"
       :to="item.path"
       class="flex flex-col items-center justify-center relative transition-colors active:scale-90 duration-200 flex-1 h-full"
-      :class="route.path === item.path ? 'text-primary' : 'text-stone-400 hover:bg-stone-50'"
+      :class="route.path === item.path ? 'text-primary' : 'theme-text-secondary hover:bg-surface-container'"
     >
       <span
         class="material-symbols-outlined"

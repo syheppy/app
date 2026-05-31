@@ -135,9 +135,9 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface pb-24">
+  <div class="min-h-screen theme-bg theme-text pb-24">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-outline-variant/30">
+    <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2 active:scale-95 transition-transform" @click="router.back()">
           <span class="material-symbols-outlined text-on-surface">arrow_back</span>
@@ -157,7 +157,7 @@ const handleSubmit = async () => {
     <template v-else>
       <div class="max-w-lg mx-auto px-4 py-4">
         <!-- Address -->
-        <div class="bg-surface-container-lowest rounded-xl p-4 mb-4 border border-outline-variant/30 shadow-sm flex items-center gap-3 cursor-pointer" @click="router.push('/address')">
+        <div class="theme-card rounded-xl p-4 mb-4 shadow-sm flex items-center gap-3 cursor-pointer" style="border: 1px solid var(--theme-card-border);" @click="router.push('/address')">
           <span class="material-symbols-outlined text-primary text-[24px]">location_on</span>
           <div v-if="selectedAddress" class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-0.5">
@@ -173,7 +173,7 @@ const handleSubmit = async () => {
         </div>
 
         <!-- Products -->
-        <div class="bg-surface-container-lowest rounded-xl p-4 mb-4 border border-outline-variant/30">
+        <div class="theme-card rounded-xl p-4 mb-4" style="border: 1px solid var(--theme-card-border);">
           <div v-for="item in items" :key="item.id" class="flex gap-3 py-3 first:pt-0 last:pb-0 border-b border-outline-variant/20 last:border-none">
             <img :src="item.image" :alt="item.name" class="w-16 h-16 rounded-xl object-cover" />
             <div class="flex-1">
@@ -209,7 +209,7 @@ const handleSubmit = async () => {
         </div>
 
         <!-- Payment Method -->
-        <div class="bg-surface-container-lowest rounded-xl p-4 mb-4 border border-outline-variant/30">
+        <div class="theme-card rounded-xl p-4 mb-4" style="border: 1px solid var(--theme-card-border);">
           <p class="font-label text-sm text-on-surface-variant mb-3">支付方式</p>
           <div class="flex flex-col gap-2">
             <label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer" :class="paymentMethod === 'wechat' ? 'bg-primary/5 border border-primary/20' : 'border border-outline-variant/30'">
@@ -225,7 +225,7 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Bottom Bar -->
-      <div class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 px-4 py-4 pb-safe">
+      <div class="fixed bottom-0 left-0 w-full z-50 backdrop-blur-md border-t px-4 py-4 pb-safe" style="background: color-mix(in srgb, var(--theme-card) 95%, transparent); border-color: var(--theme-card-border);">
         <div class="max-w-lg mx-auto flex items-center justify-between">
           <div>
             <span class="font-label text-xs text-on-surface-variant">合计</span>
@@ -251,7 +251,7 @@ const handleSubmit = async () => {
       <Transition name="drawer">
         <div v-if="showCouponDrawer" class="fixed inset-0 z-50 flex items-end justify-center" @click.self="showCouponDrawer = false">
           <div class="absolute inset-0 bg-black/40"></div>
-          <div class="relative bg-surface-container-lowest rounded-t-2xl w-full max-w-lg p-5 pb-safe z-10 max-h-[70vh] flex flex-col">
+          <div class="relative theme-card rounded-t-2xl w-full max-w-lg p-5 pb-safe z-10 max-h-[70vh] flex flex-col">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-headline text-lg font-bold text-on-surface">选择优惠券</h3>
               <button @click="showCouponDrawer = false" class="text-on-surface-variant bg-transparent border-none cursor-pointer">
@@ -269,7 +269,7 @@ const handleSubmit = async () => {
                 暂无可用优惠券
               </div>
 
-              <div v-for="coupon in availableCoupons" :key="coupon.id" class="bg-white rounded-xl shadow-sm overflow-hidden flex cursor-pointer transition-all" :class="selectedCoupon?.id === coupon.id ? 'ring-2 ring-primary' : ''" @click="selectCoupon(coupon)">
+              <div v-for="coupon in availableCoupons" :key="coupon.id" class="theme-card rounded-xl shadow-sm overflow-hidden flex cursor-pointer transition-all" :class="selectedCoupon?.id === coupon.id ? 'ring-2 ring-primary' : ''" @click="selectCoupon(coupon)">
                 <!-- Left -->
                 <div class="w-24 p-4 flex flex-col items-center justify-center border-r border-dashed border-outline-variant/60 shrink-0">
                   <div class="flex items-baseline text-primary">
