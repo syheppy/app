@@ -135,10 +135,10 @@ const handleBuyNow = () => {
             <p class="font-label text-[10px] text-outline mb-0.5">极致口感</p>
             <p class="font-body text-xs font-bold text-on-surface">{{ product.taste }}</p>
           </div>
-          <div class="bg-surface-container-low rounded-xl p-3 text-center">
+          <div v-if="product.feature" class="bg-surface-container-low rounded-xl p-3 text-center">
             <span class="material-symbols-outlined text-primary text-[20px] mb-1">eco</span>
             <p class="font-label text-[10px] text-outline mb-0.5">产品特色</p>
-            <p class="font-body text-xs font-bold text-on-surface">甜度爆表</p>
+            <p class="font-body text-xs font-bold text-on-surface">{{ product.feature }}</p>
           </div>
         </div>
 
