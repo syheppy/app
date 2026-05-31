@@ -4,10 +4,15 @@ import { useRouter } from 'vue-router'
 import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
+import PopupModal from '../components/PopupModal.vue'
 
 const router = useRouter()
 const { addItem } = useCart()
 const { show: showToast } = useToast()
+
+// 弹窗状态
+const popupVisible = ref(false)
+const currentPopup = ref(null)
 
 const hotProducts = ref([])
 const recommendProducts = ref([])
@@ -54,6 +59,47 @@ const handleAddToCart = (product) => {
   showToast('已加入购物车')
 }
 
+// 检查并显示弹窗
+async function checkAndShowPopup() {
+  try {
+    const { data, error } = await supabase
+      .from('popups')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (error || !data) return
+
+    // 检查显示频率
+    if (data.frequency === 'daily') {
+      const hideDate = localStorage.getItem('popup_hide_date')
+      const today = new Date().toISOString().split('T')[0]
+      if (hideDate === today) return
+    }
+
+    currentPopup.value = data
+    popupVisible.value = true
+  } catch (err) {
+    // 没有弹窗数据，忽略
+  }
+}
+
+function handlePopupClose() {
+  popupVisible.value = false
+}
+
+function handlePopupLink(url) {
+  popupVisible.value = false
+  if (url.startsWith('/')) {
+    router.push(url)
+  } else if (url.startsWith('http')) {
+    window.open(url, '_blank')
+  }
+}
+
 onMounted(async () => {
   try {
     const [productsRes, bannersRes] = await Promise.all([
@@ -81,6 +127,9 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+
+  // 检查弹窗
+  checkAndShowPopup()
 })
 </script>
 
@@ -238,5 +287,13 @@ onMounted(async () => {
         </section>
       </template>
     </main>
+
+    <!-- 弹窗 -->
+    <PopupModal
+      :visible="popupVisible"
+      :popup="currentPopup"
+      @close="handlePopupClose"
+      @link="handlePopupLink"
+    />
   </div>
 </template>
