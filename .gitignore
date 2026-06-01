@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -31,3 +36,6 @@ android/build/
 
 # Template/reference project
 xinyemian/
+
+# Claude Code local settings
+.claude/
