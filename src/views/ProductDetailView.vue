@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
 import { staggerItems, imageFadeIn } from '../utils/animations'
+import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -81,10 +82,8 @@ const handleBuyNow = () => {
 
 <template>
   <div class="font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen" style="background-color: var(--color-background); color: var(--color-on-background);">
-    <!-- Loading -->
-    <div v-if="loading" class="flex items-center justify-center py-20">
-      <div class="text-on-surface-variant">加载中...</div>
-    </div>
+    <!-- Loading with Skeleton -->
+    <SkeletonLoader v-if="loading" type="product" />
 
     <!-- Not Found -->
     <div v-else-if="!product" class="flex flex-col items-center justify-center py-20">

@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
 import { staggerItems } from '../utils/animations'
+import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 import PopupModal from '../components/PopupModal.vue'
 
 const router = useRouter()
@@ -202,10 +203,8 @@ onMounted(async () => {
         </div>
       </section>
 
-      <!-- Loading -->
-      <div v-if="loading" class="flex items-center justify-center py-20">
-        <div class="text-on-surface-variant">加载中...</div>
-      </div>
+      <!-- Loading with Skeleton -->
+      <SkeletonLoader v-if="loading" type="home" />
 
       <template v-else>
         <!-- Hot Sales -->
@@ -224,8 +223,8 @@ onMounted(async () => {
             <!-- TOP 1 Large Card -->
             <router-link v-if="hotProducts[0]" :to="`/product/${hotProducts[0].id}`" class="col-span-2 relative rounded-theme-xl overflow-hidden card group cursor-pointer">
               <div class="absolute top-3 left-3 z-10 tag tag-primary font-bold tracking-wider">TOP 1</div>
-              <div class="block w-full h-[200px]">
-                <img :alt="hotProducts[0].name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" :src="hotProducts[0].image_url" />
+              <div class="block w-full h-[200px] bg-surface-container">
+                <img :alt="hotProducts[0].name" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" :src="hotProducts[0].image_url" loading="lazy" />
               </div>
               <div class="p-theme-4 theme-card relative z-20">
                 <h4 class="text-title-lg font-bold text-on-surface mb-1">{{ hotProducts[0].name }}</h4>
@@ -245,7 +244,7 @@ onMounted(async () => {
 
             <!-- Smaller Cards -->
             <router-link v-for="product in hotProducts.slice(1, 3)" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer">
-              <img :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" :src="product.image_url" />
+              <img :alt="product.name" class="w-full h-[120px] object-cover transition-all duration-500 group-hover:scale-105" :src="product.image_url" loading="lazy" />
               <div class="p-theme-3 flex flex-col flex-1 justify-between">
                 <div>
                   <h4 class="text-body-md font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
@@ -274,7 +273,7 @@ onMounted(async () => {
           </div>
           <div class="grid grid-cols-2 gap-theme-4 pb-6">
             <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer product-card">
-              <img :src="product.image_url" :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img :src="product.image_url" :alt="product.name" class="w-full h-[120px] object-cover transition-all duration-500 group-hover:scale-105" loading="lazy" />
               <div class="p-theme-3">
                 <h4 class="text-body-md font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
                 <div class="flex gap-1 mb-2">

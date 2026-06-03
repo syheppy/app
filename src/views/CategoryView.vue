@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
 import { staggerItems } from '../utils/animations'
+import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 
 const router = useRouter()
 const { addItem } = useCart()
@@ -122,10 +123,8 @@ watch(activeCategory, async () => {
       </div>
     </div>
 
-    <!-- Loading -->
-    <div v-if="loading" class="flex items-center justify-center py-20">
-      <div class="text-on-surface-variant">加载中...</div>
-    </div>
+    <!-- Loading with Skeleton -->
+    <SkeletonLoader v-if="loading" type="list" />
 
     <main v-else class="pt-[110px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
