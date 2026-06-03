@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
+import { staggerItems } from '../utils/animations'
 import PopupModal from '../components/PopupModal.vue'
 
 const router = useRouter()
@@ -126,6 +127,10 @@ onMounted(async () => {
     console.error('Failed to fetch products:', err)
   } finally {
     loading.value = false
+
+    // 列表入场动画
+    await nextTick()
+    staggerItems('.product-card')
   }
 
   // 检查弹窗
@@ -268,7 +273,7 @@ onMounted(async () => {
             </h3>
           </div>
           <div class="grid grid-cols-2 gap-theme-4 pb-6">
-            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer">
+            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer product-card">
               <img :src="product.image_url" :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
               <div class="p-theme-3">
                 <h4 class="text-body-md font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>

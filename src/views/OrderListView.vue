@@ -1,9 +1,10 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useToast } from '../composables/useToast'
 import { supabase } from '../utils/supabase'
+import { staggerItems } from '../utils/animations'
 
 const router = useRouter()
 const route = useRoute()
@@ -68,6 +69,10 @@ onMounted(async () => {
     showToast('加载订单失败')
   } finally {
     loading.value = false
+
+    // 入场动画
+    await nextTick()
+    staggerItems('.order-card')
   }
 })
 
@@ -133,7 +138,7 @@ const viewOrderDetail = (orderId) => {
         <div
           v-for="order in filteredOrders"
           :key="order.id"
-          class="bg-surface-container-low rounded-xl p-5 shadow-[0_2px_16px_rgba(58,48,42,0.04)] border border-outline-variant/30 cursor-pointer"
+          class="bg-surface-container-low rounded-xl p-5 shadow-[0_2px_16px_rgba(58,48,42,0.04)] border border-outline-variant/30 cursor-pointer order-card"
           @click="viewOrderDetail(order.id)"
         >
           <!-- Order Header -->

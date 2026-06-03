@@ -1,10 +1,11 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCart } from '../composables/useCart'
 import { useAuth } from '../composables/useAuth'
 import { useToast } from '../composables/useToast'
 import { supabase } from '../utils/supabase'
+import { staggerItems } from '../utils/animations'
 
 const router = useRouter()
 const { items, removeItem, updateQuantity, totalCount, totalPrice, clearCart } = useCart()
@@ -75,6 +76,10 @@ onMounted(async () => {
     .eq('is_recommended', true)
     .limit(4)
   if (data) recommendations.value = data
+
+  // 入场动画
+  await nextTick()
+  staggerItems('.cart-item')
 })
 </script>
 
@@ -146,7 +151,7 @@ onMounted(async () => {
 
           <!-- Items -->
           <div class="space-y-4 px-4 pt-2 pb-4">
-            <div v-for="item in items" :key="item.id" class="flex gap-3 relative">
+            <div v-for="item in items" :key="item.id" class="flex gap-3 relative cart-item">
               <button
                 :class="['w-5 h-5 mt-[32px] rounded-full flex items-center justify-center shrink-0 transition-colors', (isEditing ? selectedItems.has(item.id) : true) ? 'bg-primary' : 'border border-outline-variant']"
                 @click="isEditing ? toggleSelect(item.id) : null"

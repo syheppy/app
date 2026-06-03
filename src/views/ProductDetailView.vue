@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
+import { staggerItems, imageFadeIn } from '../utils/animations'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,6 +16,7 @@ const loading = ref(true)
 const selectedSpec = ref(null)
 const drawerOpen = ref(false)
 const isFavorited = ref(false)
+const heroImage = ref(null)
 
 const toggleFavorite = () => {
   if (!product.value) return
@@ -51,6 +53,13 @@ onMounted(async () => {
     console.error('Failed to fetch product:', err)
   } finally {
     loading.value = false
+
+    // 入场动画
+    await nextTick()
+    if (heroImage.value) {
+      imageFadeIn(heroImage.value)
+    }
+    staggerItems('.detail-section', { duration: 0.5, stagger: 0.1 })
   }
 })
 
@@ -104,9 +113,10 @@ const handleBuyNow = () => {
 
       <main class="pb-32">
         <!-- Hero Section -->
-        <div class="px-4 pt-6 pb-8 md:px-8 md:pt-10 max-w-5xl mx-auto">
+        <div class="px-4 pt-6 pb-8 md:px-8 md:pt-10 max-w-5xl mx-auto detail-section">
           <div class="aspect-[4/3] md:aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-[0_2px_24px_rgba(58,48,42,0.06)] bg-surface-container relative group">
             <img
+              ref="heroImage"
               :alt="product.name"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               :src="product.image_url"
@@ -116,7 +126,7 @@ const handleBuyNow = () => {
         </div>
 
         <!-- Product Header Info -->
-        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-2">
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-2 product-card">
           <div class="flex flex-col gap-4">
             <h1 class="font-display text-3xl md:text-5xl text-on-surface font-bold leading-tight tracking-tight">{{ product.name }}</h1>
             <div class="flex items-end justify-between border-b border-outline-variant/40 pb-6 mt-2">
@@ -130,7 +140,7 @@ const handleBuyNow = () => {
         </section>
 
         <!-- Key Details Grid -->
-        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-8">
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-8 product-card">
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div v-if="product.origin" class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/40 flex flex-col gap-2 shadow-[0_2px_12px_rgba(58,48,42,0.02)]">
               <div class="flex items-center gap-2 text-tertiary/80 mb-1">
@@ -159,7 +169,7 @@ const handleBuyNow = () => {
         </section>
 
         <!-- Product Description -->
-        <section v-if="product.description" class="px-6 md:px-12 max-w-3xl mx-auto mt-16 md:mt-24">
+        <section v-if="product.description" class="px-6 md:px-12 max-w-3xl mx-auto mt-16 md:mt-24 product-card">
           <div class="text-center mb-10">
             <span class="text-xs text-secondary font-label uppercase tracking-widest block mb-2">The Origin</span>
             <h2 class="font-display text-3xl md:text-4xl text-on-surface italic">自然源味，静待成熟</h2>
@@ -172,7 +182,7 @@ const handleBuyNow = () => {
         </section>
 
         <!-- Specs Section -->
-        <section v-if="product.specs && product.specs.length > 0" class="px-6 md:px-12 max-w-4xl mx-auto mt-16">
+        <section v-if="product.specs && product.specs.length > 0" class="px-6 md:px-12 max-w-4xl mx-auto mt-16 product-card">
           <h3 class="font-display text-2xl text-on-surface mb-4">规格选择</h3>
           <div class="flex flex-wrap gap-2">
             <button
@@ -190,7 +200,7 @@ const handleBuyNow = () => {
         </section>
 
         <!-- User Reviews Section -->
-        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-20 mb-10">
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-20 mb-10 product-card">
           <div class="bg-surface-container-low p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between border border-outline-variant/30 gap-6 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-primary-fixed/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 

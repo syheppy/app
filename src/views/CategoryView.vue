@@ -1,9 +1,10 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
+import { staggerItems } from '../utils/animations'
 
 const router = useRouter()
 const { addItem } = useCart()
@@ -89,6 +90,12 @@ const currentProducts = computed(() => {
     default:
       return list
   }
+})
+
+// 分类切换时的动画
+watch(activeCategory, async () => {
+  await nextTick()
+  staggerItems('.product-card', { duration: 0.4, stagger: 0.05 })
 })
 </script>
 
@@ -178,7 +185,7 @@ const currentProducts = computed(() => {
             v-for="product in currentProducts"
             :key="product.id"
             :to="`/product/${product.id}`"
-            class="theme-card rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform theme-text cursor-pointer"
+            class="theme-card rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform theme-text cursor-pointer product-card"
           >
             <div class="relative aspect-square w-full bg-surface-container">
               <img class="w-full h-full object-cover" :src="product.image_url" :alt="product.name" />
