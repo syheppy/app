@@ -37,7 +37,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text min-h-screen flex flex-col items-center justify-center antialiased relative overflow-hidden">
+  <div class="min-h-screen flex flex-col items-center justify-center antialiased relative overflow-hidden" style="background-color: var(--color-background); color: var(--color-on-background);">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
       <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
       <div class="absolute bottom-20 -left-20 w-72 h-72 bg-tertiary/5 rounded-full blur-3xl"></div>

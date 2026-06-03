@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text font-body min-h-screen antialiased flex flex-col items-center justify-between relative overflow-hidden py-12">
+  <div class="font-body min-h-screen antialiased flex flex-col items-center justify-between relative overflow-hidden py-12" style="background-color: var(--color-background); color: var(--color-on-background);">
     <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-fixed opacity-30 blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-secondary-fixed opacity-40 blur-3xl pointer-events-none"></div>
 

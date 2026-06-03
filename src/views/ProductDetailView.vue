@@ -71,7 +71,7 @@ const handleBuyNow = () => {
 </script>
 
 <template>
-  <div class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+  <div class="font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen" style="background-color: var(--color-background); color: var(--color-on-background);">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
       <div class="text-on-surface-variant">加载中...</div>

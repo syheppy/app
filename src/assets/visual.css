@@ -221,7 +221,7 @@
    渐变背景
    ============================================ */
 .gradient-header {
-  background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));
+  background: linear-gradient(to bottom, var(--color-background), color-mix(in srgb, var(--color-background) 80%, transparent));
 }
 
 .gradient-card {

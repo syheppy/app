@@ -81,7 +81,7 @@ const viewOrderDetail = (orderId) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-on-surface font-body pb-20">
+  <div class="min-h-screen font-body pb-20" style="background-color: var(--color-background); color: var(--color-on-surface);">
     <!-- Header with Gradient -->
     <div class="fixed top-0 left-0 w-full z-40 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));">
       <!-- Top Row: Back + Title + Search -->

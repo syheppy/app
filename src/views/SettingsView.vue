@@ -55,7 +55,7 @@ const handleItemClick = (item) => {
 </script>
 
 <template>
-  <div class="min-h-screen font-body theme-bg">
+  <div class="min-h-screen font-body" style="background-color: var(--color-background);">
     <!-- Header -->
     <div class="sticky top-0 z-40 backdrop-blur-md border-b theme-border" style="background: color-mix(in srgb, var(--theme-bg) 80%, transparent);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">

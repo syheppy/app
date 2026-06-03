@@ -28,7 +28,7 @@ const doSearch = () => {
   </header>
 
   <!-- Mobile Header: Gradient + Shadow Style -->
-  <div class="fixed top-0 left-0 w-full z-50 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));">
+  <div class="fixed top-0 left-0 w-full z-50 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--color-background), color-mix(in srgb, var(--color-background) 80%, transparent));">
     <!-- Top Row: Location + Notification -->
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center gap-1.5 text-primary text-[12px] font-semibold cursor-pointer active:opacity-70 transition-opacity">
@@ -43,7 +43,7 @@ const doSearch = () => {
     </div>
 
     <!-- Search Bar with Shadow -->
-    <div class="flex items-center bg-surface rounded-full h-11 pl-4 pr-1.5 gap-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+    <div class="flex items-center rounded-full h-11 pl-4 pr-1.5 gap-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]" style="background-color: var(--color-surface-container);">
       <span class="material-symbols-outlined text-outline text-[18px] shrink-0">search</span>
       <input
         v-model="keyword"

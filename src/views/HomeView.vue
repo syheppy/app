@@ -134,7 +134,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text font-body min-h-screen flex flex-col pb-20 md:pb-0">
+  <div class="font-body min-h-screen flex flex-col pb-20 md:pb-0" style="background-color: var(--color-background); color: var(--color-on-background);">
     <main class="flex-1 max-w-lg mx-auto w-full pt-[44px] flex flex-col gap-6 overflow-x-hidden">
       <!-- Hero Banner -->
       <section class="px-4 relative group overflow-hidden">

@@ -14,7 +14,7 @@ const navItems = [
 </script>
 
 <template>
-  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 backdrop-blur-md rounded-t-2xl border-t theme-card shadow-[0_-4px_16px_rgba(242,140,40,0.06)] md:hidden" style="border-color: var(--theme-card-border);">
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 backdrop-blur-md rounded-t-2xl border-t shadow-[0_-4px_16px_rgba(242,140,40,0.06)] md:hidden" style="background-color: var(--color-surface); border-color: var(--color-outline-variant);">
     <router-link
       v-for="item in navItems"
       :key="item.path"

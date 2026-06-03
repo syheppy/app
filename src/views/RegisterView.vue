@@ -37,7 +37,7 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text min-h-screen flex flex-col items-center justify-center font-body antialiased">
+  <div class="min-h-screen flex flex-col items-center justify-center font-body antialiased" style="background-color: var(--color-background); color: var(--color-on-background);">
     <main class="w-full max-w-md mx-auto px-6 py-12 md:py-24 flex flex-col relative h-full min-h-screen">
       <header class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
         <button @click="goBack" class="p-2 -ml-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-full group bg-transparent border-none cursor-pointer">

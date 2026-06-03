@@ -31,7 +31,7 @@ const handleAddToCart = (product) => {
 </script>
 
 <template>
-  <div class="min-h-screen theme-bg theme-text">
+  <div class="min-h-screen" style="background-color: var(--color-background); color: var(--color-on-background);">
     <!-- Header -->
     <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
       <button class="p-2 active:scale-95 transition-transform" @click="router.push('/')">

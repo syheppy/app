@@ -93,7 +93,7 @@ const currentProducts = computed(() => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text font-body antialiased min-h-screen flex flex-col">
+  <div class="font-body antialiased min-h-screen flex flex-col" style="background-color: var(--color-background); color: var(--color-on-background);">
     <!-- Header with Gradient + Search Bar -->
     <div class="fixed top-0 left-0 w-full z-40 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));">
       <!-- Top Row: Title + Notification -->
@@ -122,14 +122,15 @@ const currentProducts = computed(() => {
 
     <main v-else class="pt-[110px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
-      <aside class="w-[90px] flex-shrink-0 theme-card border-r sticky top-[110px] h-[calc(100vh-190px)] overflow-y-auto hide-scrollbar" style="border-color: var(--theme-card-border);">
+      <aside class="w-[90px] flex-shrink-0 border-r sticky top-[110px] h-[calc(100vh-190px)] overflow-y-auto hide-scrollbar" style="background-color: var(--color-surface); border-color: var(--color-outline-variant);">
         <nav class="flex flex-col py-2">
           <button
             v-for="cat in categories"
             :key="cat.id || cat.name"
             @click="activeCategory = cat.name"
             class="relative w-full flex flex-col items-center justify-center transition-colors py-5 border-none cursor-pointer"
-            :class="activeCategory === cat.name ? 'theme-card text-primary font-bold' : 'theme-text-secondary hover:bg-surface-container bg-transparent'"
+            :class="activeCategory === cat.name ? 'text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container bg-transparent'"
+            :style="activeCategory === cat.name ? 'background-color: var(--color-surface);' : ''"
           >
             <div v-if="activeCategory === cat.name" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full"></div>
             <img v-if="cat.icon_url" class="object-contain mb-2 w-10 h-10" :src="cat.icon_url" :alt="cat.name" />

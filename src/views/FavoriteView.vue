@@ -60,7 +60,7 @@ onMounted(loadFavorites)
 </script>
 
 <template>
-  <div class="min-h-screen font-body relative pb-24 theme-bg">
+  <div class="min-h-screen font-body relative pb-24" style="background-color: var(--color-background);">
     <!-- Header -->
     <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 80%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">

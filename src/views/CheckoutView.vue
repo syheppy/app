@@ -137,7 +137,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen pb-24 bg-background text-on-surface selection:bg-primary-fixed selection:text-primary">
+  <div class="min-h-screen pb-24 selection:bg-primary-fixed selection:text-primary" style="background-color: var(--color-background); color: var(--color-on-surface);">
     <!-- Top Bar -->
     <header class="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 shadow-sm">
       <div class="flex items-center justify-between px-6 py-4 max-w-3xl mx-auto h-16">

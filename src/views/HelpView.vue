@@ -17,7 +17,7 @@ const toggle = (faq) => { faq.open = !faq.open }
 </script>
 
 <template>
-  <div class="min-h-screen theme-bg theme-text">
+  <div class="min-h-screen" style="background-color: var(--color-background); color: var(--color-on-background);">
     <div class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
       <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
         <button class="p-2" @click="router.back()"><span class="material-symbols-outlined">arrow_back</span></button>

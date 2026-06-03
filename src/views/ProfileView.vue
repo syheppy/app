@@ -54,7 +54,7 @@ const handleToolClick = (tool) => {
 </script>
 
 <template>
-  <div class="min-h-screen font-body theme-bg">
+  <div class="min-h-screen font-body" style="background-color: var(--color-background);">
     <!-- Header with Gradient -->
     <div class="fixed top-0 left-0 w-full z-40 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));">
       <div class="flex items-center justify-between">

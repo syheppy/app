@@ -57,7 +57,7 @@ watch(() => route.query.q, (newQ) => {
 </script>
 
 <template>
-  <div class="theme-bg theme-text font-body min-h-screen flex flex-col">
+  <div class="font-body min-h-screen flex flex-col" style="background-color: var(--color-background); color: var(--color-on-background);">
     <!-- Search Header -->
     <div class="fixed top-0 left-0 w-full z-40 theme-card px-4 py-3 border-b shadow-sm" style="border-color: var(--theme-card-border);">
       <div class="flex items-center gap-3 max-w-lg mx-auto">

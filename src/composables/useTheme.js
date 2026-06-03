@@ -98,6 +98,14 @@ const applyTheme = () => {
     root.style.setProperty(key, value, 'important')
   })
 
+  // 同时更新 theme-* CSS 变量
+  root.style.setProperty('--theme-bg', t.colors['--theme-bg'], 'important')
+  root.style.setProperty('--theme-surface', t.colors['--theme-surface'], 'important')
+  root.style.setProperty('--theme-text', t.colors['--theme-text'], 'important')
+  root.style.setProperty('--theme-text-secondary', t.colors['--theme-text-secondary'], 'important')
+  root.style.setProperty('--theme-card', t.colors['--theme-card'], 'important')
+  root.style.setProperty('--theme-card-border', t.colors['--theme-card-border'], 'important')
+
   document.body.style.backgroundColor = t.colors['--theme-bg']
   document.body.style.color = t.colors['--theme-text']
 
