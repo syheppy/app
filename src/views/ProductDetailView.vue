@@ -12,7 +12,6 @@ const { show: showToast } = useToast()
 
 const product = ref(null)
 const loading = ref(true)
-const quantity = ref(1)
 const selectedSpec = ref(null)
 const drawerOpen = ref(false)
 const isFavorited = ref(false)
@@ -43,11 +42,9 @@ onMounted(async () => {
       .single()
     if (error) throw error
     product.value = { ...data, image: data.image_url, image_url: data.image_url }
-    // Default spec
     if (data.specs && data.specs.length > 0) {
       selectedSpec.value = data.specs[0]
     }
-    // Check favorite status
     const favIds = JSON.parse(localStorage.getItem('favorites') || '[]')
     isFavorited.value = favIds.includes(data.id)
   } catch (err) {
@@ -74,7 +71,7 @@ const handleBuyNow = () => {
 </script>
 
 <template>
-  <div class="min-h-screen theme-bg theme-text">
+  <div class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
       <div class="text-on-surface-variant">加载中...</div>
@@ -88,98 +85,143 @@ const handleBuyNow = () => {
     </div>
 
     <template v-else>
-      <!-- Top Bar -->
-      <div class="sticky top-0 z-40 backdrop-blur-md" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent);">
-        <div class="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
-          <button class="p-2 active:scale-95 transition-transform" @click="router.back()">
-            <span class="material-symbols-outlined text-on-surface">arrow_back</span>
+      <!-- TopAppBar -->
+      <header class="flex items-center justify-between px-6 py-4 w-full h-16 bg-surface text-primary font-display text-2xl italic tracking-tight docked full-width top-0 z-50 border-b border-outline-variant/60 shadow-[0_2px_16px_rgba(58,48,42,0.04)] sticky">
+        <button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-variant transition-colors group" @click="router.back()">
+          <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors duration-300">arrow_back</span>
+        </button>
+        <span class="font-display text-2xl italic text-primary">商品介绍</span>
+        <div class="flex items-center gap-1">
+          <button class="p-2 rounded-full hover:bg-surface-variant transition-colors group" @click="toggleFavorite">
+            <span class="material-symbols-outlined group-hover:text-primary transition-colors duration-300" :class="isFavorited ? 'text-error' : 'text-on-surface-variant'" :style="isFavorited ? 'font-variation-settings: FILL 1' : ''">favorite</span>
           </button>
-          <span class="font-headline text-sm font-bold text-on-surface">商品介绍</span>
-          <div class="flex items-center gap-1">
-            <button class="p-2 active:scale-95 transition-transform" @click="toggleFavorite">
-              <span class="material-symbols-outlined" :class="isFavorited ? 'text-error' : 'text-on-surface'" :style="isFavorited ? 'font-variation-settings: FILL 1' : ''">favorite</span>
-            </button>
-            <button class="p-2 active:scale-95 transition-transform relative" @click="router.push('/cart')">
-              <span class="material-symbols-outlined text-on-surface">shopping_bag</span>
-              <div class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></div>
-            </button>
-          </div>
+          <button aria-label="Cart" class="p-2 -mr-2 rounded-full hover:bg-surface-variant transition-colors group relative" @click="router.push('/cart')">
+            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors duration-300">shopping_bag</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full border border-surface"></span>
+          </button>
         </div>
-      </div>
+      </header>
 
-      <!-- Product Image -->
-      <div class="max-w-lg mx-auto">
-        <div class="relative aspect-[4/3] w-full bg-surface-container overflow-hidden">
-          <img :src="product.image_url" :alt="product.name" class="w-full h-full object-cover" />
-        </div>
-      </div>
-
-      <!-- Product Info -->
-      <div class="max-w-lg mx-auto px-4 py-4">
-        <div class="flex items-baseline gap-2 mb-2">
-          <span class="text-error text-sm font-bold">¥</span>
-          <span class="font-headline text-3xl font-bold text-error">{{ currentPrice() }}</span>
-          <span class="text-sm text-on-surface-variant ml-1">{{ selectedSpec?.name || '' }}</span>
-        </div>
-        <h1 class="font-headline text-xl font-bold text-on-surface mb-3">{{ product.name }}</h1>
-
-        <!-- Feature Cards -->
-        <div class="grid grid-cols-3 gap-2 mb-4">
-          <div v-if="product.origin" class="bg-surface-container-low rounded-xl p-3 text-center">
-            <span class="material-symbols-outlined text-primary text-[20px] mb-1">location_on</span>
-            <p class="font-label text-[10px] text-outline mb-0.5">核心产区</p>
-            <p class="font-body text-xs font-bold text-on-surface">{{ product.origin }}</p>
-          </div>
-          <div v-if="product.taste" class="bg-surface-container-low rounded-xl p-3 text-center">
-            <span class="material-symbols-outlined text-primary text-[20px] mb-1">restaurant</span>
-            <p class="font-label text-[10px] text-outline mb-0.5">极致口感</p>
-            <p class="font-body text-xs font-bold text-on-surface">{{ product.taste }}</p>
-          </div>
-          <div v-if="product.feature" class="bg-surface-container-low rounded-xl p-3 text-center">
-            <span class="material-symbols-outlined text-primary text-[20px] mb-1">eco</span>
-            <p class="font-label text-[10px] text-outline mb-0.5">产品特色</p>
-            <p class="font-body text-xs font-bold text-on-surface">{{ product.feature }}</p>
+      <main class="pb-32">
+        <!-- Hero Section -->
+        <div class="px-4 pt-6 pb-8 md:px-8 md:pt-10 max-w-5xl mx-auto">
+          <div class="aspect-[4/3] md:aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-[0_2px_24px_rgba(58,48,42,0.06)] bg-surface-container relative group">
+            <img
+              :alt="product.name"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              :src="product.image_url"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-60"></div>
           </div>
         </div>
 
-        <!-- Description -->
-        <div v-if="product.description" class="mb-4">
-          <h3 class="font-headline text-lg font-bold text-on-surface mb-2">产品故事</h3>
-          <p class="text-sm text-on-surface-variant leading-relaxed">{{ product.description }}</p>
-        </div>
-
-        <!-- Category Tag -->
-        <div class="flex flex-wrap gap-2 mb-4">
-          <div class="flex items-center gap-1.5 bg-surface-container-high rounded-lg px-3 py-2">
-            <span class="material-symbols-outlined text-primary-container" style="font-size: 16px;">sell</span>
-            <span class="text-xs text-on-surface-variant">{{ product.category }}</span>
-          </div>
-        </div>
-
-        <!-- Reviews -->
-        <section class="mb-24">
-          <h2 class="font-headline text-xl font-bold text-on-surface mb-1">口碑鉴赏</h2>
-          <div class="flex items-center gap-2 mb-4">
-            <div class="flex gap-0.5">
-              <span v-for="i in 5" :key="i" class="material-symbols-outlined text-primary" style="font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+        <!-- Product Header Info -->
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-2">
+          <div class="flex flex-col gap-4">
+            <h1 class="font-display text-3xl md:text-5xl text-on-surface font-bold leading-tight tracking-tight">{{ product.name }}</h1>
+            <div class="flex items-end justify-between border-b border-outline-variant/40 pb-6 mt-2">
+              <div class="flex items-baseline gap-3">
+                <span class="text-xl text-primary font-medium">¥</span>
+                <span class="text-4xl md:text-5xl font-display font-bold text-primary tracking-tight">{{ currentPrice() }}</span>
+                <span v-if="selectedSpec" class="text-sm text-secondary font-label uppercase tracking-widest bg-surface-container py-1.5 px-3 rounded-md border border-outline-variant/30">{{ selectedSpec.name }}</span>
+              </div>
             </div>
-            <span class="text-sm text-on-surface-variant">{{ product.rating || '5.0' }} / 5.0 · {{ product.review_count || 0 }}+ 条评价</span>
-          </div>
-          <div class="bg-surface-container-low rounded-xl p-6 text-center">
-            <span class="material-symbols-outlined text-outline text-[32px] mb-2">rate_review</span>
-            <p class="text-sm text-on-surface-variant">暂无评价</p>
           </div>
         </section>
-      </div>
 
-      <!-- Bottom Action Bar -->
-      <div class="fixed bottom-0 left-0 w-full z-40 backdrop-blur-md border-t px-4 py-3 pb-safe" style="background: color-mix(in srgb, var(--theme-card) 95%, transparent); border-color: var(--theme-card-border);">
-        <div class="max-w-lg mx-auto flex gap-3">
-          <button class="flex-1 py-3 rounded-xl border-2 border-primary text-primary font-bold active:scale-95 transition-transform" @click="handleAddToCart">
+        <!-- Key Details Grid -->
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-8">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div v-if="product.origin" class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/40 flex flex-col gap-2 shadow-[0_2px_12px_rgba(58,48,42,0.02)]">
+              <div class="flex items-center gap-2 text-tertiary/80 mb-1">
+                <span class="material-symbols-outlined text-lg">location_on</span>
+                <span class="text-xs font-label uppercase tracking-widest">核心产区</span>
+              </div>
+              <span class="font-display text-xl text-on-surface">{{ product.origin }}</span>
+            </div>
+
+            <div v-if="product.taste" class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/40 flex flex-col gap-2 shadow-[0_2px_12px_rgba(58,48,42,0.02)]">
+              <div class="flex items-center gap-2 text-tertiary/80 mb-1">
+                <span class="material-symbols-outlined text-lg">restaurant</span>
+                <span class="text-xs font-label uppercase tracking-widest">极致口感</span>
+              </div>
+              <span class="font-display text-xl text-on-surface">{{ product.taste }}</span>
+            </div>
+
+            <div v-if="product.feature" class="col-span-2 md:col-span-1 bg-primary-fixed/30 p-6 rounded-xl border border-primary-fixed-dim/40 flex flex-col gap-2 shadow-[0_2px_12px_rgba(58,48,42,0.02)] justify-center">
+              <div class="flex items-center gap-2 text-primary mb-1">
+                <span class="material-symbols-outlined text-lg">local_fire_department</span>
+                <span class="text-xs font-label uppercase tracking-widest text-primary">产品特色</span>
+              </div>
+              <span class="font-display text-lg text-on-primary-fixed font-medium">{{ product.feature }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Product Description -->
+        <section v-if="product.description" class="px-6 md:px-12 max-w-3xl mx-auto mt-16 md:mt-24">
+          <div class="text-center mb-10">
+            <span class="text-xs text-secondary font-label uppercase tracking-widest block mb-2">The Origin</span>
+            <h2 class="font-display text-3xl md:text-4xl text-on-surface italic">自然源味，静待成熟</h2>
+            <div class="w-12 h-px bg-primary mx-auto mt-6"></div>
+          </div>
+
+          <div class="space-y-8 text-on-surface-variant leading-relaxed text-base md:text-lg font-light">
+            <p>{{ product.description }}</p>
+          </div>
+        </section>
+
+        <!-- Specs Section -->
+        <section v-if="product.specs && product.specs.length > 0" class="px-6 md:px-12 max-w-4xl mx-auto mt-16">
+          <h3 class="font-display text-2xl text-on-surface mb-4">规格选择</h3>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="spec in product.specs"
+              :key="spec.name"
+              @click="selectedSpec = spec"
+              class="px-4 py-2 rounded-lg text-sm font-medium transition-all border"
+              :class="selectedSpec?.name === spec.name
+                ? 'bg-primary text-on-primary border-primary'
+                : 'bg-surface-container-low text-on-surface-variant border-outline-variant hover:border-primary/50'"
+            >
+              {{ spec.name }} - ¥{{ spec.price }}
+            </button>
+          </div>
+        </section>
+
+        <!-- User Reviews Section -->
+        <section class="px-6 md:px-12 max-w-4xl mx-auto mt-20 mb-10">
+          <div class="bg-surface-container-low p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between border border-outline-variant/30 gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary-fixed/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+
+            <div class="relative z-10 text-center md:text-left">
+              <h3 class="font-display text-2xl text-on-surface mb-1">口碑鉴赏</h3>
+              <p class="text-sm text-secondary font-label tracking-wide">来自 {{ product.review_count || 0 }}+ 位品鉴者的真实评价</p>
+            </div>
+
+            <div class="relative z-10 flex flex-col items-center bg-surface px-8 py-4 rounded-xl shadow-[0_4px_16px_rgba(58,48,42,0.05)] border border-outline-variant/20">
+              <div class="flex items-center gap-1 text-primary mb-1">
+                <span v-for="i in 5" :key="i" class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">star</span>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-display text-4xl font-bold text-on-surface">{{ product.rating || '5.0' }}</span>
+                <span class="text-xs text-secondary uppercase tracking-widest font-label">/ 5.0</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Contextual Bottom Bar -->
+      <div class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-xl border-t border-outline-variant/40 px-6 py-4 pb-safe z-50 shadow-[0_-8px_32px_rgba(58,48,42,0.06)]">
+        <div class="max-w-4xl mx-auto w-full flex items-center justify-center gap-4">
+          <button class="flex-1 max-w-xs py-3.5 px-6 rounded-lg border border-primary text-primary font-label font-bold tracking-widest uppercase hover:bg-primary/5 transition-colors duration-300 flex justify-center items-center gap-2" @click="handleAddToCart">
+            <span class="material-symbols-outlined text-lg">add_shopping_cart</span>
             加入购物车
           </button>
-          <button class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-bold shadow-[0_4px_20px_rgba(194,101,42,0.2)] active:scale-95 transition-transform" @click="drawerOpen = true">
+          <button class="flex-1 max-w-xs py-3.5 px-6 rounded-lg bg-primary text-on-primary font-label font-bold tracking-widest uppercase shadow-md hover:bg-primary/90 hover:shadow-lg transition-all duration-300 flex justify-center items-center gap-2" @click="drawerOpen = true">
             立即购买
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
           </button>
         </div>
       </div>
@@ -189,22 +231,19 @@ const handleBuyNow = () => {
         <Transition name="drawer">
           <div v-if="drawerOpen" class="fixed inset-0 z-50 flex items-end justify-center" @click.self="drawerOpen = false">
             <div class="absolute inset-0 bg-black/40"></div>
-            <div class="relative theme-card rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
-              <!-- Close -->
+            <div class="relative bg-surface rounded-t-2xl w-full max-w-lg p-6 pb-safe z-10">
               <button @click="drawerOpen = false" class="absolute top-4 right-4 text-on-surface-variant">
                 <span class="material-symbols-outlined">close</span>
               </button>
 
-              <!-- Product Summary -->
               <div class="flex gap-4 mb-6">
                 <img :src="product.image_url" :alt="product.name" class="w-20 h-20 rounded-xl object-cover" />
                 <div>
-                  <p class="font-headline text-lg font-bold text-error">¥{{ currentPrice() }}</p>
+                  <p class="font-display text-lg font-bold text-primary">¥{{ currentPrice() }}</p>
                   <p class="text-sm text-on-surface-variant mt-1">已选：{{ selectedSpec?.name || '默认' }}</p>
                 </div>
               </div>
 
-              <!-- Spec Selector -->
               <div v-if="product.specs && product.specs.length > 0" class="mb-6">
                 <p class="font-label text-sm text-on-surface-variant mb-3">规格</p>
                 <div class="flex flex-wrap gap-2">
@@ -222,24 +261,9 @@ const handleBuyNow = () => {
                 </div>
               </div>
 
-              <!-- Quantity -->
-              <div class="mb-6">
-                <p class="font-label text-sm text-on-surface-variant mb-3">数量</p>
-                <div class="flex items-center gap-4">
-                  <button @click="quantity > 1 && quantity--" class="w-10 h-10 rounded-full flex items-center justify-center border-none" style="background: var(--theme-card-border);">
-                    <span class="material-symbols-outlined text-on-surface">remove</span>
-                  </button>
-                  <span class="font-headline text-lg font-bold text-on-surface w-8 text-center">{{ quantity }}</span>
-                  <button @click="quantity++" class="w-10 h-10 rounded-full flex items-center justify-center border-none" style="background: var(--theme-card-border);">
-                    <span class="material-symbols-outlined text-on-surface">add</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Confirm -->
-              <router-link to="/checkout" @click="handleBuyNow" class="block w-full py-4 rounded-xl bg-primary text-on-primary text-center font-bold text-lg shadow-[0_4px_20px_rgba(194,101,42,0.2)] active:scale-[0.98] transition-transform">
+              <button @click="handleBuyNow" class="block w-full py-4 rounded-xl bg-primary text-on-primary text-center font-bold text-lg shadow-md active:scale-[0.98] transition-transform">
                 前往确认
-              </router-link>
+              </button>
             </div>
           </div>
         </Transition>
