@@ -168,9 +168,9 @@ onMounted(async () => {
                 </span>
 
                 <div class="flex items-end justify-between mt-auto pt-2">
-                  <div class="text-primary font-serif font-medium">
-                    <span class="text-[11px]">¥</span>
-                    <span class="text-[16px]">{{ item.price.toFixed(2) }}</span>
+                  <div class="text-primary">
+                    <span class="text-price-sm">¥</span>
+                    <span class="text-price-md">{{ item.price.toFixed(2) }}</span>
                   </div>
 
                   <div v-if="!isEditing" class="flex items-center bg-surface-container-high border border-outline-variant rounded py-0.5 px-0.5">
@@ -209,9 +209,9 @@ onMounted(async () => {
               <h4 class="text-[13px] font-medium text-on-surface mb-1 truncate">{{ rec.name }}</h4>
               <p class="text-[11px] text-on-surface-variant mb-2">{{ rec.taste || rec.category }}</p>
               <div class="mt-auto flex items-center justify-between">
-                <div class="text-primary font-serif font-medium">
-                  <span class="text-[11px]">¥</span>
-                  <span class="text-[14px]">{{ rec.price }}</span>
+                <div class="text-primary">
+                  <span class="text-price-sm">¥</span>
+                  <span class="text-price-sm">{{ rec.price }}</span>
                 </div>
                 <button class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary" @click.stop="router.push(`/product/${rec.id}`)">
                   <span class="material-symbols-outlined" style="font-size: 16px;">add</span>
@@ -245,8 +245,8 @@ onMounted(async () => {
 
           <div v-else class="flex items-center gap-3">
             <div class="text-right">
-              <span class="text-[12px] text-on-surface-variant mr-1">合计:</span>
-              <span class="text-primary font-serif font-semibold text-[17px]">¥{{ totalPrice.toFixed(2) }}</span>
+              <span class="text-caption-sm text-on-surface-variant mr-1">合计:</span>
+              <span class="text-price-md text-primary">¥{{ totalPrice.toFixed(2) }}</span>
             </div>
             <button
               class="bg-primary text-on-primary px-6 py-2 rounded-full text-[14px] font-medium shadow-sm active:scale-95 transition-transform"

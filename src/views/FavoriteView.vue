@@ -112,7 +112,7 @@ onMounted(loadFavorites)
           <div class="p-4 flex flex-col flex-1">
             <div class="flex justify-between items-start mb-2 cursor-pointer" @click="router.push(`/product/${product.id}`)">
               <h3 class="font-headline text-lg font-bold theme-text">{{ product.name }}</h3>
-              <span class="font-body text-base font-bold text-primary shrink-0 ml-2">¥{{ product.price }}</span>
+              <span class="text-price-md text-primary shrink-0 ml-2">¥{{ product.price }}</span>
             </div>
             <p class="text-on-surface-variant text-xs line-clamp-2 mb-4">{{ product.description }}</p>
             <div class="mt-auto">

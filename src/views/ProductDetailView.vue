@@ -121,9 +121,9 @@ const handleBuyNow = () => {
             <h1 class="font-display text-3xl md:text-5xl text-on-surface font-bold leading-tight tracking-tight">{{ product.name }}</h1>
             <div class="flex items-end justify-between border-b border-outline-variant/40 pb-6 mt-2">
               <div class="flex items-baseline gap-3">
-                <span class="text-xl text-primary font-medium">¥</span>
-                <span class="text-4xl md:text-5xl font-display font-bold text-primary tracking-tight">{{ currentPrice() }}</span>
-                <span v-if="selectedSpec" class="text-sm text-secondary font-label uppercase tracking-widest bg-surface-container py-1.5 px-3 rounded-md border border-outline-variant/30">{{ selectedSpec.name }}</span>
+                <span class="text-price-lg text-primary">¥</span>
+                <span class="text-[40px] md:text-[48px] text-price-lg text-primary">{{ currentPrice() }}</span>
+                <span v-if="selectedSpec" class="text-body-sm text-secondary bg-surface-container py-1.5 px-3 rounded-md border border-outline-variant/30">{{ selectedSpec.name }}</span>
               </div>
             </div>
           </div>
@@ -184,7 +184,7 @@ const handleBuyNow = () => {
                 ? 'bg-primary text-on-primary border-primary'
                 : 'bg-surface-container-low text-on-surface-variant border-outline-variant hover:border-primary/50'"
             >
-              {{ spec.name }} - ¥{{ spec.price }}
+              {{ spec.name }} - <span class="text-price-sm">¥{{ spec.price }}</span>
             </button>
           </div>
         </section>
@@ -239,7 +239,7 @@ const handleBuyNow = () => {
               <div class="flex gap-4 mb-6">
                 <img :src="product.image_url" :alt="product.name" class="w-20 h-20 rounded-xl object-cover" />
                 <div>
-                  <p class="font-display text-lg font-bold text-primary">¥{{ currentPrice() }}</p>
+                  <p class="text-price-md text-primary">¥{{ currentPrice() }}</p>
                   <p class="text-sm text-on-surface-variant mt-1">已选：{{ selectedSpec?.name || '默认' }}</p>
                 </div>
               </div>

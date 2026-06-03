@@ -190,8 +190,8 @@ const currentProducts = computed(() => {
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex items-baseline text-primary">
-                  <span class="text-[12px] font-bold">¥</span>
-                  <span class="font-headline font-bold text-[16px]">{{ product.price }}</span>
+                  <span class="text-price-sm">¥</span>
+                  <span class="text-price-md">{{ product.price }}</span>
                 </div>
                 <button @click.prevent="handleAddToCart(product)" class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white border-none shadow-sm shadow-primary/30 cursor-pointer">
                   <span class="material-symbols-outlined text-[14px] font-bold">add</span>

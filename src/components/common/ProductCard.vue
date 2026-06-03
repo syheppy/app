@@ -22,7 +22,7 @@ defineEmits(['add'])
         </div>
       </div>
       <div class="flex items-center justify-between">
-        <div class="text-lg font-semibold text-error">¥{{ price }}</div>
+        <div class="text-price-md text-error">¥{{ price }}</div>
         <button
           class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center active:scale-95 transition-transform hover:bg-primary-container hover:text-white"
           @click.stop="$emit('add')"

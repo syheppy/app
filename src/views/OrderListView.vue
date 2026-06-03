@@ -173,7 +173,7 @@ const viewOrderDetail = (orderId) => {
                 <p v-if="order.consignee_address" class="text-xs text-on-surface-variant mt-1 truncate">{{ order.consignee_address }}</p>
               </div>
               <div class="flex justify-between items-end">
-                <span class="font-headline text-lg text-primary font-bold">¥{{ order.product_price?.toFixed(2) || order.total_amount?.toFixed(2) || '0.00' }}</span>
+                <span class="text-price-md text-primary">¥{{ order.product_price?.toFixed(2) || order.total_amount?.toFixed(2) || '0.00' }}</span>
               </div>
             </div>
           </div>

@@ -160,7 +160,7 @@ onUnmounted(() => {
           <div class="flex-1 flex flex-col justify-between">
             <h4 class="font-body text-sm text-on-surface line-clamp-2">{{ item.product_name }}</h4>
             <div class="flex items-center justify-between">
-              <span class="text-error font-bold">¥{{ Number(item.price).toFixed(2) }}</span>
+              <span class="text-price-sm text-error">¥{{ Number(item.price).toFixed(2) }}</span>
               <span class="text-xs text-outline">x{{ item.quantity }}</span>
             </div>
           </div>

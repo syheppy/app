@@ -57,7 +57,7 @@ const handleAddToCart = (product) => {
       <div class="theme-card rounded-xl p-5 mb-6" style="border: 1px solid var(--theme-card-border);">
         <div class="flex items-center justify-between py-2.5 border-b border-outline-variant/20">
           <span class="font-body text-sm text-on-surface-variant">实付金额</span>
-          <span class="text-error font-bold text-lg">¥{{ orderInfo.amount }}</span>
+          <span class="text-price-md text-error">¥{{ orderInfo.amount }}</span>
         </div>
         <div class="flex items-center justify-between py-2.5 border-b border-outline-variant/20">
           <span class="font-body text-sm text-on-surface-variant">支付方式</span>
@@ -92,7 +92,7 @@ const handleAddToCart = (product) => {
             <div class="p-3">
               <h4 class="font-body text-sm font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
               <div class="flex justify-between items-center">
-                <span class="font-headline text-base text-error font-bold">¥{{ product.price }}</span>
+                <span class="text-price-sm text-error">¥{{ product.price }}</span>
                 <button @click.prevent="handleAddToCart(product)" class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white border-none">
                   <span class="material-symbols-outlined text-[14px]">add</span>
                 </button>

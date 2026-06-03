@@ -141,25 +141,35 @@
 
 /* Price - 价格 */
 .text-price-lg {
-  font-family: var(--font-display);
+  font-family: 'EB Garamond', serif;
   font-size: 24px;
   line-height: 1.2;
   font-weight: 700;
   color: var(--color-primary);
+  letter-spacing: -0.02em;
 }
 
 .text-price-md {
-  font-family: var(--font-display);
+  font-family: 'EB Garamond', serif;
   font-size: 18px;
   line-height: 1.2;
   font-weight: 700;
   color: var(--color-primary);
+  letter-spacing: -0.02em;
 }
 
 .text-price-sm {
-  font-family: var(--font-display);
+  font-family: 'EB Garamond', serif;
   font-size: 14px;
   line-height: 1.2;
   font-weight: 600;
   color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+/* 价格符号 */
+.text-price-symbol {
+  font-family: 'EB Garamond', serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }

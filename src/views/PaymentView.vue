@@ -163,7 +163,7 @@ const handleCancel = async () => {
         </div>
         <div class="flex items-center justify-between py-2">
           <span class="font-body text-sm text-on-surface-variant">商品金额</span>
-          <span class="font-body text-sm text-on-surface">¥{{ order?.subtotal?.toFixed(2) || displayAmount }}</span>
+          <span class="text-price-sm text-on-surface">¥{{ order?.subtotal?.toFixed(2) || displayAmount }}</span>
         </div>
         <div class="flex items-center justify-between py-2">
           <span class="font-body text-sm text-on-surface-variant">运费</span>
@@ -173,11 +173,11 @@ const handleCancel = async () => {
         </div>
         <div v-if="order?.discount > 0" class="flex items-center justify-between py-2">
           <span class="font-body text-sm text-on-surface-variant">优惠</span>
-          <span class="font-body text-sm text-tertiary">-¥{{ order.discount.toFixed(2) }}</span>
+          <span class="text-price-sm text-tertiary">-¥{{ order.discount.toFixed(2) }}</span>
         </div>
         <div class="flex items-center justify-between py-2 border-t border-outline-variant/20 mt-2 pt-3">
           <span class="font-body text-sm font-medium text-on-surface">应付金额</span>
-          <span class="text-error font-bold text-xl">¥{{ displayAmount }}</span>
+          <span class="text-price-lg text-error">¥{{ displayAmount }}</span>
         </div>
       </div>
 

@@ -227,9 +227,9 @@ onMounted(async () => {
                 <p class="font-body text-sm text-on-surface-variant line-clamp-1 mb-2">{{ hotProducts[0].description }}</p>
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-baseline gap-1">
-                    <span class="text-error font-bold text-sm">¥</span>
-                    <span class="font-headline text-2xl font-bold text-error">{{ hotProducts[0].price }}</span>
-                    <span v-if="hotProducts[0].original_price" class="text-outline text-xs line-through ml-1">¥{{ hotProducts[0].original_price }}</span>
+                    <span class="text-price-sm text-error">¥</span>
+                    <span class="text-price-lg text-error">{{ hotProducts[0].price }}</span>
+                    <span v-if="hotProducts[0].original_price" class="text-price-sm text-outline line-through ml-1">¥{{ hotProducts[0].original_price }}</span>
                   </div>
                   <button @click.prevent="handleAddToCart(hotProducts[0])" class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-transform border-none">
                     <span class="material-symbols-outlined text-[18px]">add</span>
@@ -249,7 +249,7 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <div class="font-headline text-lg font-bold text-error">¥{{ product.price }}</div>
+                  <div class="text-price-md text-error">¥{{ product.price }}</div>
                   <button @click.prevent="handleAddToCart(product)" class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center active:scale-95 transition-transform border-none">
                     <span class="material-symbols-outlined text-[14px]">add</span>
                   </button>
@@ -276,7 +276,7 @@ onMounted(async () => {
                   <span class="bg-secondary-container text-on-secondary-container text-[10px] px-1.5 rounded">{{ product.taste || '新鲜直供' }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                  <div class="font-headline text-lg text-error font-bold">¥{{ product.price }}</div>
+                  <div class="text-price-md text-error">¥{{ product.price }}</div>
                   <button @click.prevent="handleAddToCart(product)" class="w-6 h-6 rounded-full bg-surface-container border-none flex items-center justify-center">
                     <span class="material-symbols-outlined text-[14px]">add</span>
                   </button>

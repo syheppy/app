@@ -211,7 +211,7 @@ const handleSubmit = async () => {
                 <h4 class="font-medium text-on-surface">{{ item.name }}</h4>
                 <p class="text-xs text-on-surface-variant mt-1">{{ item.specs?.[0]?.name || '' }}</p>
                 <div class="flex items-center justify-between mt-2">
-                  <span class="font-serif text-lg font-medium text-on-surface">¥ {{ item.price.toFixed(2) }}</span>
+                  <span class="text-price-md text-on-surface">¥ {{ item.price.toFixed(2) }}</span>
                   <span class="text-sm text-on-surface-variant">x{{ item.quantity }}</span>
                 </div>
               </div>
@@ -313,12 +313,12 @@ const handleSubmit = async () => {
       <div class="fixed bottom-0 left-0 w-full bg-surface/95 backdrop-blur-md border-t border-outline-variant/40 shadow-[0_-8px_30px_rgba(58,48,42,0.06)] z-50 px-4 py-4 pb-safe">
         <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div class="flex flex-col">
-            <span class="text-xs text-on-surface-variant tracking-widest">合计</span>
+            <span class="text-caption-sm text-on-surface-variant tracking-widest">合计</span>
             <div class="flex items-baseline gap-1 text-primary">
-              <span class="text-sm">¥</span>
-              <span class="font-serif text-2xl font-semibold">{{ finalPrice.toFixed(2) }}</span>
+              <span class="text-price-sm">¥</span>
+              <span class="text-price-lg">{{ finalPrice.toFixed(2) }}</span>
             </div>
-            <span v-if="discount > 0" class="text-[10px] text-tertiary">已优惠 ¥{{ discount.toFixed(2) }}</span>
+            <span v-if="discount > 0" class="text-caption-sm text-tertiary">已优惠 ¥{{ discount.toFixed(2) }}</span>
           </div>
           <button
             class="bg-primary text-on-primary font-medium px-8 py-3.5 rounded-lg shadow-sm hover:bg-primary/90 active:scale-95 transition-all w-full max-w-[200px] flex justify-center items-center gap-2 disabled:opacity-50"
