@@ -9,8 +9,15 @@ const router = useRouter()
 const { show: showToast } = useToast()
 
 const orderNo = route.params.orderNo
-const amount = route.query.amount || '0.00'
+const queryAmount = route.query.amount
 const order = ref(null)
+
+// 优先使用 URL 参数，否则从数据库取
+const displayAmount = computed(() => {
+  if (queryAmount && parseFloat(queryAmount) > 0) return queryAmount
+  if (order.value?.total_amount) return order.value.total_amount.toFixed(2)
+  return '0.00'
+})
 const paying = ref(false)
 const remaining = ref(1800) // 30分钟 = 1800秒
 let timer = null
@@ -102,7 +109,7 @@ const handlePay = async () => {
   }
   console.log('支付成功，订单状态已更新:', data)
 
-  router.replace({ path: '/payment-success', query: { order_no: orderNo, amount } })
+  router.replace({ path: '/payment-success', query: { order_no: orderNo, amount: displayAmount.value } })
 }
 
 // 取消订单
@@ -152,7 +159,7 @@ const handleCancel = async () => {
         </div>
         <div class="flex items-center justify-between py-2">
           <span class="font-body text-sm text-on-surface-variant">支付金额</span>
-          <span class="text-error font-bold text-xl">¥{{ amount }}</span>
+          <span class="text-error font-bold text-xl">¥{{ displayAmount }}</span>
         </div>
       </div>
 
@@ -173,7 +180,7 @@ const handleCancel = async () => {
           @click="handlePay"
         >
           <span v-if="paying" class="material-symbols-outlined animate-spin" style="font-size: 20px;">progress_activity</span>
-          <span>{{ paying ? '支付中...' : '确认支付 ¥' + amount }}</span>
+          <span>{{ paying ? '支付中...' : '确认支付 ¥' + displayAmount }}</span>
         </button>
         <button
           class="w-full py-4 rounded-xl border-2 border-outline-variant text-on-surface-variant font-bold bg-transparent active:scale-[0.98] transition-transform"

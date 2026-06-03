@@ -64,7 +64,7 @@ const routes = [
     path: '/orders',
     name: 'Orders',
     component: () => import('../views/OrderListView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/settings',
