@@ -129,9 +129,11 @@ onMounted(async () => {
   } finally {
     loading.value = false
 
-    // 列表入场动画
+    // 延迟执行入场动画，确保 DOM 更新完成
     await nextTick()
-    staggerItems('.product-card')
+    setTimeout(() => {
+      staggerItems('.product-card')
+    }, 100)
   }
 
   // 检查弹窗
@@ -204,9 +206,12 @@ onMounted(async () => {
       </section>
 
       <!-- Loading with Skeleton -->
-      <SkeletonLoader v-if="loading" type="home" />
+      <Transition name="fade">
+        <SkeletonLoader v-if="loading" type="home" />
+      </Transition>
 
-      <template v-else>
+      <!-- Content -->
+      <div v-show="!loading" class="content-fade-in">
         <!-- Hot Sales -->
         <section v-if="hotProducts.length > 0" class="px-4 flex flex-col gap-4">
           <div class="flex items-center justify-between">
@@ -289,7 +294,7 @@ onMounted(async () => {
             </router-link>
           </div>
         </section>
-      </template>
+      </div>
     </main>
 
     <!-- 弹窗 -->
@@ -301,3 +306,24 @@ onMounted(async () => {
     />
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.content-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>

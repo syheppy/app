@@ -10,30 +10,28 @@ import gsap from 'gsap'
 // ============================================
 
 /**
- * 页面进入动画
+ * 页面进入动画 - 平滑淡入
  */
 export function pageEnter(el, done) {
   gsap.fromTo(el,
-    { opacity: 0, y: 30 },
+    { opacity: 0 },
     {
       opacity: 1,
-      y: 0,
-      duration: 0.5,
-      ease: 'back.out(1.4)',
+      duration: 0.25,
+      ease: 'power2.out',
       onComplete: done
     }
   )
 }
 
 /**
- * 页面离开动画
+ * 页面离开动画 - 快速淡出
  */
 export function pageLeave(el, done) {
   gsap.to(el,
     {
       opacity: 0,
-      y: -20,
-      duration: 0.3,
+      duration: 0.15,
       ease: 'power2.in',
       onComplete: done
     }

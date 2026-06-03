@@ -83,16 +83,19 @@ const handleBuyNow = () => {
 <template>
   <div class="font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen" style="background-color: var(--color-background); color: var(--color-on-background);">
     <!-- Loading with Skeleton -->
-    <SkeletonLoader v-if="loading" type="product" />
+    <Transition name="fade">
+      <SkeletonLoader v-if="loading" type="product" />
+    </Transition>
 
     <!-- Not Found -->
-    <div v-else-if="!product" class="flex flex-col items-center justify-center py-20">
+    <div v-if="!loading && !product" class="flex flex-col items-center justify-center py-20">
       <span class="material-symbols-outlined text-outline mb-4" style="font-size: 48px;">search_off</span>
       <p class="text-on-surface-variant">商品不存在</p>
       <button class="mt-4 text-primary-container font-medium" @click="router.push('/')">返回首页</button>
     </div>
 
-    <template v-else>
+    <!-- Content -->
+    <div v-if="!loading && product" class="content-fade-in">
       <!-- TopAppBar -->
       <header class="flex items-center justify-between px-6 py-4 w-full h-16 bg-surface text-primary font-display text-2xl italic tracking-tight docked full-width top-0 z-50 border-b border-outline-variant/60 shadow-[0_2px_16px_rgba(58,48,42,0.04)] sticky">
         <button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-variant transition-colors group" @click="router.back()">
@@ -277,11 +280,30 @@ const handleBuyNow = () => {
           </div>
         </Transition>
       </Teleport>
-    </template>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.content-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .drawer-enter-active,
 .drawer-leave-active {
   transition: all 0.3s ease;
