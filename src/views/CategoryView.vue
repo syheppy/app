@@ -94,15 +94,23 @@ const currentProducts = computed(() => {
 
 <template>
   <div class="theme-bg theme-text font-body antialiased min-h-screen flex flex-col">
-    <!-- Search Bar -->
-    <div class="fixed top-0 left-0 w-full z-40 backdrop-blur-md border-b px-3 py-1.5" style="background: color-mix(in srgb, var(--theme-bg) 90%, transparent); border-color: var(--theme-card-border);">
-      <div class="flex items-center gap-2">
-        <div class="flex-1 flex items-center bg-surface-container rounded-full h-8 pl-3 pr-1 gap-1">
-          <span class="material-symbols-outlined text-outline text-[16px] shrink-0">search</span>
-          <input v-model="searchKeyword" @keyup.enter="doSearch" class="flex-1 bg-transparent border-none outline-none font-body text-xs text-on-surface placeholder:text-outline min-w-0" placeholder="搜索新鲜农品..." type="text" />
-        </div>
-        <button @click="doSearch" class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 border-none cursor-pointer">
-          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+    <!-- Header with Gradient + Search Bar -->
+    <div class="fixed top-0 left-0 w-full z-40 px-4 pt-3 pb-4 md:hidden" style="background: linear-gradient(to bottom, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 80%, transparent));">
+      <!-- Top Row: Title + Notification -->
+      <div class="flex items-center justify-between mb-3">
+        <h1 class="font-headline text-lg font-bold text-on-surface">分类</h1>
+        <button class="relative p-2 rounded-full hover:bg-surface-container/50 transition-colors">
+          <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 22px;">notifications</span>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+        </button>
+      </div>
+
+      <!-- Search Bar with Shadow -->
+      <div class="flex items-center bg-surface rounded-full h-11 pl-4 pr-1.5 gap-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+        <span class="material-symbols-outlined text-outline text-[18px] shrink-0">search</span>
+        <input v-model="searchKeyword" @keyup.enter="doSearch" class="flex-1 bg-transparent border-none outline-none font-body text-[13px] text-on-surface placeholder:text-outline/60 min-w-0" placeholder="搜索红薯、紫薯..." type="text" />
+        <button @click="doSearch" class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 border-none cursor-pointer active:scale-90 transition-transform shadow-sm shadow-primary/20">
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
         </button>
       </div>
     </div>
@@ -112,9 +120,9 @@ const currentProducts = computed(() => {
       <div class="text-on-surface-variant">加载中...</div>
     </div>
 
-    <main v-else class="pt-[44px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
+    <main v-else class="pt-[110px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
-      <aside class="w-[90px] flex-shrink-0 theme-card border-r sticky top-[44px] h-[calc(100vh-124px)] overflow-y-auto hide-scrollbar" style="border-color: var(--theme-card-border);">
+      <aside class="w-[90px] flex-shrink-0 theme-card border-r sticky top-[110px] h-[calc(100vh-190px)] overflow-y-auto hide-scrollbar" style="border-color: var(--theme-card-border);">
         <nav class="flex flex-col py-2">
           <button
             v-for="cat in categories"

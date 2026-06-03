@@ -52,7 +52,7 @@ const routes = [
     path: '/product/:id?',
     name: 'ProductDetail',
     component: () => import('../views/ProductDetailView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/order/:id',
@@ -100,25 +100,25 @@ const routes = [
     path: '/address',
     name: 'Address',
     component: () => import('../views/AddressView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/checkout',
     name: 'Checkout',
     component: () => import('../views/CheckoutView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/payment/:orderNo',
     name: 'Payment',
     component: () => import('../views/PaymentView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/payment-success',
     name: 'PaymentSuccess',
     component: () => import('../views/PaymentSuccessView.vue'),
-    meta: { hideNav: true }
+    meta: { hideNav: true, hideHeader: true }
   },
   {
     path: '/:pathMatch(.*)*',

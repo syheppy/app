@@ -12,10 +12,14 @@ const orderNo = route.params.orderNo
 const queryAmount = route.query.amount
 const order = ref(null)
 
-// 优先使用 URL 参数，否则从数据库取
+// 优先从数据库获取，URL 参数作为备用
 const displayAmount = computed(() => {
+  // 优先使用数据库中的 total_amount
+  if (order.value?.total_amount && order.value.total_amount > 0) {
+    return order.value.total_amount.toFixed(2)
+  }
+  // 备用：使用 URL 参数
   if (queryAmount && parseFloat(queryAmount) > 0) return queryAmount
-  if (order.value?.total_amount) return order.value.total_amount.toFixed(2)
   return '0.00'
 })
 const paying = ref(false)
@@ -158,7 +162,21 @@ const handleCancel = async () => {
           <span class="font-body text-sm text-on-surface">{{ orderNo }}</span>
         </div>
         <div class="flex items-center justify-between py-2">
-          <span class="font-body text-sm text-on-surface-variant">支付金额</span>
+          <span class="font-body text-sm text-on-surface-variant">商品金额</span>
+          <span class="font-body text-sm text-on-surface">¥{{ order?.subtotal?.toFixed(2) || displayAmount }}</span>
+        </div>
+        <div class="flex items-center justify-between py-2">
+          <span class="font-body text-sm text-on-surface-variant">运费</span>
+          <span class="font-body text-sm" :class="order?.shipping_fee > 0 ? 'text-on-surface' : 'text-green-600'">
+            {{ order?.shipping_fee > 0 ? '¥' + order.shipping_fee.toFixed(2) : '免运费' }}
+          </span>
+        </div>
+        <div v-if="order?.discount > 0" class="flex items-center justify-between py-2">
+          <span class="font-body text-sm text-on-surface-variant">优惠</span>
+          <span class="font-body text-sm text-tertiary">-¥{{ order.discount.toFixed(2) }}</span>
+        </div>
+        <div class="flex items-center justify-between py-2 border-t border-outline-variant/20 mt-2 pt-3">
+          <span class="font-body text-sm font-medium text-on-surface">应付金额</span>
           <span class="text-error font-bold text-xl">¥{{ displayAmount }}</span>
         </div>
       </div>

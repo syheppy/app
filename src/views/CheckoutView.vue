@@ -96,6 +96,9 @@ const handleSubmit = async () => {
     const orderData = {
       order_number: orderNo,
       total_amount: finalPrice.value,
+      subtotal: totalPrice.value,
+      shipping_fee: shippingFee.value,
+      discount: discount.value,
       consignee_name: selectedAddress.value.name,
       consignee_phone: selectedAddress.value.phone,
       consignee_address: selectedAddress.value.address,
