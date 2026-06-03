@@ -217,21 +217,21 @@ onMounted(async () => {
 
           <div class="grid grid-cols-2 gap-4">
             <!-- TOP 1 Large Card -->
-            <router-link v-if="hotProducts[0]" :to="`/product/${hotProducts[0].id}`" class="col-span-2 relative rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant group cursor-pointer">
-              <div class="absolute top-3 left-3 z-10 bg-error text-on-error font-label text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider">TOP 1</div>
+            <router-link v-if="hotProducts[0]" :to="`/product/${hotProducts[0].id}`" class="col-span-2 relative rounded-theme-xl overflow-hidden card group cursor-pointer">
+              <div class="absolute top-3 left-3 z-10 tag tag-primary font-bold tracking-wider">TOP 1</div>
               <div class="block w-full h-[200px]">
                 <img :alt="hotProducts[0].name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" :src="hotProducts[0].image_url" />
               </div>
-              <div class="p-4 theme-card relative z-20">
-                <h4 class="font-headline text-lg font-bold text-on-surface mb-1">{{ hotProducts[0].name }}</h4>
-                <p class="font-body text-sm text-on-surface-variant line-clamp-1 mb-2">{{ hotProducts[0].description }}</p>
+              <div class="p-theme-4 theme-card relative z-20">
+                <h4 class="text-title-lg font-bold text-on-surface mb-1">{{ hotProducts[0].name }}</h4>
+                <p class="text-body-sm text-on-surface-variant line-clamp-1 mb-2">{{ hotProducts[0].description }}</p>
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-baseline gap-1">
                     <span class="text-price-sm text-error">¥</span>
                     <span class="text-price-lg text-error">{{ hotProducts[0].price }}</span>
                     <span v-if="hotProducts[0].original_price" class="text-price-sm text-outline line-through ml-1">¥{{ hotProducts[0].original_price }}</span>
                   </div>
-                  <button @click.prevent="handleAddToCart(hotProducts[0])" class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-transform border-none">
+                  <button @click.prevent="handleAddToCart(hotProducts[0])" class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-theme-md active:scale-95 transition-transform border-none">
                     <span class="material-symbols-outlined text-[18px]">add</span>
                   </button>
                 </div>
@@ -239,13 +239,13 @@ onMounted(async () => {
             </router-link>
 
             <!-- Smaller Cards -->
-            <router-link v-for="product in hotProducts.slice(1, 3)" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
+            <router-link v-for="product in hotProducts.slice(1, 3)" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer">
               <img :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" :src="product.image_url" />
-              <div class="p-3 flex flex-col flex-1 justify-between">
+              <div class="p-theme-3 flex flex-col flex-1 justify-between">
                 <div>
-                  <h4 class="font-body text-sm font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
+                  <h4 class="text-body-md font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
                   <div class="flex gap-1 mb-2">
-                    <span class="bg-secondary-container text-on-secondary-container text-[10px] px-1.5 rounded font-medium">{{ product.taste || product.category }}</span>
+                    <span class="tag tag-secondary">{{ product.taste || product.category }}</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
@@ -267,13 +267,13 @@ onMounted(async () => {
               为您推荐
             </h3>
           </div>
-          <div class="grid grid-cols-2 gap-4 pb-6">
-            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-2xl overflow-hidden theme-card shadow-[0_4px_20px_rgba(242,140,40,0.05)] border border-surface-variant flex flex-col group cursor-pointer">
+          <div class="grid grid-cols-2 gap-theme-4 pb-6">
+            <router-link v-for="product in recommendProducts" :key="product.id" :to="`/product/${product.id}`" class="rounded-theme-xl overflow-hidden card flex flex-col group cursor-pointer">
               <img :src="product.image_url" :alt="product.name" class="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div class="p-3">
-                <h4 class="font-body text-sm font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
+              <div class="p-theme-3">
+                <h4 class="text-body-md font-bold text-on-surface line-clamp-1 mb-1">{{ product.name }}</h4>
                 <div class="flex gap-1 mb-2">
-                  <span class="bg-secondary-container text-on-secondary-container text-[10px] px-1.5 rounded">{{ product.taste || '新鲜直供' }}</span>
+                  <span class="tag tag-secondary">{{ product.taste || '新鲜直供' }}</span>
                 </div>
                 <div class="flex justify-between items-center">
                   <div class="text-price-md text-error">¥{{ product.price }}</div>
