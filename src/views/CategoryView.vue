@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { supabase } from '../utils/supabase'
 import { useCart } from '../composables/useCart'
 import { useToast } from '../composables/useToast'
-import { staggerItems } from '../utils/animations'
+import gsap from 'gsap'
 import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 
 const router = useRouter()
@@ -72,6 +72,7 @@ onMounted(async () => {
     console.error('Failed to fetch data:', err)
   } finally {
     loading.value = false
+    playEnterAnimation()
   }
 })
 
@@ -93,10 +94,21 @@ const currentProducts = computed(() => {
   }
 })
 
+// 页面入场动画
+const playEnterAnimation = async () => {
+  await nextTick()
+  // 左侧栏从左滑入
+  gsap.fromTo('.category-sidebar', { opacity: 0, x: -15 }, { opacity: 1, x: 0, duration: 0.25, ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' })
+  // 横幅淡入 + 微缩放
+  gsap.fromTo('.category-banner', { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', delay: 0.08 })
+  // 商品卡片微缩放 + 淡入
+  gsap.fromTo('.product-card', { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.22, ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', stagger: 0.04, delay: 0.12 })
+}
+
 // 分类切换时的动画
 watch(activeCategory, async () => {
   await nextTick()
-  staggerItems('.product-card', { duration: 0.4, stagger: 0.05 })
+  gsap.fromTo('.product-card', { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.2, ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', stagger: 0.035 })
 })
 </script>
 
@@ -128,7 +140,7 @@ watch(activeCategory, async () => {
 
     <main v-else class="pt-[110px] pb-[80px] flex min-h-screen max-w-lg mx-auto w-full">
       <!-- Left Sidebar -->
-      <aside class="w-[90px] flex-shrink-0 border-r sticky top-[110px] h-[calc(100vh-190px)] overflow-y-auto hide-scrollbar" style="background-color: var(--color-surface); border-color: var(--color-outline-variant);">
+      <aside class="category-sidebar w-[90px] flex-shrink-0 border-r sticky top-[110px] h-[calc(100vh-190px)] overflow-y-auto hide-scrollbar" style="background-color: var(--color-surface); border-color: var(--color-outline-variant);">
         <nav class="flex flex-col py-2">
           <button
             v-for="cat in categories"
@@ -149,7 +161,7 @@ watch(activeCategory, async () => {
       <!-- Right Content -->
       <section class="flex-1 theme-bg p-4 overflow-y-auto">
         <!-- Category Banner -->
-        <div class="w-full h-24 rounded-xl mb-6 bg-surface-container-high overflow-hidden relative shadow-sm">
+        <div class="category-banner w-full h-24 rounded-xl mb-6 bg-surface-container-high overflow-hidden relative shadow-sm">
           <img v-if="currentCategory?.banner_url || currentCategory?.icon_url" class="w-full h-full object-cover opacity-80" :src="currentCategory.banner_url || currentCategory.icon_url" />
           <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex flex-col justify-center px-6">
             <h2 class="text-white font-headline text-lg font-bold tracking-wide">精选原产地{{ activeCategory }}</h2>
@@ -216,3 +228,9 @@ watch(activeCategory, async () => {
     </main>
   </div>
 </template>
+
+<style scoped>
+.product-card {
+  opacity: 0;
+}
+</style>
