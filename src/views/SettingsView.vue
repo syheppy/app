@@ -105,7 +105,7 @@ const handleItemClick = (item) => {
       </div>
 
       <!-- Logout -->
-      <div class="mt-10">
+      <div v-if="user" class="mt-10">
         <button class="w-full bg-transparent border border-primary text-primary font-bold py-3 rounded-xl cursor-pointer active:scale-[0.98] transition-transform" @click="handleLogout">
           退出登录
         </button>
