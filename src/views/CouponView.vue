@@ -1,11 +1,16 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from '../composables/useToast'
+import { useAuth } from '../composables/useAuth'
+import { supabase } from '../utils/supabase'
 
 const router = useRouter()
 const { show: showToast } = useToast()
+const { user } = useAuth()
 const activeTab = ref('unused')
+const loading = ref(true)
+const coupons = ref([])
 
 const tabs = [
   { id: 'unused', name: '未使用' },
@@ -13,41 +18,18 @@ const tabs = [
   { id: 'expired', name: '已过期' }
 ]
 
-const coupons = ref([
-  {
-    id: 1,
-    type: 'amount',
-    value: 15,
-    condition: '满99可用',
-    title: '丰收节礼遇专享券',
-    tag: '即将到期',
-    description: '适用于全场薯类、生鲜产品',
-    expiry: '2026.12.31',
-    status: 'unused'
-  },
-  {
-    id: 2,
-    type: 'amount',
-    value: 30,
-    condition: '全场通用',
-    title: '新客专享尊享券',
-    tag: '',
-    description: '薯鲜生首单诚挚礼遇',
-    expiry: '2026.08.15',
-    status: 'unused'
-  },
-  {
-    id: 3,
-    type: 'discount',
-    value: 9.2,
-    condition: '限时优惠',
-    title: '会员回馈折扣券',
-    tag: '',
-    description: '感谢您的一路陪伴',
-    expiry: '2026.09.28',
-    status: 'unused'
-  }
-])
+const fetchCoupons = async () => {
+  if (!user.value) { loading.value = false; return }
+  const { data } = await supabase
+    .from('coupons')
+    .select('*')
+    .eq('user_id', user.value.id)
+    .order('created_at', { ascending: false })
+  if (data) coupons.value = data
+  loading.value = false
+}
+
+onMounted(fetchCoupons)
 
 const filteredCoupons = computed(() => coupons.value.filter(c => c.status === activeTab.value))
 const availableCount = computed(() => coupons.value.filter(c => c.status === 'unused').length)
@@ -98,12 +80,19 @@ const availableCount = computed(() => coupons.value.filter(c => c.status === 'un
     </div>
 
     <!-- Coupon List -->
-    <div class="px-6 space-y-4 max-w-lg mx-auto pb-8">
+    <div v-if="loading" class="flex items-center justify-center py-20">
+      <span class="material-symbols-outlined text-4xl text-primary animate-spin">progress_activity</span>
+    </div>
+
+    <div v-else class="px-6 space-y-4 max-w-lg mx-auto pb-8">
       <div v-for="coupon in filteredCoupons" :key="coupon.id" class="theme-card rounded-xl shadow-sm overflow-hidden flex">
         <!-- Left: Value -->
         <div class="w-1/3 p-5 flex flex-col items-center justify-center border-r border-dashed border-outline-variant/60">
           <div class="flex items-baseline text-primary">
-            <template v-if="coupon.type === 'amount'">
+            <template v-if="coupon.type === 'shipping'">
+              <span class="text-2xl font-extrabold tracking-tight">包邮</span>
+            </template>
+            <template v-else-if="coupon.type === 'amount'">
               <span class="text-sm font-bold">¥</span>
               <span class="text-4xl font-extrabold tracking-tighter">{{ coupon.value }}</span>
             </template>

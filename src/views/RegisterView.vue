@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
+import { supabase } from '../utils/supabase'
 
 const router = useRouter()
 const { signUp } = useAuth()
@@ -27,12 +28,32 @@ const handleRegister = async () => {
     console.error('Register error:', error)
     errorMsg.value = error.message === 'User already registered' ? '该邮箱已注册，请直接登录' : error.message
   } else if (data.session) {
-    // 注册成功且自动登录
+    // 注册成功且自动登录，发放 3 张新人包邮券
+    await grantWelcomeCoupons(data.session.user.id)
     router.push('/')
   } else {
     // 注册成功但需要邮箱确认
     errorMsg.value = '注册成功！请检查邮箱确认后再登录'
   }
+}
+
+const grantWelcomeCoupons = async (userId) => {
+  const expiryDate = new Date()
+  expiryDate.setMonth(expiryDate.getMonth() + 1) // 1个月过期
+
+  const coupons = Array.from({ length: 3 }, () => ({
+    user_id: userId,
+    type: 'shipping',
+    value: 0,
+    condition: '无门槛',
+    title: '新人包邮券',
+    tag: '新人专享',
+    description: '新用户注册即可享受免运费优惠',
+    status: 'unused',
+    expiry: expiryDate.toISOString().split('T')[0]
+  }))
+
+  await supabase.from('coupons').insert(coupons)
 }
 </script>
 

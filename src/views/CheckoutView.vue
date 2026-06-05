@@ -33,25 +33,40 @@ const showCouponDrawer = ref(false)
 const selectedCoupon = ref(null)
 const availableCoupons = ref([])
 
-const couponList = [
-  { id: 1, type: 'amount', value: 15, condition: '满99可用', title: '丰收节礼遇专享券', minAmount: 99 },
-  { id: 2, type: 'amount', value: 30, condition: '全场通用', title: '新客专享尊享券', minAmount: 0 },
-  { id: 3, type: 'discount', value: 9.2, condition: '限时优惠', title: '会员回馈折扣券', minAmount: 0 }
-]
-
-const filterAvailableCoupons = () => {
-  availableCoupons.value = couponList.filter(c => totalPrice.value >= c.minAmount)
+const fetchAvailableCoupons = async () => {
+  if (!user.value) return
+  const { data } = await supabase
+    .from('coupons')
+    .select('*')
+    .eq('user_id', user.value.id)
+    .eq('status', 'unused')
+    .gte('expiry', new Date().toISOString().split('T')[0])
+  if (data) {
+    // 包邮券和满足条件的满减/折扣券
+    availableCoupons.value = data.filter(c => {
+      if (c.type === 'shipping') return true
+      if (c.type === 'amount') return checkoutTotalPrice.value >= (c.value || 0)
+      return true
+    })
+  }
 }
 
 const discount = computed(() => {
   if (!selectedCoupon.value) return 0
   const c = selectedCoupon.value
   if (c.type === 'amount') return c.value
-  const disc = checkoutTotalPrice.value * (1 - c.value / 10)
-  return Math.round(disc * 100) / 100
+  if (c.type === 'discount') {
+    const disc = checkoutTotalPrice.value * (1 - c.value / 10)
+    return Math.round(disc * 100) / 100
+  }
+  return 0
 })
 
-const shippingFee = computed(() => checkoutTotalPrice.value >= 99 ? 0 : 10)
+const shippingFee = computed(() => {
+  if (checkoutTotalPrice.value >= 99) return 0
+  if (selectedCoupon.value?.type === 'shipping') return 0
+  return 10
+})
 
 const finalPrice = computed(() => {
   const price = checkoutTotalPrice.value - discount.value + shippingFee.value
@@ -92,7 +107,7 @@ onMounted(async () => {
       .maybeSingle()
     if (data) selectedAddress.value = data
   }
-  filterAvailableCoupons()
+  await fetchAvailableCoupons()
 })
 
 const generateOrderNo = () => 'SXS-' + Date.now().toString(36).toUpperCase()
@@ -136,6 +151,11 @@ const handleSubmit = async () => {
     }))
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems)
     if (itemsError) throw itemsError
+
+    // 标记优惠券为已使用
+    if (selectedCoupon.value) {
+      await supabase.from('coupons').update({ status: 'used' }).eq('id', selectedCoupon.value.id)
+    }
 
     if (buyNowItem.value) {
       clearBuyNowItem()
@@ -237,7 +257,7 @@ const handleSubmit = async () => {
 
         <!-- Coupon -->
         <section class="bg-surface-container-low rounded-xl p-2 shadow-[0_2px_16px_rgba(58,48,42,0.04)] border border-outline-variant/30">
-          <div class="flex justify-between items-center p-4 cursor-pointer hover:bg-surface-container/50 transition-colors rounded-lg" @click="filterAvailableCoupons(); showCouponDrawer = true">
+          <div class="flex justify-between items-center p-4 cursor-pointer hover:bg-surface-container/50 transition-colors rounded-lg" @click="fetchAvailableCoupons(); showCouponDrawer = true">
             <div class="flex items-center gap-3">
               <span class="material-symbols-outlined text-tertiary text-xl">confirmation_number</span>
               <span class="text-sm text-on-surface">优惠券</span>
@@ -376,7 +396,10 @@ const handleSubmit = async () => {
               <div v-for="coupon in availableCoupons" :key="coupon.id" class="bg-surface-container-low rounded-xl overflow-hidden flex cursor-pointer transition-all border" :class="selectedCoupon?.id === coupon.id ? 'border-primary ring-1 ring-primary' : 'border-outline-variant/30'" @click="selectCoupon(coupon)">
                 <div class="w-24 p-4 flex flex-col items-center justify-center border-r border-dashed border-outline-variant/60 shrink-0">
                   <div class="flex items-baseline text-primary">
-                    <template v-if="coupon.type === 'amount'">
+                    <template v-if="coupon.type === 'shipping'">
+                      <span class="text-lg font-extrabold">包邮</span>
+                    </template>
+                    <template v-else-if="coupon.type === 'amount'">
                       <span class="text-xs font-bold">¥</span>
                       <span class="text-2xl font-extrabold">{{ coupon.value }}</span>
                     </template>
