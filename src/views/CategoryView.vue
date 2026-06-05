@@ -186,16 +186,16 @@ watch(activeCategory, async () => {
             :to="`/product/${product.id}`"
             class="theme-card rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(194,101,42,0.04)] border border-surface-variant flex flex-col active:scale-[0.98] transition-transform theme-text cursor-pointer product-card"
           >
-            <div class="relative aspect-square w-full bg-surface-container">
+            <div class="relative h-[140px] w-full bg-surface-container shrink-0">
               <img class="w-full h-full object-cover" :src="product.image_url" :alt="product.name" />
               <div class="absolute top-2 left-2 bg-secondary-container text-on-secondary-container font-label text-[10px] px-1.5 py-0.5 rounded">{{ product.taste || product.category }}</div>
             </div>
-            <div class="p-3 flex flex-col flex-1">
+            <div class="p-3 flex flex-col shrink-0">
               <h4 class="font-headline font-bold text-[14px] text-on-surface line-clamp-2 leading-tight mb-1">{{ product.name }}</h4>
-              <div class="flex items-center gap-1 mb-2 mt-auto">
+              <div class="flex items-center gap-1 mb-2">
                 <span class="px-1 py-[2px] bg-surface-container-low text-outline font-label text-[10px] rounded border border-outline-variant/50 line-clamp-1">{{ product.origin || '产地直供' }}</span>
               </div>
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between mt-auto">
                 <div class="flex items-baseline text-primary">
                   <span class="text-price-sm">¥</span>
                   <span class="text-price-md">{{ product.price }}</span>

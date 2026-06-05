@@ -117,7 +117,7 @@ onMounted(async () => {
       image_url: p.image_url
     }))
 
-    hotProducts.value = mapped.filter(p => p.is_hot)
+    hotProducts.value = mapped.filter(p => p.is_hot).sort((a, b) => (a.hot_order || 0) - (b.hot_order || 0))
     recommendProducts.value = mapped.filter(p => p.is_recommended)
 
     if (!bannersRes.error && bannersRes.data?.length > 0) {
