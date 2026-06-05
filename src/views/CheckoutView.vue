@@ -7,14 +7,26 @@ import { useAuth } from '../composables/useAuth'
 import { useToast } from '../composables/useToast'
 
 const router = useRouter()
-const { items, totalPrice, clearCart } = useCart()
+const { items, totalPrice, clearCart, buyNowItem, clearBuyNowItem } = useCart()
 const { user } = useAuth()
 const { show: showToast } = useToast()
 
 const selectedAddress = ref(null)
 const paymentMethod = ref('wechat')
 const submitting = ref(false)
-const isEmpty = computed(() => items.length === 0)
+const isEmpty = computed(() => items.length === 0 && !buyNowItem.value)
+
+// 结算商品列表：直接购买 or 购物车
+const checkoutItems = computed(() => {
+  if (buyNowItem.value) return [buyNowItem.value]
+  return items.value
+})
+
+// 结算总价
+const checkoutTotalPrice = computed(() => {
+  if (buyNowItem.value) return buyNowItem.value.price * buyNowItem.value.quantity
+  return totalPrice.value
+})
 
 // 优惠券相关
 const showCouponDrawer = ref(false)
@@ -35,14 +47,14 @@ const discount = computed(() => {
   if (!selectedCoupon.value) return 0
   const c = selectedCoupon.value
   if (c.type === 'amount') return c.value
-  const disc = totalPrice.value * (1 - c.value / 10)
+  const disc = checkoutTotalPrice.value * (1 - c.value / 10)
   return Math.round(disc * 100) / 100
 })
 
-const shippingFee = computed(() => totalPrice.value >= 99 ? 0 : 10)
+const shippingFee = computed(() => checkoutTotalPrice.value >= 99 ? 0 : 10)
 
 const finalPrice = computed(() => {
-  const price = totalPrice.value - discount.value + shippingFee.value
+  const price = checkoutTotalPrice.value - discount.value + shippingFee.value
   return Math.max(0, price)
 })
 
@@ -114,7 +126,7 @@ const handleSubmit = async () => {
       .single()
     if (orderError) throw orderError
 
-    const orderItems = items.map(item => ({
+    const orderItems = checkoutItems.value.map(item => ({
       order_id: order.id,
       product_id: item.id,
       product_name: item.name,
@@ -125,7 +137,11 @@ const handleSubmit = async () => {
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems)
     if (itemsError) throw itemsError
 
-    await clearCart()
+    if (buyNowItem.value) {
+      clearBuyNowItem()
+    } else {
+      await clearCart()
+    }
     router.replace({ path: `/payment/${orderNo}`, query: { amount: finalPrice.value.toFixed(2) } })
   } catch (err) {
     console.error('Failed to submit order:', err)
@@ -203,7 +219,7 @@ const handleSubmit = async () => {
         <section class="bg-surface-container-low rounded-xl p-6 shadow-[0_2px_16px_rgba(58,48,42,0.04)] border border-outline-variant/30">
           <h3 class="font-serif text-xl mb-4 border-b border-outline-variant/30 pb-3">商品清单</h3>
           <div class="space-y-4">
-            <div v-for="item in items" :key="item.id" class="flex gap-4 items-center">
+            <div v-for="item in checkoutItems" :key="item.id" class="flex gap-4 items-center">
               <div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container border border-outline-variant/20">
                 <img :alt="item.name" class="w-full h-full object-cover" :src="item.image" />
               </div>

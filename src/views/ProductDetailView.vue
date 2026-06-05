@@ -9,7 +9,7 @@ import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { addItem } = useCart()
+const { addItem, setBuyNowItem } = useCart()
 const { show: showToast } = useToast()
 
 const product = ref(null)
@@ -75,7 +75,7 @@ const handleAddToCart = () => {
 
 const handleBuyNow = () => {
   if (!product.value) return
-  addItem({ ...product.value, price: currentPrice() })
+  setBuyNowItem({ ...product.value, price: currentPrice() })
   router.push('/checkout')
 }
 </script>

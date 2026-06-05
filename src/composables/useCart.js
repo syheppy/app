@@ -2,7 +2,8 @@ import { reactive, computed } from 'vue'
 import { supabase } from '../utils/supabase'
 
 const state = reactive({
-  items: []
+  items: [],
+  buyNowItem: null  // 直接购买的商品（不走购物车）
 })
 
 let currentUserId = null
@@ -129,6 +130,23 @@ export function useCart() {
     state.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
   )
 
+  const setBuyNowItem = (product) => {
+    state.buyNowItem = product ? {
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image_url || product.image,
+      quantity: 1,
+      specs: product.specs || []
+    } : null
+  }
+
+  const clearBuyNowItem = () => {
+    state.buyNowItem = null
+  }
+
+  const buyNowItem = computed(() => state.buyNowItem)
+
   return {
     items: state.items,
     addItem,
@@ -136,6 +154,9 @@ export function useCart() {
     updateQuantity,
     clearCart,
     totalCount,
-    totalPrice
+    totalPrice,
+    buyNowItem,
+    setBuyNowItem,
+    clearBuyNowItem
   }
 }
