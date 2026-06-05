@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { X } from 'lucide-vue-next'
 import { popupEnter, popupLeave } from '../utils/animations'
 
@@ -39,11 +39,14 @@ function handleLink() {
   handleClose()
 }
 
-watch(() => props.visible, (val) => {
-  if (val && popupRef.value) {
-    setTimeout(() => {
+watch(() => props.visible, async (val) => {
+  if (val) {
+    // 等待 DOM 更新完成
+    await nextTick()
+    await nextTick()
+    if (popupRef.value) {
       popupEnter(popupRef.value)
-    }, 50)
+    }
   }
 })
 </script>

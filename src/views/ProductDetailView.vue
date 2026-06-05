@@ -193,7 +193,7 @@ const handleBuyNow = () => {
               @click="selectedSpec = spec"
               class="px-4 py-2 rounded-lg text-sm font-medium transition-all border"
               :class="selectedSpec?.name === spec.name
-                ? 'bg-primary text-on-primary border-primary'
+                ? 'bg-white border-primary'
                 : 'bg-surface-container-low text-on-surface-variant border-outline-variant hover:border-primary/50'"
             >
               {{ spec.name }} - <span class="text-price-sm">¥{{ spec.price }}</span>
@@ -265,10 +265,10 @@ const handleBuyNow = () => {
                     @click="selectedSpec = spec"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all border"
                     :class="selectedSpec?.name === spec.name
-                      ? 'bg-primary text-on-primary border-primary'
+                      ? 'bg-white border-primary'
                       : 'bg-surface-container-low text-on-surface-variant border-outline-variant'"
                   >
-                    {{ spec.name }}
+                    {{ spec.name }} - <span class="text-price-sm">¥{{ spec.price }}</span>
                   </button>
                 </div>
               </div>
