@@ -5,7 +5,7 @@ import { useCart } from '../composables/useCart'
 import { useAuth } from '../composables/useAuth'
 import { useToast } from '../composables/useToast'
 import { supabase } from '../utils/supabase'
-import { staggerItems } from '../utils/animations'
+import gsap from 'gsap'
 
 const router = useRouter()
 const { items, removeItem, updateQuantity, totalCount, totalPrice, clearCart } = useCart()
@@ -57,29 +57,39 @@ const deleteSelected = () => {
 }
 
 onMounted(async () => {
-  // 获取默认地址
-  if (user.value) {
-    const { data } = await supabase
-      .from('addresses')
-      .select('*')
-      .eq('user_id', user.value.id)
-      .eq('is_default', true)
-      .maybeSingle()
-    if (data) defaultAddress.value = data
-  }
+  // 同时加载地址和推荐商品
+  await Promise.all([
+    // 获取默认地址
+    (async () => {
+      if (user.value) {
+        const { data } = await supabase
+          .from('addresses')
+          .select('*')
+          .eq('user_id', user.value.id)
+          .eq('is_default', true)
+          .maybeSingle()
+        if (data) defaultAddress.value = data
+      }
+    })(),
+    // 获取推荐商品
+    (async () => {
+      const { data } = await supabase
+        .from('products')
+        .select('*')
+        .eq('status', true)
+        .eq('is_recommended', true)
+        .limit(4)
+      if (data) recommendations.value = data
+    })()
+  ])
 
-  // 获取推荐商品
-  const { data } = await supabase
-    .from('products')
-    .select('*')
-    .eq('status', true)
-    .eq('is_recommended', true)
-    .limit(4)
-  if (data) recommendations.value = data
-
-  // 入场动画
+  // 全部加载完后统一动画
   await nextTick()
-  staggerItems('.cart-item')
+  // 先隐藏，再用 fromTo 动画显示
+  gsap.set('.cart-item', { opacity: 0, y: 20 })
+  gsap.set('.rec-item', { opacity: 0, y: 20 })
+  gsap.to('.cart-item', { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.05 })
+  gsap.to('.rec-item', { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.05, delay: 0.2 })
 })
 </script>
 
@@ -206,7 +216,7 @@ onMounted(async () => {
 
         <!-- Recommendations -->
         <div class="grid grid-cols-2 gap-3 mb-24">
-          <div v-for="rec in recommendations" :key="rec.id" class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm flex flex-col cursor-pointer" @click="router.push(`/product/${rec.id}`)">
+          <div v-for="rec in recommendations" :key="rec.id" class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm flex flex-col cursor-pointer rec-item" @click="router.push(`/product/${rec.id}`)">
             <div class="aspect-[4/3] bg-surface-container overflow-hidden">
               <img :src="rec.image_url" :alt="rec.name" class="w-full h-full object-cover" />
             </div>
@@ -265,3 +275,10 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.cart-item,
+.rec-item {
+  opacity: 0;
+}
+</style>

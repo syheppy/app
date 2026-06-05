@@ -43,7 +43,7 @@ const handleLogin = async () => {
       <div class="absolute bottom-20 -left-20 w-72 h-72 bg-tertiary/5 rounded-full blur-3xl"></div>
     </div>
 
-    <header class="w-full absolute top-0 left-0 flex items-center justify-between px-6 py-4 max-w-md mx-auto right-0">
+    <header class="w-full absolute top-0 left-0 flex items-center justify-between px-6 py-4 max-w-md mx-auto right-0 z-20">
       <button @click="goBack" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors">
         <span class="material-symbols-outlined text-2xl">arrow_back</span>
       </button>
@@ -52,7 +52,7 @@ const handleLogin = async () => {
     <main class="w-full max-w-md px-8 py-12 flex flex-col relative z-10">
       <div class="text-center mb-16 space-y-4">
         <div class="w-16 h-16 mx-auto mb-6 rounded-2xl shadow-[0_2px_16px_rgba(58,48,42,0.04)] flex items-center justify-center text-primary relative overflow-hidden" style="background: var(--theme-card-border);">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF4qHNfzJpcSdpOniUs0OQegl5xsf1GIBK3puvU9Wf4W565SSz7OwfoaS7Wi2tNMom1wQahOkDyeYVPZxnuoIVBb_ijhk0TE--MkraA_KxKz-Rfh4xw3ZmLVgwsCU1sCL-h0f7XjLfSpQFyviYw567XT13A5QQ2PTBSDPM84f1JwQuYNZtnF8mWu4sZh6pQ8U_bqq34P4PdC75U-gQWSdAhb6dY4kvzEsokx-aMG38x_YeYnvCIMVRIArRyl0EJOr3Vr-6XeTzq7GU" class="w-full h-full object-contain p-2" alt="薯鲜生 logo" />
+          <img src="/logo.png" class="w-full h-full object-contain" alt="薯鲜生 logo" />
         </div>
         <h1 class="font-headline text-4xl text-on-surface leading-tight tracking-tight font-bold">欢迎回到薯鲜生</h1>
         <p class="font-body text-on-surface-variant text-base tracking-wide font-light">寻味大地，遇见纯粹</p>
