@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useCart, setCartUser, clearCartMemory } from '../composables/useCart'
@@ -8,6 +8,7 @@ import { useTheme } from '../composables/useTheme'
 const router = useRouter()
 const { user, signOut } = useAuth()
 const { cycleTheme, themeName } = useTheme()
+const SETTINGS_SCROLL_KEY = 'settingsScrollY'
 
 const nickname = user?.value?.user_metadata?.nickname || user?.value?.email?.split('@')[0] || '薯味品鉴官'
 
@@ -49,9 +50,32 @@ const handleItemClick = (item) => {
   if (item.action === 'theme') {
     cycleTheme()
   } else if (item.route) {
+    sessionStorage.setItem(SETTINGS_SCROLL_KEY, String(window.scrollY))
     router.push(item.route)
   }
 }
+
+onMounted(async () => {
+  const savedScrollY = sessionStorage.getItem(SETTINGS_SCROLL_KEY)
+  if (savedScrollY === null) return
+
+  sessionStorage.removeItem(SETTINGS_SCROLL_KEY)
+  const scrollY = Number(savedScrollY)
+  if (!Number.isFinite(scrollY)) return
+
+  await nextTick()
+  const restoreScroll = () => window.scrollTo({ top: scrollY })
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      restoreScroll()
+    })
+  })
+  // The route transition can shift document flow after mount; restore again as it settles.
+  setTimeout(restoreScroll, 120)
+  setTimeout(restoreScroll, 180)
+  setTimeout(restoreScroll, 300)
+})
 </script>
 
 <template>

@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+if ('scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual'
+}
+
 const routes = [
   {
     path: '/',
@@ -170,7 +174,16 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    const returningToSettings =
+      to.path === '/settings' &&
+      (from.path.startsWith('/settings/') || from.path === '/profile/edit')
+
+    if (returningToSettings) return false
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  }
 })
 
 // Splash guard: redirect to splash on first visit
