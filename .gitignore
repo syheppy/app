@@ -39,3 +39,7 @@ xinyemian/
 
 # Claude Code local settings
 .claude/
+
+# Local agent workspaces and brainstorming artifacts
+.worktrees/
+.superpowers/
