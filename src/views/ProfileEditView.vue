@@ -66,8 +66,9 @@ const handleSave = async () => {
 
     <SettingsSection title="账号信息">
       <div class="px-4 py-4 border-b theme-border">
-        <label class="block text-xs font-bold text-primary mb-2">昵称</label>
+        <label for="profile-nickname" class="block text-xs font-bold text-primary mb-2">昵称</label>
         <input
+          id="profile-nickname"
           v-model="nickname"
           class="w-full bg-transparent border-none outline-none font-body text-sm theme-text placeholder:text-outline"
           placeholder="请输入昵称"
