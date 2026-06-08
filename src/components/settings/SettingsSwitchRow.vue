@@ -13,7 +13,7 @@ const emit = defineEmits(['update:modelValue'])
   <div class="min-h-[64px] flex items-center gap-3 px-4 py-3">
     <span
       v-if="icon"
-      class="material-symbols-outlined shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-primary bg-primary/10 text-[20px]"
+      class="material-symbols-outlined settings-icon-chip shrink-0 w-9 h-9 rounded-full text-primary bg-primary/10 text-[20px]"
       style="font-variation-settings: 'FILL' 1;"
       aria-hidden="true"
     >
@@ -39,3 +39,13 @@ const emit = defineEmits(['update:modelValue'])
     </button>
   </div>
 </template>
+
+<style scoped>
+.settings-icon-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+}
+</style>

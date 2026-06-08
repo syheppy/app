@@ -21,7 +21,7 @@ const emit = defineEmits(['click'])
   >
     <span
       v-if="icon"
-      class="material-symbols-outlined shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[20px]"
+      class="material-symbols-outlined settings-icon-chip shrink-0 w-9 h-9 rounded-full text-[20px]"
       :class="danger ? 'text-error bg-error-container' : 'text-primary bg-primary/10'"
       style="font-variation-settings: 'FILL' 1;"
       aria-hidden="true"
@@ -42,7 +42,7 @@ const emit = defineEmits(['click'])
   >
     <span
       v-if="icon"
-      class="material-symbols-outlined shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[20px]"
+      class="material-symbols-outlined settings-icon-chip shrink-0 w-9 h-9 rounded-full text-[20px]"
       :class="danger ? 'text-error bg-error-container' : 'text-primary bg-primary/10'"
       style="font-variation-settings: 'FILL' 1;"
       aria-hidden="true"
@@ -57,3 +57,13 @@ const emit = defineEmits(['click'])
     <span v-if="showChevron" class="material-symbols-outlined text-[18px] theme-text-secondary shrink-0" aria-hidden="true">chevron_right</span>
   </div>
 </template>
+
+<style scoped>
+.settings-icon-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+}
+</style>
