@@ -16,24 +16,24 @@ const sections = computed(() => [
     title: '账号管理',
     items: [
       { icon: 'person', label: '个人资料', route: '/profile/edit' },
-      { icon: 'shield', label: '账号与安全' }
+      { icon: 'shield', label: '账号与安全', route: '/settings/security' }
     ]
   },
   {
     title: '偏好设置',
     items: [
-      { icon: 'notifications', label: '消息通知' },
-      { icon: 'lock', label: '隐私设置' },
+      { icon: 'notifications', label: '消息通知', route: '/settings/notifications' },
+      { icon: 'lock', label: '隐私设置', route: '/settings/privacy' },
       { icon: 'palette', label: '切换背景', value: themeName(), action: 'theme' }
     ]
   },
   {
     title: '帮助与关于',
     items: [
-      { icon: 'cleaning_services', label: '清除缓存', value: '128MB' },
-      { icon: 'info', label: '关于薯鲜生', value: 'v1.2.0' },
-      { icon: 'description', label: '用户协议' },
-      { icon: 'verified_user', label: '隐私政策' }
+      { icon: 'cleaning_services', label: '清除缓存', value: '128MB', route: '/settings/cache' },
+      { icon: 'info', label: '关于薯鲜生', value: 'v1.2.0', route: '/settings/about' },
+      { icon: 'description', label: '用户协议', route: '/settings/agreement' },
+      { icon: 'verified_user', label: '隐私政策', route: '/settings/privacy-policy' }
     ]
   }
 ])

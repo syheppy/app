@@ -73,6 +73,48 @@ const routes = [
     meta: { hideNav: true, hideHeader: true }
   },
   {
+    path: '/settings/security',
+    name: 'SecuritySettings',
+    component: () => import('../views/SecuritySettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/notifications',
+    name: 'NotificationSettings',
+    component: () => import('../views/NotificationSettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/privacy',
+    name: 'PrivacySettings',
+    component: () => import('../views/PrivacySettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/cache',
+    name: 'CacheSettings',
+    component: () => import('../views/CacheSettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/about',
+    name: 'AboutSettings',
+    component: () => import('../views/AboutSettingsView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/agreement',
+    name: 'UserAgreement',
+    component: () => import('../views/UserAgreementView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
+    path: '/settings/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: () => import('../views/PrivacyPolicyView.vue'),
+    meta: { hideNav: true, hideHeader: true }
+  },
+  {
     path: '/profile/edit',
     name: 'ProfileEdit',
     component: () => import('../views/ProfileEditView.vue'),
