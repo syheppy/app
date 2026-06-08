@@ -66,15 +66,15 @@ onMounted(async () => {
   await nextTick()
   const restoreScroll = () => window.scrollTo({ top: scrollY })
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      restoreScroll()
-    })
-  })
-  // The route transition can shift document flow after mount; restore again as it settles.
-  setTimeout(restoreScroll, 120)
-  setTimeout(restoreScroll, 180)
-  setTimeout(restoreScroll, 300)
+  const startedAt = performance.now()
+  const restoreDuringTransition = () => {
+    restoreScroll()
+    if (performance.now() - startedAt < 320) {
+      requestAnimationFrame(restoreDuringTransition)
+    }
+  }
+
+  requestAnimationFrame(restoreDuringTransition)
 })
 </script>
 
