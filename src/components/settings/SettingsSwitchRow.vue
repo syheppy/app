@@ -15,6 +15,7 @@ const emit = defineEmits(['update:modelValue'])
       v-if="icon"
       class="material-symbols-outlined shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-primary bg-primary/10 text-[20px]"
       style="font-variation-settings: 'FILL' 1;"
+      aria-hidden="true"
     >
       {{ icon }}
     </span>
@@ -24,9 +25,11 @@ const emit = defineEmits(['update:modelValue'])
     </div>
     <button
       type="button"
+      role="switch"
       class="relative w-12 h-7 rounded-full border-none cursor-pointer transition-colors shrink-0"
       :class="modelValue ? 'bg-primary' : 'bg-outline-variant'"
-      :aria-pressed="modelValue"
+      :aria-checked="modelValue"
+      :aria-label="label"
       @click="emit('update:modelValue', !modelValue)"
     >
       <span
