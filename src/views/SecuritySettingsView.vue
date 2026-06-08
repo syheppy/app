@@ -19,7 +19,7 @@ const showComingSoon = () => {
 
 <template>
   <SettingsPageShell title="账号与安全" subtitle="管理账号登录信息，并查看基础安全建议。">
-    <div class="theme-card rounded-2xl border theme-border p-4 mb-6">
+    <div class="settings-card theme-card rounded-2xl border theme-border p-4 mb-6">
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
           <span class="material-symbols-outlined text-primary" style="font-size: 28px; font-variation-settings: 'FILL' 1;" aria-hidden="true">shield_person</span>

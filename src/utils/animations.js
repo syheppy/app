@@ -39,6 +39,71 @@ export function pageLeave(el, done) {
 }
 
 // ============================================
+// 二级页面滑动动画（iOS 风格）
+// ============================================
+
+/**
+ * 二级页面进入 - 从右侧滑入 + 轻微缩放
+ */
+export function subPageEnter(el, done) {
+  const tl = gsap.timeline({ onComplete: done })
+
+  // 页面整体滑入
+  tl.fromTo(el,
+    { x: '100%', scale: 0.96 },
+    {
+      x: '0%',
+      scale: 1,
+      duration: 0.4,
+      ease: 'power3.out'
+    }
+  )
+
+  // 内容区 stagger 入场
+  const items = el.querySelectorAll('.settings-section, .settings-card')
+  if (items.length) {
+    tl.fromTo(items,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.35,
+        ease: 'power2.out',
+        stagger: 0.06
+      },
+      '-=0.2' // 与页面滑入重叠 0.2s
+    )
+  }
+}
+
+/**
+ * 二级页面离开 - 内容先淡出，页面再滑出
+ */
+export function subPageLeave(el, done) {
+  const tl = gsap.timeline({ onComplete: done })
+
+  // 内容先淡出
+  const items = el.querySelectorAll('.settings-section, .settings-card')
+  if (items.length) {
+    tl.to(items, {
+      opacity: 0,
+      y: -10,
+      duration: 0.15,
+      ease: 'power2.in',
+      stagger: 0.03
+    })
+  }
+
+  // 页面滑出
+  tl.to(el, {
+    x: '100%',
+    scale: 0.96,
+    duration: 0.3,
+    ease: 'power3.in'
+  }, items.length ? '-=0.1' : 0)
+}
+
+// ============================================
 // 列表入场动画
 // ============================================
 

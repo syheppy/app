@@ -80,73 +80,73 @@ const routes = [
     path: '/settings/security',
     name: 'SecuritySettings',
     component: () => import('../views/SecuritySettingsView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/notifications',
     name: 'NotificationSettings',
     component: () => import('../views/NotificationSettingsView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/privacy',
     name: 'PrivacySettings',
     component: () => import('../views/PrivacySettingsView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/cache',
     name: 'CacheSettings',
     component: () => import('../views/CacheSettingsView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/about',
     name: 'AboutSettings',
     component: () => import('../views/AboutSettingsView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/agreement',
     name: 'UserAgreement',
     component: () => import('../views/UserAgreementView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/settings/privacy-policy',
     name: 'PrivacyPolicy',
     component: () => import('../views/PrivacyPolicyView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/profile/edit',
     name: 'ProfileEdit',
     component: () => import('../views/ProfileEditView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/favorites',
     name: 'Favorites',
     component: () => import('../views/FavoriteView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/coupons',
     name: 'Coupons',
     component: () => import('../views/CouponView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/help',
     name: 'Help',
     component: () => import('../views/HelpView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/address',
     name: 'Address',
     component: () => import('../views/AddressView.vue'),
-    meta: { hideNav: true, hideHeader: true }
+    meta: { hideNav: true, hideHeader: true, transition: 'slide' }
   },
   {
     path: '/checkout',

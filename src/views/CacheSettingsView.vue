@@ -28,7 +28,7 @@ const clearLocalCache = async () => {
 
 <template>
   <SettingsPageShell title="缓存管理" subtitle="清理图片、浏览记录和临时数据，不会影响账号和订单。">
-    <div class="theme-card rounded-2xl border theme-border p-5 mb-6 text-center">
+    <div class="settings-card theme-card rounded-2xl border theme-border p-5 mb-6 text-center">
       <p class="text-xs font-bold text-primary tracking-wider uppercase">当前缓存</p>
       <p class="font-headline text-4xl font-bold theme-text mt-2">{{ formatSize(totalCache) }}</p>
       <p class="text-xs theme-text-secondary mt-1">清理后可以释放本地存储空间</p>

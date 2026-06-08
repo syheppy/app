@@ -9,7 +9,7 @@ const router = useRouter()
 
 <template>
   <SettingsPageShell title="关于薯鲜生">
-    <div class="theme-card rounded-2xl border theme-border p-6 mb-6 text-center">
+    <div class="settings-card theme-card rounded-2xl border theme-border p-6 mb-6 text-center">
       <img src="/logo.png" alt="薯鲜生" class="w-20 h-20 mx-auto rounded-2xl object-contain mb-4" />
       <h2 class="font-headline text-2xl font-bold theme-text">薯鲜生</h2>
       <p class="text-xs theme-text-secondary mt-1">v1.2.0</p>

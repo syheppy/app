@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="mb-6">
+  <section class="mb-6 settings-section">
     <div v-if="title || description" class="mb-3 px-1">
       <h2 v-if="title" class="text-primary font-bold text-xs tracking-wider uppercase">{{ title }}</h2>
       <p v-if="description" class="text-xs leading-relaxed theme-text-secondary mt-1">{{ description }}</p>

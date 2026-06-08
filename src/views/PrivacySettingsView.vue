@@ -31,7 +31,7 @@ const showDataNotice = () => showToast('数据管理功能建设中')
       <SettingsRow icon="database" label="个人数据管理" description="查看、导出或删除账号相关数据" clickable show-chevron @click="showDataNotice" />
     </SettingsSection>
 
-    <div class="theme-card rounded-2xl border theme-border p-4">
+    <div class="settings-card theme-card rounded-2xl border theme-border p-4">
       <h2 class="font-headline text-lg font-bold theme-text mb-2">隐私说明</h2>
       <p class="text-sm leading-7 theme-text-secondary">
         薯鲜生只会在提供订单、配送和售后服务所需的范围内使用信息。完整说明可在隐私政策页面查看。

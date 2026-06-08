@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { Geolocation } from '@capacitor/geolocation'
+import { Capacitor } from '@capacitor/core'
 
 const city = ref(localStorage.getItem('user_city') || '定位中...')
 const loading = ref(false)
@@ -60,6 +60,46 @@ async function reverseGeocode(lat, lng) {
   return '定位失败'
 }
 
+// 浏览器端定位（使用 Web API）
+function getBrowserPosition() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('浏览器不支持定位'))
+      return
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      err => reject(err),
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 60000 }
+    )
+  })
+}
+
+// 原生端定位（使用 Capacitor 插件）
+async function getNativePosition() {
+  const { Geolocation } = await import('@capacitor/geolocation')
+
+  const permStatus = await Geolocation.checkPermissions()
+  let granted = permStatus.location === 'granted'
+
+  if (!granted) {
+    const perm = await Geolocation.requestPermissions()
+    granted = perm.location === 'granted'
+  }
+
+  if (!granted) {
+    throw new Error('定位权限被拒绝')
+  }
+
+  const pos = await Geolocation.getCurrentPosition({
+    enableHighAccuracy: true,
+    timeout: 30000,
+    maximumAge: 60000
+  })
+
+  return { lat: pos.coords.latitude, lng: pos.coords.longitude }
+}
+
 async function locate() {
   if (isCacheValid()) {
     city.value = localStorage.getItem(CACHE_KEY)
@@ -69,38 +109,21 @@ async function locate() {
   loading.value = true
 
   try {
-    // 检查权限状态
-    const permStatus = await Geolocation.checkPermissions()
-    let granted = permStatus.location === 'granted'
+    const isNative = Capacitor.isNativePlatform()
+    console.log('当前平台:', isNative ? '原生App' : '浏览器')
 
-    if (!granted) {
-      const perm = await Geolocation.requestPermissions()
-      granted = perm.location === 'granted'
-    }
+    const { lat, lng } = isNative
+      ? await getNativePosition()
+      : await getBrowserPosition()
 
-    if (!granted) {
-      console.warn('定位权限被拒绝')
-      city.value = '北京市'
-      loading.value = false
-      return
-    }
-
-    // 使用高精度定位，增加超时时间到 30 秒
-    const pos = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 30000,
-      maximumAge: 60000 // 允许使用 1 分钟内的缓存位置
-    })
-
-    console.log('定位成功:', pos.coords.latitude, pos.coords.longitude)
-    const name = await reverseGeocode(pos.coords.latitude, pos.coords.longitude)
+    console.log('定位成功:', lat, lng)
+    const name = await reverseGeocode(lat, lng)
 
     city.value = name
     localStorage.setItem(CACHE_KEY, name)
     localStorage.setItem(CACHE_TIME_KEY, String(Date.now()))
   } catch (err) {
     console.error('定位失败:', err)
-    // 如果有缓存就用缓存，否则用默认值
     if (!localStorage.getItem(CACHE_KEY)) {
       city.value = '北京市'
     }
