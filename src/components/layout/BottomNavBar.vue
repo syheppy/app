@@ -1,15 +1,25 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useCart } from '../../composables/useCart'
+import { computed } from 'vue'
+
+import homeInactive from '../../assets/icons-nav/home-inactive.png'
+import homeActive from '../../assets/icons-nav/home-active.png'
+import categoryInactive from '../../assets/icons-nav/category-inactive.png'
+import categoryActive from '../../assets/icons-nav/category-active.png'
+import cartInactive from '../../assets/icons-nav/cart-inactive.png'
+import cartActive from '../../assets/icons-nav/cart-active.png'
+import profileInactive from '../../assets/icons-nav/profile-inactive.png'
+import profileActive from '../../assets/icons-nav/profile-active.png'
 
 const route = useRoute()
 const { totalCount } = useCart()
 
 const navItems = [
-  { path: '/', icon: 'home', label: '首页' },
-  { path: '/category', icon: 'grid_view', label: '分类' },
-  { path: '/cart', icon: 'shopping_cart', label: '购物车' },
-  { path: '/profile', icon: 'person', label: '我的' }
+  { path: '/', icon: { active: homeActive, inactive: homeInactive }, label: '首页' },
+  { path: '/category', icon: { active: categoryActive, inactive: categoryInactive }, label: '分类' },
+  { path: '/cart', icon: { active: cartActive, inactive: cartInactive }, label: '购物车' },
+  { path: '/profile', icon: { active: profileActive, inactive: profileInactive }, label: '我的' }
 ]
 </script>
 
@@ -19,15 +29,17 @@ const navItems = [
       v-for="item in navItems"
       :key="item.path"
       :to="item.path"
-      class="flex flex-col items-center justify-center relative transition-colors active:scale-90 duration-200 flex-1 h-full"
-      :class="route.path === item.path ? 'text-primary' : 'theme-text-secondary hover:bg-surface-container'"
+      class="flex flex-col items-center justify-center relative transition-all active:scale-90 duration-200 flex-1 h-full"
+      :class="route.path === item.path ? '' : 'hover:bg-surface-container'"
     >
-      <span
-        class="material-symbols-outlined"
-        :style="{ fontVariationSettings: route.path === item.path ? `'FILL' 1` : `'FILL' 0` }"
-      >{{ item.icon }}</span>
-      <span class="text-[11px] mt-1" :class="route.path === item.path ? 'font-bold' : 'font-medium'">{{ item.label }}</span>
-      <div v-if="route.path === item.path" class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
+      <img
+        :src="route.path === item.path ? item.icon.active : item.icon.inactive"
+        :alt="item.label"
+        class="w-7 h-7 object-contain transition-transform duration-200"
+        :class="route.path === item.path ? 'scale-105' : ''"
+      >
+      <span class="text-[11px] mt-1" :class="route.path === item.path ? 'font-bold' : 'font-medium'" :style="{ color: route.path === item.path ? '#e88a2d' : '#666' }">{{ item.label }}</span>
+      <div v-if="route.path === item.path" class="w-1 h-1 rounded-full mt-0.5" style="background-color: #e88a2d;"></div>
       <div
         v-if="item.path === '/cart' && totalCount > 0"
         class="absolute -top-1 -right-2 bg-error text-white text-[8px] font-bold px-1.5 rounded-full min-w-[16px] text-center"
