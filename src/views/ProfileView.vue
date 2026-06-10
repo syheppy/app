@@ -5,23 +5,33 @@ import { useAuth } from '../composables/useAuth'
 import { useCart, setCartUser, loadCartFromServer } from '../composables/useCart'
 import { supabase } from '../utils/supabase'
 
+import pendingPaymentIcon from '../assets/icons-profile/pending-payment.png'
+import pendingShipmentIcon from '../assets/icons-profile/pending-shipment.png'
+import shippedIcon from '../assets/icons-profile/shipped.png'
+import pendingReviewIcon from '../assets/icons-profile/pending-review.png'
+import couponIcon from '../assets/icons-profile/coupon.png'
+import favoriteIcon from '../assets/icons-profile/favorite.png'
+import addressIcon from '../assets/icons-profile/address.png'
+import helpIcon from '../assets/icons-profile/help.png'
+import settingsIcon from '../assets/icons-profile/settings.png'
+
 const router = useRouter()
 const { user, isLoggedIn } = useAuth()
 
 const orderCounts = ref({ pending_payment: 0, pending_shipment: 0, shipped: 0, pending_review: 0 })
 
 const orderTabs = [
-  { key: 'pending_payment', icon: 'receipt_long', label: '待付款' },
-  { key: 'pending_shipment', icon: 'inventory_2', label: '待发货' },
-  { key: 'shipped', icon: 'local_shipping', label: '待收货' },
-  { key: 'pending_review', icon: 'rate_review', label: '待评价' }
+  { key: 'pending_payment', icon: pendingPaymentIcon, label: '待付款' },
+  { key: 'pending_shipment', icon: pendingShipmentIcon, label: '待发货' },
+  { key: 'shipped', icon: shippedIcon, label: '待收货' },
+  { key: 'pending_review', icon: pendingReviewIcon, label: '待评价' }
 ]
 
 const tools = [
-  { key: 'coupon', icon: 'confirmation_number', label: '优惠券', bg: 'bg-primary/10', text: 'text-primary', route: '/coupons' },
-  { key: 'favorite', icon: 'favorite', label: '我的收藏', bg: 'bg-primary/10', text: 'text-primary', route: '/favorites' },
-  { key: 'address', icon: 'location_on', label: '地址管理', bg: 'bg-primary/10', text: 'text-primary', route: '/address' },
-  { key: 'help', icon: 'help', label: '帮助中心', bg: 'bg-primary/10', text: 'text-primary', route: '/help' }
+  { key: 'coupon', icon: couponIcon, label: '优惠券', route: '/coupons' },
+  { key: 'favorite', icon: favoriteIcon, label: '我的收藏', route: '/favorites' },
+  { key: 'address', icon: addressIcon, label: '地址管理', route: '/address' },
+  { key: 'help', icon: helpIcon, label: '帮助中心', route: '/help' }
 ]
 
 if (isLoggedIn.value && user.value) {
@@ -60,7 +70,7 @@ const handleToolClick = (tool) => {
       <div class="flex items-center justify-between">
         <h1 class="font-headline text-lg font-bold text-on-surface">个人中心</h1>
         <button class="p-2 rounded-full hover:bg-surface-container/50 transition-colors" @click="router.push('/settings')">
-          <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 22px;">settings</span>
+          <img :src="settingsIcon" alt="设置" class="w-6 h-6 object-contain" />
         </button>
       </div>
     </div>
@@ -115,7 +125,7 @@ const handleToolClick = (tool) => {
         <div class="bg-surface-container-low rounded-2xl p-4 grid grid-cols-4 gap-2 shadow-sm">
           <button v-for="tab in orderTabs" :key="tab.key" class="flex flex-col items-center gap-2 py-1 bg-transparent border-none cursor-pointer relative active:scale-95 transition-transform" @click="router.push('/orders')">
             <div class="relative">
-              <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 24px;">{{ tab.icon }}</span>
+              <img :src="tab.icon" :alt="tab.label" class="w-8 h-8 object-contain" />
               <div v-if="orderCounts[tab.key] > 0" class="absolute -top-1.5 -right-2.5 bg-primary text-on-primary text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm shadow-primary/20">
                 {{ orderCounts[tab.key] }}
               </div>
@@ -131,8 +141,8 @@ const handleToolClick = (tool) => {
         <div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
           <button v-for="tool in tools" :key="tool.key" class="flex items-center justify-between w-full px-4 py-3.5 border-b last:border-b-0 border-outline-variant/30 bg-transparent cursor-pointer hover:bg-surface-container/50 transition-colors" @click="handleToolClick(tool)">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center" :class="tool.bg">
-                <span class="material-symbols-outlined" :class="tool.text" style="font-size: 20px; font-variation-settings: 'FILL' 1;">{{ tool.icon }}</span>
+              <div class="w-10 h-10 flex items-center justify-center">
+                <img :src="tool.icon" :alt="tool.label" class="w-full h-full object-contain" />
               </div>
               <span class="text-body-md text-on-surface">{{ tool.label }}</span>
             </div>

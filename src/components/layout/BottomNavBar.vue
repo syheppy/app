@@ -35,7 +35,7 @@ const navItems = [
       <img
         :src="route.path === item.path ? item.icon.active : item.icon.inactive"
         :alt="item.label"
-        class="w-7 h-7 object-contain transition-transform duration-200"
+        class="w-[35px] h-[35px] object-contain transition-transform duration-200"
         :class="route.path === item.path ? 'scale-105' : ''"
       >
       <span class="text-[11px] mt-1" :class="route.path === item.path ? 'font-bold' : 'font-medium'" :style="{ color: route.path === item.path ? '#e88a2d' : '#666' }">{{ item.label }}</span>

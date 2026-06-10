@@ -8,6 +8,11 @@ import { staggerItems } from '../utils/animations'
 import SkeletonLoader from '../components/common/SkeletonLoader.vue'
 import PopupModal from '../components/PopupModal.vue'
 
+import deliveryIcon from '../assets/icons-features/delivery.png'
+import coldChainIcon from '../assets/icons-features/cold-chain.png'
+import qualityIcon from '../assets/icons-features/quality.png'
+import traceabilityIcon from '../assets/icons-features/traceability.png'
+
 const router = useRouter()
 const { addItem } = useCart()
 const { show: showToast } = useToast()
@@ -193,13 +198,13 @@ onMounted(async () => {
       <!-- Trust Badges -->
       <section class="px-4 grid grid-cols-4 gap-4 pb-2">
         <div v-for="item in [
-          { icon: 'agriculture', label: '产地直发', color: 'text-primary-container' },
-          { icon: 'eco', label: '有机认证', color: 'text-secondary' },
-          { icon: 'verified', label: '品质严选', color: 'text-tertiary' },
-          { icon: 'local_shipping', label: '极速冷链', color: 'text-primary-container' }
+          { icon: deliveryIcon, label: '产地直发' },
+          { icon: traceabilityIcon, label: '有机认证' },
+          { icon: qualityIcon, label: '品质严选' },
+          { icon: coldChainIcon, label: '极速冷链' }
         ]" :key="item.label" class="flex flex-col items-center gap-2">
-          <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center" :class="item.color">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">{{ item.icon }}</span>
+          <div class="w-16 h-16 flex items-center justify-center">
+            <img :src="item.icon" :alt="item.label" class="w-full h-full object-contain" />
           </div>
           <span class="font-label text-xs text-on-surface-variant font-medium">{{ item.label }}</span>
         </div>
